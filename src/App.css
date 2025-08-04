@@ -1,7 +1,1 @@
 @import "tailwindcss";
-html {
-  height: 100%;
-  background:
-    radial-gradient(closest-corner at 50% -10%, rgba(5, 5, 5, 0.7), transparent),
-    radial-gradient(closest-corner at 50% 110%, rgba(5, 5, 5, 0.7), transparent);
-}
