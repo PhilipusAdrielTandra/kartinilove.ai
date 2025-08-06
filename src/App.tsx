@@ -30,7 +30,7 @@ export default function App() {
       </div>
       <div className="space-x-4">
           <button className="border-solid border-2 rounded-md px-2 py-1"><Link to="/language" className="text-black hover:text-gray-200">EN</Link></button>
-          <button className="bg-pink-600 rounded-full px-6 py-3"><Link to="/chat" className="text-white hover:text-gray-200">Explore Now</Link></button>
+          <button className="bg-[#EF0753] rounded-full px-6 py-3"><Link to="/chat" className="text-white hover:text-gray-200">Explore Now</Link></button>
         </div>
       </div>
 
