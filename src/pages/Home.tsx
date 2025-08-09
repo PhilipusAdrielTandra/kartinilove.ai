@@ -7,8 +7,8 @@
     return (
       <div className="overflow-x-hidden">
         <div className="relative min-h-screen">
-          <div className="absolute inset-0 w-1/2 md:bg-[radial-gradient(circle_at_-20%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-linear-to-br from-[#EF0753] from-10% to-[#FFE7EA] to-40%" />
-          <div className="absolute inset-0 left-1/2 w-1/2 md:bg-[radial-gradient(circle_at_120%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-linear-to-bl from-[#EF0753] from-10% to-[#FFE7EA] to-40%" />
+          <div className="absolute inset-0 w-1/2 md:bg-[radial-gradient(circle_at_-20%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-[radial-gradient(circle_at_-90%_40%,_#EF0753_30%,_#FFE7EA_50%)]" />
+          <div className="absolute inset-0 left-1/2 w-1/2 md:bg-[radial-gradient(circle_at_120%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-[radial-gradient(circle_at_190%_40%,_#EF0753_30%,_#FFE7EA_50%)]" />
           <img
             src={Hero}
             className=" md:w-6xl absolute right-60 bottom-90 sm:-left-180 md:-top-44 z-10"
@@ -33,9 +33,9 @@
           <h2 className="text-3xl md:text-5xl mb-8 relative z-20">
             Get to Know <a className="text-[#EF0753]">Us</a>
           </h2>
-        <div className="relative z-30 rounded overflow-hidden aspect-video">
+        <div className="relative z-30 rounded overflow-hidden mx-60">
           <iframe
-            className="w-full h-full rounded-2xl"
+            className="w-5xl h-[600px] rounded-2xl"
             src="https://www.youtube.com/embed/PrttntkPgyg?si=knt9C8EXLj6Wi4SI"
             title="YouTube video player"
             frameBorder="0"
@@ -44,6 +44,8 @@
             allowFullScreen
           ></iframe>
         </div>
+
+
         </div>
         <div className="sm:min-h-screen flex flex-col items-center bg-[#FFE7EA] relative text-center">
           <h2 className="text-3xl  sm:text-5xl mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96">
