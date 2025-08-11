@@ -35,7 +35,7 @@
           </h2>
         <div className="relative z-30 rounded overflow-hidden mx-60">
           <iframe
-            className="w-5xl h-[600px] rounded-2xl"
+            className="h-56 lg:w-5xl lg:h-[600px] rounded-2xl"
             src="https://www.youtube.com/embed/PrttntkPgyg?si=knt9C8EXLj6Wi4SI"
             title="YouTube video player"
             frameBorder="0"
