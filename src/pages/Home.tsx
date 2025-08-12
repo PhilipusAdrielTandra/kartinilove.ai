@@ -11,11 +11,11 @@
           <div className="absolute inset-0 left-1/2 w-1/2 md:bg-[radial-gradient(circle_at_120%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-[radial-gradient(circle_at_190%_40%,_#EF0753_30%,_#FFE7EA_50%)]" />
           <img
             src={Hero}
-            className=" md:w-6xl absolute right-60 bottom-90 sm:-left-180 md:-top-44 z-10"
+            className=" md:w-6xl absolute right-60 bottom-120 sm:-left-180 sm:-top-44 md:-left-145 md:-top-20 lg:-left-180 lg:-top-44 z-10"
           />
           <img
             src={Hero}
-            className="md:w-7xl w-4xl absolute bottom-0 -right-40 md:-bottom-34 md:-right-44 z-10"
+            className="md:w-7xl w-4xl absolute bottom-20 -right-50 sm:-bottom-34 sm:-right-44 md:bottom-50 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
             />
           <div className="min-h-screen flex flex-col pt-20 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
             <h1 className="text-2xl sm:text-5xl lg:text-7xl mb-2 md:mb-4 w-2xl text-center">Lorem Ipsum Dolor Sit Amet</h1>
