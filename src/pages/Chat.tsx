@@ -86,7 +86,11 @@ export default function Chat() {
               {chat.title}
             </div>
           ))}
+          <div className="rounded-3xl px-4 py-2 cursor-pointer hover:white">
+            Category
+          </div>
         </div>
+        
       </aside>
 
       {/* Main Chat */}
@@ -116,21 +120,28 @@ export default function Chat() {
 
         {/* Input Bar (fixed at bottom of main) */}
         <div className="border-gray-300 p-4">
-          <div className="flex gap-2">
+          <div className="relative flex items-center">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Message..."
+              placeholder="Ask me anything..."
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               disabled={loading}
-              className="bg-white flex-grow px-4 py-3 border rounded-3xl shadow-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-white w-full pr-12 pl-4 py-3 border rounded-3xl shadow-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               onClick={sendMessage}
               disabled={loading}
-              className="bg-green-500 text-white px-5 py-3 rounded-xl shadow-md hover:bg-green-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute right-3 text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "..." : "Send"}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                className="w-5 h-5"
+              >
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+              </svg>
             </button>
           </div>
         </div>
