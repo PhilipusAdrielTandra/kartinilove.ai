@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import Logo from "../assets/logo.png"
+import Gradient from "../assets/gradient.png"
+import SmallPlus from "../assets/small_plus.png"
+import Folder from "../assets/folder.png"
+import ChatBubble from "../assets/chat.png"
+import More from "../assets/more.png"
+
 interface Message {
   sender: "user" | "bot";
   text: string;
@@ -13,12 +19,10 @@ export default function Chat() {
   const [activeChat, setActiveChat] = useState<string | null>("1");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Static placeholder chats
   const chats = [
-    { id: "1", title: "Placeholder Chat 1" },
-    { id: "2", title: "Placeholder Chat 2" },
-    { id: "3", title: "Placeholder Chat 3" },
-    { id: "4", title: "Placeholder Chat 4" },
+    { id: "1", title: "Lorem Ipsum" },
+    { id: "2", title: "Lorem Ipsum" },
+    { id: "3", title: "Lorem Ipsum" },
   ];
 
   const sendMessage = async () => {
@@ -58,40 +62,62 @@ export default function Chat() {
   }, [messages]);
 
   return (
-  <div className="flex h-screen overflow-hidden bg-gray-400"> 
-      {/* Sidebar */}
-      <aside className="w-64 bg-white text-black flex flex-col m-3 rounded-4xl">
-        <Link to={"/"}><img className="w-40 align-middle flex mx-auto my-4" src={Logo}></img></Link>
-        <div className="rounded-3xl px-4 py-4 cursor-pointer hover:white">
-            Begin a new chat
-        </div>
-        <div className="mx-2 rounded-xl px-4 py-3 cursor-pointer bg-gray-300">
-            Search
-        </div>
-        <div className="rounded-3xl px-4 py-4 cursor-pointer hover:white">
-            Recent Chats
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          {chats.map((chat) => (
-            <div
-              key={chat.id}
-              onClick={() => {
-                setActiveChat(chat.id);
-                setMessages([]); 
-              }}
-              className={`mx-2 rounded-xl px-4 py-3 cursor-pointer hover:white ${
-                activeChat === chat.id ? "bg-gray-300" : ""
-              }`}
-            >
-              {chat.title}
-            </div>
-          ))}
-          <div className="rounded-3xl px-4 py-2 cursor-pointer hover:white">
-            Category
+  <div className="flex h-screen overflow-hidden bg-[#FFF1F3]">
+      <img   className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"  src={Gradient}></img>
+    <aside className="w-64 bg-white text-black flex flex-col m-3 rounded-4xl">
+      <Link to={"/"}>
+        <img className="w-40 mx-auto mt-4 mb-2" src={Logo} />
+      </Link>
+
+      {/* Start new chat */}
+      <div className="rounded-3xl px-4 py-4 cursor-pointer flex items-center">
+        <span>Begin a new chat</span>
+        <img src={SmallPlus} alt="plus" className="ml-auto w-5 h-5" />
+      </div>
+
+      {/* Search */}
+      <div className="mx-2 rounded-xl px-4 py-3 cursor-pointer bg-gray-200">
+        Search
+      </div>
+
+      {/* Recent Chats Section */}
+      <div className="mt-4 px-4 py-2">Recent Chats</div>
+      <div className="overflow-y-auto">
+        {chats.map((chat) => (
+          <div
+            key={chat.id}
+            onClick={() => {
+              setActiveChat(chat.id);
+              setMessages([]);
+            }}
+            className={`mx-2 rounded-xl px-4 py-3 cursor-pointer hover:white flex items-center gap-2 ${
+              activeChat === chat.id ? "bg-gray-200" : ""
+            }`}
+          >
+            <img src={ChatBubble} alt="chat" className="w-5 h-5" />
+            {chat.title}
+            <img src={More} alt="more" className="ml-auto" />
           </div>
-        </div>
-        
-      </aside>
+        ))}
+      </div>
+
+      {/* Category Section */}
+      <div className="mt-4 px-4 py-2">Category</div>
+      <div className="overflow-y-auto">
+        {chats.map((category) => (
+          <div
+            key={category.id}
+            className="mx-2 rounded-xl px-4 py-3 cursor-pointer hover:white flex items-center gap-2"
+          >
+            <img src={Folder} alt="folder" className="w-5 h-5" />
+            {category.title}
+          </div>
+        ))}
+      </div>
+    </aside>
+
+
+
 
       {/* Main Chat */}
       <main className="flex-1 flex flex-col">
