@@ -8,19 +8,16 @@ function Layout() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  // List of paths where the navbar should NOT show
   const hideNavbarOn = ["/chat"];
 
   return (
     <>
-      {/* Navbar */}
       {!hideNavbarOn.includes(location.pathname) && (
         <div className="bg-white shadow p-4 flex justify-between items-center relative">
           <Link to="/">
             <img src={Logo} className="w-32 md:w-44 ml-3" alt="Logo" />
           </Link>
 
-          {/* Desktop Links */}
           <div className="hidden md:flex space-x-6">
             {["Home", "Blog", "About Us"].map((item) => (
               <Link
@@ -49,7 +46,6 @@ function Layout() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-3xl"
             onClick={() => setIsOpen(!isOpen)}
@@ -57,7 +53,6 @@ function Layout() {
             {isOpen ? "✖" : "☰"}
           </button>
 
-          {/* Mobile Menu */}
           {isOpen && (
             <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4 md:hidden z-50">
               {["Home", "Blog", "About Us"].map((item) => (
@@ -82,7 +77,6 @@ function Layout() {
         </div>
       )}
 
-      {/* Page Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/chat" element={<Chat />} />
