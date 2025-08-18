@@ -6,6 +6,8 @@ import SmallPlus from "../assets/small_plus.png"
 import Folder from "../assets/folder.png"
 import ChatBubble from "../assets/chat.png"
 import More from "../assets/more.png"
+import Icon from "../assets/icon.svg"
+import ChatIcon from "../assets/aiicon.svg"
 
 interface Message {
   sender: "user" | "bot";
@@ -115,63 +117,71 @@ export default function Chat() {
         ))}
       </div>
     </aside>
-
-
-
-
-      {/* Main Chat */}
-      <main className="flex-1 flex flex-col">
-        {/* Messages (scrollable) */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {messages.map((msg, idx) => (
+    <main className="flex-1 flex flex-col">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 flex flex-col">
+        {messages.length === 0 ? (
+      <div className="flex-1 flex flex-col items-center justify-center text-black text-lg space-y-2">
+        <img className="w-8 h-8" src={ChatIcon} alt="chat icon" />
+        <span className="text-2xl">Ask our AI anything</span>
+      </div>
+        ) : (
+          messages.map((msg, idx) => (
             <div
               key={idx}
               className={`flex ${
                 msg.sender === "user" ? "justify-end" : "justify-start"
               }`}
             >
+              {msg.sender !== "user" && (
+                <img
+                  src={Icon}
+                  alt="bot"
+                  className="w-12 h-12 mr-2 self-start"
+                />
+              )}
               <div
-                className={`px-4 py-3 rounded-2xl text-sm max-w-[75%] leading-relaxed shadow-sm ${
+                className={`px-4 py-3 rounded-2xl text-sm max-w-[75%] leading-relaxed shadow-sm animate-fadeInUp ${
                   msg.sender === "user"
-                    ? "bg-green-500 text-white rounded-br-none"
-                    : "bg-gray-200 text-gray-900 rounded-bl-none"
+                    ? "bg-white text-black"
+                    : "bg-[#ffe7ea] text-gray-900"
                 }`}
               >
                 {msg.text}
               </div>
             </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
+          ))
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
-        {/* Input Bar (fixed at bottom of main) */}
-        <div className="border-gray-300 p-4">
-          <div className="relative flex items-center">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything..."
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              disabled={loading}
-              className="bg-white w-full pr-12 pl-4 py-3 border rounded-3xl shadow-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-            />
-            <button
-              onClick={sendMessage}
-              disabled={loading}
-              className="absolute right-3 text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+      {/* Input area */}
+      <div className="border-gray-300 p-4">
+        <div className="relative flex items-center">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask me anything..."
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            disabled={loading}
+            className="bg-white w-full pr-12 pl-4 py-3 border rounded-3xl shadow-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+          <button
+            onClick={sendMessage}
+            disabled={loading}
+            className="absolute right-3 text-gray-500 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              className="w-5 h-5"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
-              >
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              </svg>
-            </button>
-          </div>
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+          </button>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
+ </div>
   );
 }
