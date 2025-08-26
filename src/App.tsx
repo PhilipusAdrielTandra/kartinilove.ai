@@ -3,12 +3,13 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import Logo from "./assets/logo.png";
+import Login from "./pages/Login";
 
 function Layout() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const hideNavbarOn = ["/chat"];
+  const hideNavbarOn = ["/chat", "/account"];
 
   return (
     <>
@@ -80,6 +81,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/account" element={<Login />} />
       </Routes>
     </>
   );
