@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react
 import { useState } from "react";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
+import AboutUs from "./pages/AboutUs";
 import Logo from "./assets/logo.png";
 import Login from "./pages/Login";
 
@@ -20,15 +21,28 @@ function Layout() {
           </Link>
 
           <div className="hidden md:flex space-x-6">
-            {["Home", "Blog", "About Us"].map((item) => (
-              <Link
-                key={item}
-                to="/"
-                className="relative hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                {item}
-              </Link>
-            ))}
+            <Link
+              to="/"
+              className={`relative hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full ${
+                location.pathname === "/" ? "text-pink-600 after:w-full" : ""
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/"
+              className="relative hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Blog
+            </Link>
+            <Link
+              to="/about"
+              className={`relative hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full ${
+                location.pathname === "/about" ? "text-pink-600 after:w-full" : ""
+              }`}
+            >
+              About Us
+            </Link>
           </div>
 
           {/* Desktop Buttons */}
@@ -56,16 +70,27 @@ function Layout() {
 
           {isOpen && (
             <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4 md:hidden z-50">
-              {["Home", "Blog", "About Us"].map((item) => (
-                <Link
-                  key={item}
-                  to="/"
-                  onClick={() => setIsOpen(false)}
-                  className="hover:text-pink-600"
-                >
-                  {item}
-                </Link>
-              ))}
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-pink-600"
+              >
+                Home
+              </Link>
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-pink-600"
+              >
+                Blog
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-pink-600"
+              >
+                About Us
+              </Link>
               <Link
                 to="/language"
                 onClick={() => setIsOpen(false)}
@@ -80,6 +105,7 @@ function Layout() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/account" element={<Login />} />
       </Routes>
