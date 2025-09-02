@@ -15,7 +15,7 @@ function Layout() {
   return (
     <>
       {!hideNavbarOn.includes(location.pathname) && (
-        <div className="bg-white shadow p-4 flex justify-between items-center relative">
+        <div className="bg-white drop-shadow-xl p-4 flex justify-between items-center sticky top-0 z-50">
           <Link to="/">
             <img src={Logo} className="w-32 md:w-44 ml-3" alt="Logo" />
           </Link>
