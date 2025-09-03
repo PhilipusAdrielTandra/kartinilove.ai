@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Hero from "../assets/hero.png";
+import { motion } from "motion/react";
+
+import Hero from "../assets/hero.svg";
 import Star from "../assets/star.png";
 import Plus from "../assets/plus.png";
 import Logo from "../assets/logo.png"
@@ -51,16 +53,64 @@ export default function Home() {
       </div>
 
       {/* Key Benefits Section */}
-      <div className="sm:min-h-screen flex flex-col items-center relative text-center">
-        <h2 className="text-3xl sm:text-5xl mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96">
-          Key Benefit of <a className="text-[#EF0753]">Our Services</a>
-        </h2>
-        <div className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow">
-          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4"></img>
+    <div className="sm:min-h-screen flex flex-col items-center relative text-center">
+      <h2 className="text-3xl sm:text-5xl mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96">
+        Key Benefit of <a className="text-[#EF0753]">Our Services</a>
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <motion.div
+          initial={{ opacity: 0, x: 0 }}
+          whileInView={{ opacity: 1, x: -150 }}
+          transition={{
+            type: "spring",
+            stiffness: 120,
+            damping: 15,
+          }}
+          viewport={{ once: true, amount:0.6 }}
+          className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow"
+        >
+          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4" />
           <h1 className="text-lg sm:text-3xl my-4">Lorem Ipsum</h1>
-          <p className="w-60 sm:w-72 text-sm sm:text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium neque.</p>
+          <p className="w-60 sm:w-72 text-sm sm:text-base mx-auto">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
+            pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
+            neque.
+          </p>
+        </motion.div>
+
+        <div className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow">
+          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4" />
+          <h1 className="text-lg sm:text-3xl my-4">Lorem Ipsum</h1>
+          <p className="w-60 sm:w-72 text-sm sm:text-base mx-auto">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
+            pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
+            neque.
+          </p>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 0 }}
+          whileInView={{ opacity: 1, x: 150 }}
+          transition={{
+            type: "spring",
+            stiffness: 120,
+            damping: 15,
+          }}
+          viewport={{ once: true, amount:0.6 }}
+          className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow"
+        >
+          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4" />
+          <h1 className="text-lg sm:text-3xl my-4">Lorem Ipsum</h1>
+          <p className="w-60 sm:w-72 text-sm sm:text-base mx-auto">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
+            pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
+            neque.
+          </p>
+        </motion.div>
       </div>
+    </div>
+
 
       {/* How It Works Section */}
       <div className="min-h-1/3 sm:min-h-screen flex">

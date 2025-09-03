@@ -162,13 +162,11 @@ app.post("/login", async (req, res) => {
 
     const user = rows[0];
 
-    // check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
-    // generate token (e.g. JWT)
     const token = jwt.sign({ id: user.id }, "secretkey", { expiresIn: "1h" });
 
     res.json({ message: "Login successful", token });
