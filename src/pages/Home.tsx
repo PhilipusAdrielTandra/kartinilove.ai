@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { motion } from "motion/react";
+import { useState } from "react";
 
 import Hero from "../assets/hero.svg";
 import Star from "../assets/star.png";
@@ -7,21 +8,66 @@ import Plus from "../assets/plus.png";
 import Logo from "../assets/logo.png"
 
 export default function Home() {
+  const [expandedItems, setExpandedItems] = useState<number[]>([]);
+
+  // FAQ data structure
+  const faqData = [
+    {
+      id: 1,
+      question: "Lore ipsum sit amet consectetur adipiscing elit",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi."
+    },
+    {
+      id: 2,
+      question: "Lore ipsum sit amet consectetur adipiscing elit",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi."
+    },
+    {
+      id: 3,
+      question: "Lore ipsum sit amet consectetur adipiscing elit",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi."
+    },
+    {
+      id: 4,
+      question: "Lore ipsum sit amet consectetur adipiscing elit",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi."
+    },
+    {
+      id: 5,
+      question: "Lore ipsum sit amet consectetur adipiscing elit",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi."
+    }
+  ];
+
+  const toggleItem = (index: number) => {
+    setExpandedItems(prev => 
+      prev.includes(index) 
+        ? prev.filter(item => item !== index)
+        : [...prev, index]
+    );
+  };
+
   return (
     <div className="overflow-x-hidden bg-[#FFE7EA]">
       {/* Hero Section with Gradient Background */}
-      <div className="relative min-h-screen">
-        <div className="absolute inset-0 w-1/2 md:bg-[radial-gradient(circle_at_-20%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-[radial-gradient(circle_at_-90%_40%,_#EF0753_30%,_#FFE7EA_50%)]" />
-        <div className="absolute inset-0 left-1/2 w-1/2 md:bg-[radial-gradient(circle_at_120%_-10%,_#EF0753_10%,_#FFE7EA_50%)] z-0 bg-[radial-gradient(circle_at_190%_40%,_#EF0753_30%,_#FFE7EA_50%)]" />
+      <div className="relative max-h-screen">
+        <div className="absolute inset-0 w-1/2 -translate-y-28 sm:translate-y-0
+          lg:bg-[radial-gradient(circle_at_-20%_-10%,_rgba(239,7,83,0.85)_18%,_rgba(239,7,83,0.50)_30%,_transparent_60%)]
+          md:bg-[radial-gradient(circle_at_-30%_-10%,_rgba(239,7,83,0.85)_10%,_rgba(239,7,83,0.45)_19%,_transparent_40%)] 
+          z-0 bg-[radial-gradient(circle_at_-30%_50%,_rgba(239,7,83,0.70)_13%,_rgba(239,7,83,0.45)_22%,_transparent_40%)]" />
+        <div className="absolute inset-0 left-1/2 w-1/2 -translate-y-28 sm:translate-y-0
+          lg:bg-[radial-gradient(circle_at_120%_-10%,_rgba(239,7,83,0.85)_18%,_rgba(239,7,83,0.50)_30%,_transparent_60%)]
+          md:bg-[radial-gradient(circle_at_130%_-10%,_rgba(239,7,83,0.85)_10%,_rgba(239,7,83,0.45)_19%,_transparent_40%)] 
+          z-0 bg-[radial-gradient(circle_at_130%_50%,_rgba(239,7,83,0.70)_13%,_rgba(239,7,83,0.45)_22%,_transparent_40%)]" />
         <img
           src={Hero}
-          className=" md:w-6xl absolute right-60 bottom-100 sm:-left-180 sm:-top-44 md:-left-145 md:-top-20 lg:-left-180 lg:-top-44 z-10"
+          className=" md:w-6xl absolute right-60 bottom-100 sm:-left-180 top-0 sm:mt-44 md:-left-145 md:mt-20 lg:-left-180 lg:mt-44 z-10"
         />
         <img
           src={Hero}
-          className="md:w-7xl w-4xl absolute bottom-0 -right-50 sm:-bottom-34 sm:-right-44 md:bottom-50 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
+          className="md:w-7xl w-4xl absolute bottom-50 -right-50 sm:-bottom-50 sm:-right-44 md:bottom-130 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
           />
-        <div className="min-h-screen flex flex-col pt-20 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
+        <div className="min-h-screen flex flex-col pt-20 -translate-y-28 sm:translate-y-0 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
           <h1 className="text-2xl sm:text-5xl lg:text-7xl mb-2 md:mb-4 w-2xl text-center">Lorem Ipsum Dolor Sit Amet</h1>
           <p className="text-sm md:text-md text-gray-600 text-center my-2 w-70 md:w-96 h-auto">
             Lorem ipsum dolor sit amet, consuectur adipiscing elit, sed o elusmad tempor incidunt ut labore et dolore magna aliqua.
@@ -34,55 +80,58 @@ export default function Home() {
         </div>
       </div>
       
-      {/* Video Section */}
-      <div className="sm:min-h-screen flex flex-col items-center relative">
-        <h2 className="text-3xl md:text-5xl mb-8 relative z-20">
-          Get to Know <a className="text-[#EF0753]">Us</a>
-        </h2>
-        <div className="relative z-30 rounded overflow-hidden mx-60">
-          <iframe
-            className="h-56 lg:w-5xl lg:h-[600px] rounded-2xl"
-            src="https://www.youtube.com/embed/PrttntkPgyg?si=knt9C8EXLj6Wi4SI"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </div>
+             {/* Video Section */}
+       <div className="min-h-screen flex flex-col items-center relative mt-4 sm:mt-0">
+         <h2 className="text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-8 relative z-20">
+           Get to Know <a className="text-[#EF0753]">Us</a>
+         </h2>
+         <div className="relative z-30 rounded overflow-hidden mx-4 sm:mx-60">
+           <iframe
+             className="h-56 md:w-2xl md:h-120 lg:w-5xl lg:h-[600px] rounded-2xl"
+             src="https://www.youtube.com/embed/PrttntkPgyg?si=knt9C8EXLj6Wi4SI"
+             title="YouTube video player"
+             frameBorder="0"
+             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+             referrerPolicy="strict-origin-when-cross-origin"
+             allowFullScreen
+           ></iframe>
+         </div>
+       </div>
 
-      {/* Key Benefits Section */}
-    <div className="sm:min-h-screen flex flex-col items-center relative text-center">
-      <h2 className="text-3xl sm:text-5xl mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96">
-        Key Benefit of <a className="text-[#EF0753]">Our Services</a>
-      </h2>
+             {/* Key Benefits Section */}
+       <div className="sm:min-h-screen flex flex-col items-center relative text-center mt-0">
+         <h2 className="text-3xl sm:text-5xl mt-8 md:mt-0 lg:mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96">
+           Key Benefit of <a className="text-[#EF0753]">Our Services</a>
+         </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-2 lg:gap-12 min-w-60">
         <motion.div
-          initial={{ opacity: 0, x: 0 }}
-          whileInView={{ opacity: 1, x: -150 }}
+          initial={{ opacity: 0, x: window.innerWidth < 640 ? -100 : 0 }}
+          whileInView={{ 
+            opacity: 1, 
+            x: window.innerWidth < 640 ? 0 : -15 // Closer to center on mobile
+          }}
           transition={{
             type: "spring",
-            stiffness: 120,
-            damping: 15,
+            stiffness: 80,
+            damping: 20,
           }}
           viewport={{ once: true, amount:0.6 }}
-          className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow"
+          className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow"
         >
-          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg sm:text-3xl my-4">Lorem Ipsum</h1>
-          <p className="w-60 sm:w-72 text-sm sm:text-base mx-auto">
+          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
+          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4">Lorem Ipsum</h1>
+          <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
             pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
             neque.
           </p>
         </motion.div>
 
-        <div className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow">
-          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg sm:text-3xl my-4">Lorem Ipsum</h1>
-          <p className="w-60 sm:w-72 text-sm sm:text-base mx-auto">
+        <div className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow">
+          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
+          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4">Lorem Ipsum</h1>
+          <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
             pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
             neque.
@@ -90,19 +139,22 @@ export default function Home() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, x: 0 }}
-          whileInView={{ opacity: 1, x: 150 }}
+          initial={{ opacity: 0, x: window.innerWidth < 640 ? 100 : 0 }}
+          whileInView={{ 
+            opacity: 1, 
+            x: window.innerWidth < 640 ? 0 : 15 // Closer to center on mobile
+          }}
           transition={{
             type: "spring",
-            stiffness: 120,
-            damping: 15,
+            stiffness: 80,
+            damping: 20,
           }}
           viewport={{ once: true, amount:0.6 }}
-          className="bg-white px-6 py-3 sm:px-8 sm:py-5 rounded-2xl shadow"
+          className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow"
         >
-          <img src={Star} className="w-20 sm:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg sm:text-3xl my-4">Lorem Ipsum</h1>
-          <p className="w-60 sm:w-72 text-sm sm:text-base mx-auto">
+          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-6" />
+          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4">Lorem Ipsum</h1>
+          <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
             pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
             neque.
@@ -196,38 +248,90 @@ export default function Home() {
           </h1>
           <div className="flex flex-col md:flex-row gap-8 items-stretch">
             <div className="flex flex-col flex-1 gap-6">
-              {[1, 2, 3].map((num) => (
+              {faqData.slice(0, 3).map((faq) => (
                 <div
-                  key={num}
-                  className="bg-white rounded-2xl shadow p-6 text-left relative w-full"
+                  key={faq.id}
+                  onClick={() => toggleItem(faq.id)}
+                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-[#EF07534D] ${
+                    expandedItems.includes(faq.id) 
+                      ? 'bg-[#FFE7EA] shadow-2xl shadow-[#EF07534D]' 
+                      : 'bg-white'
+                  }`}
                 >
-                  <img src={Plus} className="absolute top-4 right-5 sm:top-4 sm:right-4 w-5 h-5" />
+                  <img 
+                    src={Plus} 
+                    className={`absolute top-4 right-5 sm:top-4 sm:right-4 w-5 h-5 transition-transform duration-300 ${
+                      expandedItems.includes(faq.id) ? 'rotate-45 -translate-x-1' : 'rotate-0 translate-x-0'
+                    }`} 
+                  />
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-[#EDEEF0] text-[#EF0753] text-md rounded-full flex items-center justify-center">
-                      {num < 10 ? `0${num}` : num}
+                    <div className={`w-12 h-12 text-md rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                      expandedItems.includes(faq.id) 
+                        ? 'bg-white text-[#EF0753]' 
+                        : 'bg-[#EDEEF0] text-[#EF0753]'
+                    }`}>
+                      {faq.id < 10 ? `0${faq.id}` : faq.id}
                     </div>
-                    <p className="sm:text-xl">
-                      Lore ipsum sit amet consectetur adipiscing elit
-                    </p>
+                    <div className="flex-1">
+                      <p className="sm:text-xl text-gray-800">
+                        {faq.question}
+                      </p>
+                      {expandedItems.includes(faq.id) && (
+                        <motion.p 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="text-gray-800 text-sm mt-2"
+                        >
+                          {faq.answer}
+                        </motion.p>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
             {/* Right Column */}
             <div className="flex flex-col flex-1 gap-6">
-              {[4, 5].map((num) => (
+              {faqData.slice(3, 5).map((faq) => (
                 <div
-                  key={num}
-                  className="bg-white rounded-2xl shadow p-6 text-left relative w-full"
+                  key={faq.id}
+                  onClick={() => toggleItem(faq.id)}
+                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-[#EF07534D] ${
+                    expandedItems.includes(faq.id) 
+                      ? 'bg-[#FFE7EA] shadow-2xl shadow-[#EF07534D]' 
+                      : 'bg-white'
+                  }`}
                 >
-                  <img src={Plus} className="absolute top-4 right-5 sm:top-4 sm:right-4 w-5 h-5" />
+                  <img 
+                    src={Plus} 
+                    className={`absolute top-4 right-5 sm:top-4 sm:right-4 w-5 h-5 transition-transform duration-300 ${
+                      expandedItems.includes(faq.id) ? 'rotate-45 -translate-x-1' : 'rotate-0 translate-x-0'
+                    }`} 
+                  />
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-[#EDEEF0] text-[#EF0753] text-md rounded-full flex items-center justify-center">
-                      {num < 10 ? `0${num}` : num}
+                    <div className={`w-12 h-12 text-md rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                      expandedItems.includes(faq.id) 
+                        ? 'bg-white text-[#EF0753]' 
+                        : 'bg-[#EDEEF0] text-[#EF0753]'
+                    }`}>
+                      {faq.id < 10 ? `0${faq.id}` : faq.id}
                     </div>
-                    <p className="sm:text-xl">
-                      Lore ipsum sit amet consectetur adipiscing elit
-                    </p>
+                    <div className="flex-1">
+                      <p className="sm:text-xl text-gray-800">
+                        {faq.question}
+                      </p>
+                      {expandedItems.includes(faq.id) && (
+                        <motion.p 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="text-gray-800 text-sm mt-2"
+                        >
+                          {faq.answer}
+                        </motion.p>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -237,50 +341,73 @@ export default function Home() {
       </div>
       
       {/* Footer Section */}
-      <footer className="bg-white py-6 mx-12 mb-12 rounded-3xl">
+      <footer className="bg-white py-4 sm:py-4 md:py-6 lg:py-8 mx-4 sm:mx-6 md:mx-8 lg:mx-12 mb-4 sm:mb-5 md:mb-7 lg:mb-12 rounded-2xl sm:rounded-3xl">
         <div className="max-w mx-auto">
-          <div className="flex flex-col md:flex-row items-start px-6">
-            <div className="w-full md:w-1/4 mb-3 md:mb-0">
-              <img src={Logo} className="w-40 mb-3 ml-3"/>
-                    <div className="mb-6">
-              <h3 className="mb-4 text-gray-800"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
-              <p className="text-gray-600 mb-1"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
-              <p className="text-gray-600"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
+          <div className="flex md:flex-row items-start px-4 sm:px-6 md:px-8 lg:px-12 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+            <div className="w-full md:w-1/3 mb-2 sm:mb-4 md:mb-6 lg:mb-8">
+              <img src={Logo} className="w-32 sm:w-36 md:w-40 lg:w-44 mb-4 sm:mb-6 md:mb-8 lg:mb-10 ml-0 sm:ml-2 md:ml-4 lg:ml-6"/>
+              <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10 max-w-xl space-y-2 sm:space-y-3 md:space-y-4">
+                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
             </div>
             </div>
             
-            <div className="w-full justify-end ml-auto md:w-2/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+            <div className="w-full justify-end pl-7 md:pl-0 ml-0 md:ml-4 lg:ml-8 xl:ml-12 md:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               <div>
-                <h3 className="font-bold mb-4 text-gray-800 text-lg">Quick Links</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Pricing</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Contact Us</a></li>
+                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Quick Links</h3>
+                <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Pricing</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Contact Us</a></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold mb-4 text-gray-800 text-lg">Others</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">How it works</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Terms and condition</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Privacy Policy</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">About Us</a></li>
+                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Others</h3>
+                <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">How it works</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Terms and condition</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Privacy Policy</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">About Us</a></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold mb-4 text-gray-800 text-lg">About us</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Company milestone</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Web mail</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-[#EF0753] transition-colors">Board of Directors</a></li>
+                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">About us</h3>
+                <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Company milestone</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Web mail</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Board of Directors</a></li>
                 </ul>
               </div>
             </div>
           </div>
           
-          <div className="px-6">
-            <p className="text-gray-600">©2024 All rights reserved</p>
+          <div className="px-4 sm:px-6 md:px-8 lg:px-12 mb-0 mt-10 sm:mt-0 md:mb-2 lg:mb-3 flex flex-row justify-between items-center">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">©2024 All rights reserved</p>
+            {/* Social Media Icons */}
+            <div className="flex space-x-4 mr-1 sm:mr-0 sm:space-x-6 md:space-x-8 lg:space-x-10">
+              <a href="#" className="text-black hover:text-black transition-colors">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+              <a href="#" className="text-black hover:text-black transition-colors">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </a>
+              <a href="#" className="text-black hover:text-black transition-colors">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                </svg>
+              </a>
+              <a href="#" className="text-black hover:text-black transition-colors">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

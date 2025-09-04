@@ -125,7 +125,7 @@ export default function AboutUs() {
               </div>
             </div>
             
-            <div className="w-full justify-end ml-0 md:ml-4 lg:ml-8 xl:ml-12 md:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
+            <div className="w-full justify-end pl-7 md:pl-0 ml-0 md:ml-4 lg:ml-8 xl:ml-12 md:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               <div>
                 <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Quick Links</h3>
                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
