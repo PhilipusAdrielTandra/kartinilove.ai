@@ -23,7 +23,7 @@ function Layout() {
           <div className="hidden md:flex space-x-6">
             <Link
               to="/"
-              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full ${
+              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
                 location.pathname === "/" ? "text-pink-600 after:w-full" : ""
               }`}
             >
@@ -31,13 +31,13 @@ function Layout() {
             </Link>
             <Link
               to="/"
-              className="relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full"
+              className="relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope"
             >
               Blog
             </Link>
             <Link
               to="/about"
-              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full ${
+              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
                 location.pathname === "/about" ? "text-pink-600 after:w-full" : ""
               }`}
             >
@@ -49,13 +49,13 @@ function Layout() {
           <div className="hidden md:flex space-x-4 items-center">
             <Link
               to="/language"
-              className="border border-black rounded-md px-2 py-2 text-black text-sm md:text-base hover:text-gray-200"
+              className="border border-black rounded-md px-2 py-2 text-black text-sm md:text-base hover:text-gray-200 manrope"
             >
               EN
             </Link>
             <Link
               to="/chat"
-              className="bg-[#EF0753] rounded-full px-5 py-2.5 md:px-6 md:py-3 text-white text-sm md:text-base hover:text-gray-200"
+              className="bg-[#EF0753] rounded-full px-5 py-2.5 md:px-6 md:py-3 text-white text-sm md:text-base hover:text-gray-200 manrope"
             >
               Explore Now
             </Link>
@@ -73,28 +73,28 @@ function Layout() {
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-pink-600 text-lg"
+                className="hover:text-pink-600 text-lg manrope"
               >
                 Home
               </Link>
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-pink-600 text-lg"
+                className="hover:text-pink-600 text-lg manrope"
               >
                 Blog
               </Link>
               <Link
                 to="/about"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-pink-600 text-lg"
+                className="hover:text-pink-600 text-lg manrope"
               >
                 About Us
               </Link>
               <Link
                 to="/language"
                 onClick={() => setIsOpen(false)}
-                className="border border-gray-300 rounded-md px-4 py-2 text-black text-base hover:text-gray-200"
+                className="border border-gray-300 rounded-md px-4 py-2 text-black text-base hover:text-gray-200 manrope"
               >
                 EN
               </Link>

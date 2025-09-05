@@ -8,10 +8,10 @@ export default function AboutUs() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-12 items-start">
           {/* Left Side - Title */}
           <div className="space-y-4 sm:space-y-4 sm:ml-2 md:ml-1 lg:ml-8 xl:ml-0">
-            <h2 className="text-base font-semibold text-[#EF0753] tracking-wide">
+            <h2 className="text-base font-semibold text-[#EF0753] tracking-wide manrope">
               About Us
             </h2>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight mb-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight mb-2 title-font">
               Mendampingi Perempuan 
               <br/>
               Tumbuh Berdaya 
@@ -22,7 +22,7 @@ export default function AboutUs() {
           
           {/* Right Side - Description */}
           <div className=" text-gray-700 leading-relaxed ml-[clamp(0rem,1.2vw,1rem)] lg:ml-[clamp(0rem,0.8vw,0.5rem)] mt-1 sm:mt-9 md:mt-11 lg:mt-13 mb-11 sm:mb-14 md:mb-10">
-            <p className="text-sm sm:text-base lg:text-base xl:text-2xl">
+            <p className="text-sm sm:text-base lg:text-base xl:text-2xl manrope">
               Inovasi perusahaan teknologi, yang memanfaatkan AI untuk menemani perempuan tumbuh menjadi sosok yang berani, cerdas dan berdaya.
             <br/>
             <br/>
@@ -39,7 +39,7 @@ export default function AboutUs() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-0 items-start">
             {/* Left Side - Title */}
             <div className="sm:ml-2 md:ml-1 lg:ml-8 xl:ml-0">
-              <h2 className="max-w-xl sm:max-w-1  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight">
+              <h2 className="max-w-xl sm:max-w-1  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight title-font">
                 Our Commitment
               </h2>
             </div>
@@ -59,7 +59,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
                       Mendorong inklusivitas dan kesetaraan gender di dunia teknologi dan profesional
                     </p>
                   </div>
@@ -73,7 +73,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
                       Menyediakan akses edukasi untuk perempuan agar lebih berdaya – baik secara intelektual, emosional, maupun hukum
                     </p>
                   </div>
@@ -87,7 +87,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
                       Menjadi tempat perempuan belajar melindungi diri, mengenal haknya, dan memiliki keberanian untuk melawan kekerasan
                     </p>
                   </div>
@@ -101,7 +101,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
                       Menyediakan bantuan hukum dan edukasi berbasis data dan empati
                     </p>
                   </div>
@@ -119,44 +119,44 @@ export default function AboutUs() {
             <div className="w-full md:w-1/3 mb-2 sm:mb-4 md:mb-6 lg:mb-8">
               <img src={Logo} className="w-32 sm:w-36 md:w-40 lg:w-44 mb-4 sm:mb-6 md:mb-8 lg:mb-10 ml-0 sm:ml-2 md:ml-4 lg:ml-6"/>
               <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10 max-w-xl space-y-2 sm:space-y-3 md:space-y-4">
-                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
+                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
               </div>
             </div>
             
             <div className="w-full justify-end pl-7 md:pl-0 ml-0 md:ml-4 lg:ml-8 xl:ml-12 md:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               <div>
-                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Quick Links</h3>
+                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl manrope">Quick Links</h3>
                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Pricing</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Contact Us</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Pricing</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Contact Us</a></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Others</h3>
+                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl manrope">Others</h3>
                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">How it works</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Terms and condition</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Privacy Policy</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">About Us</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">How it works</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Terms and condition</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Privacy Policy</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">About Us</a></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">About us</h3>
+                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl manrope">About us</h3>
                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Company milestone</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Web mail</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Board of Directors</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Company milestone</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Web mail</a></li>
+                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Board of Directors</a></li>
                 </ul>
               </div>
             </div>
           </div>
           
           <div className="px-4 sm:px-6 md:px-8 lg:px-12 mb-4 mt-10 sm:mt-0 sm:mb-6 md:mb-8 lg:mb-10 flex flex-row justify-between items-center">
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">©2024 All rights reserved</p>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope">©2024 All rights reserved</p>
             {/* Social Media Icons */}
             <div className="flex space-x-4 sm:space-x-6 md:space-x-8 lg:space-x-10">
               <a href="#" className="text-black hover:text-black transition-colors">

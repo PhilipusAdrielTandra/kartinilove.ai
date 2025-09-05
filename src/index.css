@@ -1,4 +1,17 @@
 @import "tailwindcss";
+
+.manrope {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.title-font {
+  font-family: "MS Reference Sans Serif", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer utilities {
   .gradient-shadow-wrapper {
     position: relative; 
@@ -39,4 +52,3 @@
 }
 
 }
-

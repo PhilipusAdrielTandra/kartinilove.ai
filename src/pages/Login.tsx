@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from "../assets/logo.png";
 
 
@@ -15,7 +16,9 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-white ">
-        <img src={Logo} className='w-60 p-8'/>
+        <Link to="/">
+          <img src={Logo} className='w-60 p-8'/>
+        </Link>
       <div className="bg-white p-8 rounded-2xl w-full max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-5xl mb-2">Log In</h1>

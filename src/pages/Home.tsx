@@ -68,12 +68,12 @@ export default function Home() {
           className="md:w-7xl w-4xl absolute bottom-50 -right-50 sm:-bottom-50 sm:-right-44 md:bottom-130 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
           />
         <div className="min-h-screen flex flex-col pt-20 -translate-y-28 sm:translate-y-0 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
-          <h1 className="text-2xl sm:text-5xl lg:text-7xl mb-2 md:mb-4 w-2xl text-center">Lorem Ipsum Dolor Sit Amet</h1>
-          <p className="text-sm md:text-md text-gray-600 text-center my-2 w-70 md:w-96 h-auto">
-            Lorem ipsum dolor sit amet, consuectur adipiscing elit, sed o elusmad tempor incidunt ut labore et dolore magna aliqua.
-          </p>
+          <h1 className="text-2xl  sm:w-auto sm:text-5xl lg:text-7xl mb-2 md:mb-4 w-70 text-center title-font">Lorem Ipsum Dolor Sit Amet</h1>
+                     <p className="text-sm md:text-md text-gray-600 text-center my-2 w-70 md:w-96 h-auto manrope">
+             Lorem ipsum dolor sit amet, consuectur adipiscing elit, sed o elusmad tempor incidunt ut labore et dolore magna aliqua.
+           </p>
           <button className="bg-[#EF0753] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
-            <Link to="/chat" className="text-white hover:text-gray-200">
+            <Link to="/chat" className="text-white hover:text-gray-200 manrope">
               Explore Now
             </Link>
           </button>
@@ -82,9 +82,9 @@ export default function Home() {
       
              {/* Video Section */}
        <div className="min-h-screen flex flex-col items-center relative mt-4 sm:mt-0">
-         <h2 className="text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-8 relative z-20">
-           Get to Know <a className="text-[#EF0753]">Us</a>
-         </h2>
+                   <h2 className="text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-8 relative z-20 title-font">
+            Get to Know <a className="text-[#EF0753]">Us</a>
+          </h2>
          <div className="relative z-30 rounded overflow-hidden mx-4 sm:mx-60">
            <iframe
              className="h-56 md:w-2xl md:h-120 lg:w-5xl lg:h-[600px] rounded-2xl"
@@ -100,66 +100,66 @@ export default function Home() {
 
              {/* Key Benefits Section */}
        <div className="sm:min-h-screen flex flex-col items-center relative text-center mt-0">
-         <h2 className="text-3xl sm:text-5xl mt-8 md:mt-0 lg:mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96">
+         <h2 className="text-3xl sm:text-5xl mt-8 md:mt-0 lg:mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96 title-font">
            Key Benefit of <a className="text-[#EF0753]">Our Services</a>
          </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-2 lg:gap-12 min-w-60">
-        <motion.div
-          initial={{ opacity: 0, x: window.innerWidth < 640 ? -100 : 0 }}
-          whileInView={{ 
-            opacity: 1, 
-            x: window.innerWidth < 640 ? 0 : -15 // Closer to center on mobile
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 80,
-            damping: 20,
-          }}
-          viewport={{ once: true, amount:0.6 }}
-          className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow"
-        >
-          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4">Lorem Ipsum</h1>
-          <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
-            pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
-            neque.
-          </p>
-        </motion.div>
+                 <motion.div
+           initial={{ opacity: 0, x: window.innerWidth < 640 ? -100 : 0 }}
+           whileInView={{ 
+             opacity: 1, 
+             x: window.innerWidth < 640 ? 0 : -15 // Closer to center on mobile
+           }}
+           transition={{
+             type: "spring",
+             stiffness: 80,
+             damping: 20,
+           }}
+           viewport={{ once: true, amount:0.6 }}
+           className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow"
+         >
+           <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
+           <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4 manrope">Lorem Ipsum</h1>
+           <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6 manrope">
+             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
+             pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
+             neque.
+           </p>
+         </motion.div>
 
-        <div className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow">
-          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4">Lorem Ipsum</h1>
-          <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
-            pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
-            neque.
-          </p>
-        </div>
+                 <div className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow">
+           <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
+           <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4 manrope">Lorem Ipsum</h1>
+           <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6 manrope">
+             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
+             pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
+             neque.
+           </p>
+         </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: window.innerWidth < 640 ? 100 : 0 }}
-          whileInView={{ 
-            opacity: 1, 
-            x: window.innerWidth < 640 ? 0 : 15 // Closer to center on mobile
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 80,
-            damping: 20,
-          }}
-          viewport={{ once: true, amount:0.6 }}
-          className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow"
-        >
-          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-6" />
-          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4">Lorem Ipsum</h1>
-          <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
-            pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
-            neque.
-          </p>
-        </motion.div>
+                 <motion.div
+           initial={{ opacity: 0, x: window.innerWidth < 640 ? 100 : 0 }}
+           whileInView={{ 
+             opacity: 1, 
+             x: window.innerWidth < 640 ? 0 : 15 // Closer to center on mobile
+           }}
+           transition={{
+             type: "spring",
+             stiffness: 80,
+             damping: 20,
+           }}
+           viewport={{ once: true, amount:0.6 }}
+           className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow"
+         >
+           <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-6" />
+           <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4 manrope">Lorem Ipsum</h1>
+           <p className="w-50 md:w-40 lg:w-72 text-sm md:text-sm lg:text-base mx-auto mb-6 manrope">
+             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed
+             pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium
+             neque.
+           </p>
+         </motion.div>
       </div>
     </div>
 
@@ -174,21 +174,21 @@ export default function Home() {
           {/* Right Side */}
           <div className="w-full md:w-1/2 mx-auto flex items-center md:items-start">
             <div className="p-8 w-full">
-              <h2 className="sm:text-5xl text-3xl mb-4 text-center md:text-left">
-                How It Works
-              </h2>
+                             <h2 className="sm:text-5xl text-3xl mb-4 text-center md:text-left title-font">
+                 How It Works
+               </h2>
               <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-6">
                 <div className="text-xl md:text-5xl text-[#feb0b9] mb-4 md:mb-0 md:mr-8">
                   01
                 </div>
                 <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
                   <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
-                    <h1 className="text-base md:text-xl text-gray-800">
-                      Lorem Ipsum Sit Amet
-                    </h1>
-                    <p className="text-sm md:text-base">
-                      Lorem ipsum dolor sit amet, consectetur
-                    </p>
+                                         <h1 className="text-base md:text-xl text-gray-800 manrope">
+                       Lorem Ipsum Sit Amet
+                     </h1>
+                     <p className="text-sm md:text-base manrope">
+                       Lorem ipsum dolor sit amet, consectetur
+                     </p>
                   </div>
                 </div>
               </div>
@@ -198,12 +198,12 @@ export default function Home() {
                 </div>
                 <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
                   <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
-                    <h1 className="text-base md:text-xl text-gray-800">
-                      Lorem Ipsum Sit Amet
-                    </h1>
-                    <p className="text-sm md:text-base">
-                      Lorem ipsum dolor sit amet, consectetur
-                    </p>
+                                         <h1 className="text-base md:text-xl text-gray-800 manrope">
+                       Lorem Ipsum Sit Amet
+                     </h1>
+                     <p className="text-sm md:text-base manrope">
+                       Lorem ipsum dolor sit amet, consectetur
+                     </p>
                   </div>
                 </div>
               </div>
@@ -213,12 +213,12 @@ export default function Home() {
                 </div>
                 <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
                   <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
-                    <h1 className="text-base md:text-xl text-gray-800">
-                      Lorem Ipsum Sit Amet
-                    </h1>
-                    <p className="text-sm md:text-base">
-                      Lorem ipsum dolor sit amet, consectetur
-                    </p>
+                                         <h1 className="text-base md:text-xl text-gray-800 manrope">
+                       Lorem Ipsum Sit Amet
+                     </h1>
+                     <p className="text-sm md:text-base manrope">
+                       Lorem ipsum dolor sit amet, consectetur
+                     </p>
                   </div>
                 </div>
               </div>
@@ -229,7 +229,7 @@ export default function Home() {
 
       {/* Collaboration Section */}
       <div className="sm:pb-48 flex flex-col items-center text-center px-4">
-        <h1 className="text-2xl sm:text-5xl mb-12">Collaboration & Partnership</h1>
+                 <h1 className="text-2xl sm:text-5xl mb-12 title-font">Collaboration & Partnership</h1>
         <div className="flex flex-wrap justify-center gap-6 sm:gap-15 max-w-4xl">
           {Array.from({ length: 9 }).map((_, index) => (
             <div
@@ -243,9 +243,9 @@ export default function Home() {
       {/* FAQ Section */}
       <div className="sm:min-h-screen flex flex-col px-4 py-16">
         <div className="w-full max-w-6xl mx-auto">
-          <h1 className="text-center sm:text-left text-2xl sm:text-5xl mb-12">
-            Frequently Asked Questions
-          </h1>
+                     <h1 className="text-center sm:text-left text-2xl sm:text-5xl mb-12 title-font">
+             Frequently Asked Questions
+           </h1>
           <div className="flex flex-col md:flex-row gap-8 items-stretch">
             <div className="flex flex-col flex-1 gap-6">
               {faqData.slice(0, 3).map((faq) => (
@@ -270,18 +270,18 @@ export default function Home() {
                         ? 'bg-white text-[#EF0753]' 
                         : 'bg-[#EDEEF0] text-[#EF0753]'
                     }`}>
-                      {faq.id < 10 ? `0${faq.id}` : faq.id}
+                                             <span className="manrope font-bold">{faq.id < 10 ? `0${faq.id}` : faq.id}</span>
                     </div>
                     <div className="flex-1">
-                      <p className="sm:text-xl text-gray-800">
-                        {faq.question}
-                      </p>
+                                             <p className="sm:text-xl text-gray-800 manrope">
+                         {faq.question}
+                       </p>
                       {expandedItems.includes(faq.id) && (
                         <motion.p 
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="text-gray-800 text-sm mt-2"
+                                                     className="text-gray-800 text-sm mt-2 manrope"
                         >
                           {faq.answer}
                         </motion.p>
@@ -315,18 +315,18 @@ export default function Home() {
                         ? 'bg-white text-[#EF0753]' 
                         : 'bg-[#EDEEF0] text-[#EF0753]'
                     }`}>
-                      {faq.id < 10 ? `0${faq.id}` : faq.id}
+                                             <span className="manrope font-bold">{faq.id < 10 ? `0${faq.id}` : faq.id}</span>
                     </div>
                     <div className="flex-1">
-                      <p className="sm:text-xl text-gray-800">
-                        {faq.question}
-                      </p>
+                                             <p className="sm:text-xl text-gray-800 manrope">
+                         {faq.question}
+                       </p>
                       {expandedItems.includes(faq.id) && (
                         <motion.p 
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="text-gray-800 text-sm mt-2"
+                                                     className="text-gray-800 text-sm mt-2 manrope"
                         >
                           {faq.answer}
                         </motion.p>
@@ -347,44 +347,44 @@ export default function Home() {
             <div className="w-full md:w-1/3 mb-2 sm:mb-4 md:mb-6 lg:mb-8">
               <img src={Logo} className="w-32 sm:w-36 md:w-40 lg:w-44 mb-4 sm:mb-6 md:mb-8 lg:mb-10 ml-0 sm:ml-2 md:ml-4 lg:ml-6"/>
               <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10 max-w-xl space-y-2 sm:space-y-3 md:space-y-4">
-                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
+                                 <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
+                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
+                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
             </div>
             </div>
             
             <div className="w-full justify-end pl-7 md:pl-0 ml-0 md:ml-4 lg:ml-8 xl:ml-12 md:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               <div>
-                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Quick Links</h3>
-                <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Pricing</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Contact Us</a></li>
-                </ul>
+                                 <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl manrope">Quick Links</h3>
+                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Pricing</a></li>
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Contact Us</a></li>
+                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">Others</h3>
-                <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">How it works</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Terms and condition</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Privacy Policy</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">About Us</a></li>
-                </ul>
+                                 <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl manrope">Others</h3>
+                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">How it works</a></li>
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Terms and condition</a></li>
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Privacy Policy</a></li>
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">About Us</a></li>
+                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl">About us</h3>
-                <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Company milestone</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Web mail</a></li>
-                  <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors">Board of Directors</a></li>
-                </ul>
+                                 <h3 className="font-bold mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-gray-800 text-base sm:text-lg md:text-xl lg:text-2xl manrope">About us</h3>
+                 <ul className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5">
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Company milestone</a></li>
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Web mail</a></li>
+                   <li><a href="#" className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 hover:text-[#EF0753] transition-colors manrope">Board of Directors</a></li>
+                 </ul>
               </div>
             </div>
           </div>
           
           <div className="px-4 sm:px-6 md:px-8 lg:px-12 mb-0 mt-10 sm:mt-0 md:mb-2 lg:mb-3 flex flex-row justify-between items-center">
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">©2024 All rights reserved</p>
+                         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope">©2024 All rights reserved</p>
             {/* Social Media Icons */}
             <div className="flex space-x-4 mr-1 sm:mr-0 sm:space-x-6 md:space-x-8 lg:space-x-10">
               <a href="#" className="text-black hover:text-black transition-colors">

@@ -19,6 +19,7 @@ export default function Chat() {
   const [input, setInput] = useState(""); 
   const [loading, setLoading] = useState(false); 
   const [activeChat, setActiveChat] = useState<string | null>("1"); 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null); 
   
   const chats = [ 
@@ -64,10 +65,28 @@ export default function Chat() {
 
   return ( 
     <div className="flex h-screen overflow-hidden bg-[#FFF1F3]"> 
-      <img className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" src={Gradient}></img> 
+      <img className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none z-0" src={Gradient}></img> 
       
-      {/* Login/Sign Up Button - Added to top right */}
-      <div className="absolute top-4 right-4 z-10">
+      {/* Mobile Header */}
+      <div className="md:hidden absolute top-0 left-0 right-0 z-30 bg-white/90 backdrop-blur-sm p-4 flex items-center justify-between">
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="w-8 h-8 flex items-center justify-center"
+        >
+          <span style={{color: '#374151', fontSize: '1.5rem', width: '1.5rem', textAlign: 'center'}}>☰</span>
+        </button>
+        <Link to={"/"}>
+          <img className="w-32" src={Logo} />
+        </Link>
+        <button className="bg-[#EF0753] rounded-full px-4 py-2">
+          <Link to="/account" className="text-white text-sm">
+            Login
+          </Link>
+        </button>
+      </div>
+      
+      {/* Login/Sign Up Button - Desktop only */}
+      <div className="hidden md:block absolute top-4 right-4 z-10">
             <button className="bg-[#EF0753] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
                 <Link to="/account" className="text-white hover:text-gray-200">
                   Login / Sign Up
@@ -75,24 +94,36 @@ export default function Chat() {
             </button>
       </div>
       
-      <aside className="w-64 bg-white text-black flex flex-col m-3 rounded-4xl"> 
-        <Link to={"/"}> 
+      <aside className={`w-64 bg-white text-black flex flex-col m-3 ml-5 md:ml-3 rounded-4xl transition-all duration-500 ease-in-out transform p-4 md:p-3 ${
+        isSidebarOpen 
+          ? 'fixed left-0 top-20 md:top-0 z-20 h-[calc(100vh-11rem)] md:h-full translate-x-0 opacity-100' 
+          : 'fixed left-0 top-20 md:top-0 z-20 h-[calc(100vh-11rem)] md:h-full -translate-x-full opacity-0 md:opacity-100 md:translate-x-0 md:relative md:block'
+      }`}> 
+        {/* Desktop Logo - Hidden on mobile */}
+        <Link to={"/"} className="hidden md:block"> 
           <img className="w-40 mx-auto mt-4 mb-2" src={Logo} /> 
-        </Link> 
+        </Link>
         
         {/* Start new chat */} 
-        <div className="rounded-3xl px-4 py-4 cursor-pointer flex items-center"> 
-          <span>Begin a new chat</span> 
-          <img src={SmallPlus} alt="plus" className="ml-auto w-5 h-5" /> 
+        <div 
+          className="rounded-3xl px-4 py-3 md:px-4 md:py-4 cursor-pointer flex items-center hover:bg-gray-100"
+          onClick={() => {
+            setMessages([]);
+            setActiveChat(null);
+            setIsSidebarOpen(false);
+          }}
+        > 
+          <span className="text-base md:text-lg">Begin a new chat</span> 
+          <img src={SmallPlus} alt="plus" className="ml-auto w-4 h-4 md:w-5 md:h-5" /> 
         </div> 
         
         {/* Search */} 
-        <div className="mx-2 rounded-xl px-4 py-3 cursor-pointer bg-gray-200"> 
-          Search 
+        <div className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer bg-gray-200"> 
+          <span className="text-base md:text-lg">Search</span>
         </div> 
         
         {/* Recent Chats Section */} 
-        <div className="mt-4 px-4 py-2">Recent Chats</div> 
+        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">Recent Chats</div> 
         <div className="overflow-y-auto"> 
           {chats.map((chat) => ( 
             <div 
@@ -100,34 +131,34 @@ export default function Chat() {
               onClick={() => { 
                 setActiveChat(chat.id); 
                 setMessages([]); 
+                setIsSidebarOpen(false);
               }} 
-              className={`mx-2 rounded-xl px-4 py-3 cursor-pointer hover:white flex items-center gap-2 ${ 
+              className={`mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-100 flex items-center gap-2 ${ 
                 activeChat === chat.id ? "bg-gray-200" : "" 
               }`} 
             > 
-              <img src={ChatBubble} alt="chat" className="w-5 h-5" /> 
-              {chat.title} 
-              <img src={More} alt="more" className="ml-auto" /> 
+              <img src={ChatBubble} alt="chat" className="w-4 h-4 md:w-5 md:h-5" /> 
+              <span className="text-base md:text-lg">{chat.title}</span>
             </div> 
           ))} 
         </div> 
         
         {/* Category Section */} 
-        <div className="mt-4 px-4 py-2">Category</div> 
+        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">Category</div> 
         <div className="overflow-y-auto"> 
           {chats.map((category) => ( 
             <div 
               key={category.id} 
-              className="mx-2 rounded-xl px-4 py-3 cursor-pointer hover:white flex items-center gap-2" 
+              className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-100 flex items-center gap-2" 
             > 
-              <img src={Folder} alt="folder" className="w-5 h-5" /> 
-              {category.title} 
+              <img src={Folder} alt="folder" className="w-4 h-4 md:w-5 md:h-5" /> 
+              <span className="text-base md:text-lg">{category.title}</span>
             </div> 
           ))} 
         </div> 
       </aside> 
       
-      <main className="flex-1 flex flex-col"> 
+      <main className="flex-1 flex flex-col pt-16 md:pt-0 relative z-10"> 
         <div className="flex-1 overflow-y-auto p-6 space-y-4 flex flex-col"> 
           {messages.length === 0 ? ( 
             <div className="flex-1 flex flex-col items-center justify-center text-black text-lg space-y-2"> 
