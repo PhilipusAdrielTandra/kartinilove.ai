@@ -1,6 +1,36 @@
 import Logo from "../assets/logo.png";
+import { useLanguage } from "../contexts/LanguageContext";
+
+const translations = {
+  EN: {
+    about_breadcrumb: "About Us",
+    title_line1: "Mendampingi Perempuan",
+    title_line2: "Tumbuh Berdaya",
+    title_line3: "di Era Digital",
+    intro_p: "Inovasi perusahaan teknologi, yang memanfaatkan AI untuk menemani perempuan tumbuh menjadi sosok yang berani, cerdas dan berdaya.\n\nTerinspirasi oleh semangat Kartini, kami hadir untuk melangkah bersama dalam menghadapi tantangan edukasi, kesehatan mental, pelindungan hukum, hingga pemberdayaan ekonomi. Dipimpin oleh perempuan-perempuan hebat di bidang teknologi, kami berkomitmen mewujudkan perubahan positif dan berkelanjutan di era digital saat ini.",
+    commitment_title: "Our Commitment",
+    c1: "Mendorong inklusivitas dan kesetaraan gender di dunia teknologi dan profesional",
+    c2: "Menyediakan akses edukasi untuk perempuan agar lebih berdaya – baik secara intelektual, emosional, maupun hukum",
+    c3: "Menjadi tempat perempuan belajar melindungi diri, mengenal haknya, dan memiliki keberanian untuk melawan kekerasan",
+    c4: "Menyediakan bantuan hukum dan edukasi berbasis data dan empati",
+  },
+  INA: {
+    about_breadcrumb: "About Us",
+    title_line1: "Mendampingi Perempuan",
+    title_line2: "Tumbuh Berdaya",
+    title_line3: "di Era Digital",
+    intro_p: "Inovasi perusahaan teknologi, yang memanfaatkan AI untuk menemani perempuan tumbuh menjadi sosok yang berani, cerdas dan berdaya.\n\nTerinspirasi oleh semangat Kartini, kami hadir untuk melangkah bersama dalam menghadapi tantangan edukasi, kesehatan mental, pelindungan hukum, hingga pemberdayaan ekonomi. Dipimpin oleh perempuan-perempuan hebat di bidang teknologi, kami berkomitmen mewujudkan perubahan positif dan berkelanjutan di era digital saat ini.",
+    commitment_title: "Komitmen Kami",
+    c1: "Mendorong inklusivitas dan kesetaraan gender di dunia teknologi dan profesional",
+    c2: "Menyediakan akses edukasi untuk perempuan agar lebih berdaya – baik secara intelektual, emosional, maupun hukum",
+    c3: "Menjadi tempat perempuan belajar melindungi diri, mengenal haknya, dan memiliki keberanian untuk melawan kekerasan",
+    c4: "Menyediakan bantuan hukum dan edukasi berbasis data dan empati",
+  },
+};
 
 export default function AboutUs() {
+  const { language } = useLanguage();
+  const t = (key: keyof typeof translations["EN"]) => translations[language][key];
   return (
     <div className="min-h-screen bg-white">
             {/* About Us Introduction Section */}
@@ -8,27 +38,19 @@ export default function AboutUs() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-12 items-start">
           {/* Left Side - Title */}
           <div className="space-y-4 sm:space-y-4 sm:ml-2 md:ml-1 lg:ml-8 xl:ml-0">
-            <h2 className="text-base font-semibold text-[#EF0753] tracking-wide manrope">
-              About Us
-            </h2>
+            <h2 className="text-base font-semibold text-[#EF0753] tracking-wide manrope">{t("about_breadcrumb")}</h2>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight mb-2 title-font">
-              Mendampingi Perempuan 
+              {t("title_line1")} 
               <br/>
-              Tumbuh Berdaya 
+              {t("title_line2")} 
               <br/>
-              di Era Digital
+              {t("title_line3")}
             </h1>
           </div>
           
           {/* Right Side - Description */}
           <div className=" text-gray-700 leading-relaxed ml-[clamp(0rem,1.2vw,1rem)] lg:ml-[clamp(0rem,0.8vw,0.5rem)] mt-1 sm:mt-9 md:mt-11 lg:mt-13 mb-11 sm:mb-14 md:mb-10">
-            <p className="text-sm sm:text-base lg:text-base xl:text-2xl manrope">
-              Inovasi perusahaan teknologi, yang memanfaatkan AI untuk menemani perempuan tumbuh menjadi sosok yang berani, cerdas dan berdaya.
-            <br/>
-            <br/>
-              Terinspirasi oleh semangat Kartini, kami hadir untuk melangkah bersama dalam menghadapi tantangan edukasi, kesehatan mental, pelindungan hukum, hingga pemberdayaan ekonomi.
-              Dipimpin oleh perempuan-perempuan hebat di bidang teknologi, kami berkomitmen mewujudkan perubahan positif dan berkelanjutan di era digital saat ini.
-            </p>
+            <p className="text-sm sm:text-base lg:text-base xl:text-2xl manrope" dangerouslySetInnerHTML={{ __html: t("intro_p").replace(/\n/g, "<br/>") }} />
           </div>
         </div>
       </div>
@@ -39,9 +61,7 @@ export default function AboutUs() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-0 items-start">
             {/* Left Side - Title */}
             <div className="sm:ml-2 md:ml-1 lg:ml-8 xl:ml-0">
-              <h2 className="max-w-xl sm:max-w-1  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight title-font">
-                Our Commitment
-              </h2>
+              <h2 className="max-w-xl sm:max-w-1  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight title-font">{t("commitment_title")}</h2>
             </div>
             
             {/* Right Side - Commitments List */}
@@ -59,9 +79,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
-                      Mendorong inklusivitas dan kesetaraan gender di dunia teknologi dan profesional
-                    </p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c1")}</p>
                   </div>
                 </div>
 
@@ -73,9 +91,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
-                      Menyediakan akses edukasi untuk perempuan agar lebih berdaya – baik secara intelektual, emosional, maupun hukum
-                    </p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c2")}</p>
                   </div>
                 </div>
 
@@ -87,9 +103,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
-                      Menjadi tempat perempuan belajar melindungi diri, mengenal haknya, dan memiliki keberanian untuk melawan kekerasan
-                    </p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c3")}</p>
                   </div>
                 </div>
 
@@ -101,9 +115,7 @@ export default function AboutUs() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">
-                      Menyediakan bantuan hukum dan edukasi berbasis data dan empati
-                    </p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c4")}</p>
                   </div>
                 </div>
               </div>

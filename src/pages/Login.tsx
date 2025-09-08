@@ -1,9 +1,37 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from "../assets/logo.png";
+import { useLanguage } from "../contexts/LanguageContext";
 
+
+const translations = {
+  EN: {
+    login_title: "Log In",
+    login_welcome: "Welcome back!",
+    email: "Email",
+    password: "Password",
+    forgot: "Forgot password?",
+    login_btn: "Log In",
+    or: "OR",
+    dont_have: "Don't have an account?",
+    signup: "Sign up",
+  },
+  INA: {
+    login_title: "Masuk",
+    login_welcome: "Selamat datang kembali!",
+    email: "Email",
+    password: "Kata sandi",
+    forgot: "Lupa kata sandi?",
+    login_btn: "Masuk",
+    or: "ATAU",
+    dont_have: "Belum punya akun?",
+    signup: "Daftar",
+  },
+};
 
 function Login() {
+  const { language } = useLanguage();
+  const t = (key: keyof typeof translations["EN"]) => translations[language][key];
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -21,8 +49,8 @@ function Login() {
         </Link>
       <div className="bg-white p-8 rounded-2xl w-full max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-5xl mb-2">Log In</h1>
-          <p className="text-gray-600">Welcome back!</p>
+          <h1 className="text-5xl mb-2">{t('login_title')}</h1>
+          <p className="text-gray-600">{t('login_welcome')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -33,7 +61,7 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#EF0753] focus:border-[#EF0753] transition"
-              placeholder="Email"
+              placeholder={t('email')}
               required
             />
           </div>
@@ -45,12 +73,12 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#EF0753] focus:border-[#EF0753] transition"
-              placeholder="Password"
+              placeholder={t('password')}
               required
             />
             <div className="flex justify-end items-center pt-4 font-bold">
               <a href="#" className="text-sm font-medium text-[#EF0753] hover:text-[#d30649]">
-                Forgot password?
+                {t('forgot')}
               </a>
             </div>
           </div>
@@ -59,7 +87,7 @@ function Login() {
             type="submit"
             className="w-full bg-[#EF0753] text-white py-3 px-4 rounded-lg hover:bg-[#d30649] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EF0753] transition font-medium"
           >
-            Log In
+            {t('login_btn')}
           </button>
         </form>
 
@@ -69,7 +97,7 @@ function Login() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">OR</span>
+              <span className="px-2 bg-white text-gray-500">{t('or')}</span>
             </div>
           </div>
 
@@ -105,9 +133,9 @@ function Login() {
 
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            Don't have an account?{' '}
+            {t('dont_have')} {' '}
             <a href="#" className="font-medium text-[#EF0753] hover:text-[#d30649]">
-              Sign up
+              {t('signup')}
             </a>
           </p>
         </div>

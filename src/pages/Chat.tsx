@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react"; 
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom"; 
+import { useLanguage } from "../contexts/LanguageContext";
 import Logo from "../assets/logo.png" 
 import Gradient from "../assets/gradient.png" 
 import SmallPlus from "../assets/small_plus.png" 
@@ -14,7 +15,32 @@ interface Message {
   text: string; 
 } 
 
+const translations = {
+  EN: {
+    begin_new_chat: "Begin a new chat",
+    search: "Search",
+    recent_chats: "Recent Chats",
+    category: "Category",
+    ask_anything: "Ask our AI anything",
+    login: "Login",
+    login_signup: "Login / Sign Up",
+    input_placeholder: "Ask me anything...",
+  },
+  INA: {
+    begin_new_chat: "Mulai chat baru",
+    search: "Cari",
+    recent_chats: "Riwayat Chat",
+    category: "Kategori",
+    ask_anything: "Tanya apa saja ke AI kami",
+    login: "Masuk",
+    login_signup: "Masuk / Daftar",
+    input_placeholder: "Tanyakan apa saja...",
+  },
+};
+
 export default function Chat() { 
+  const { language } = useLanguage();
+  const t = (key: keyof typeof translations["EN"]) => translations[language][key];
   const [messages, setMessages] = useState<Message[]>([]); 
   const [input, setInput] = useState(""); 
   const [loading, setLoading] = useState(false); 
@@ -80,7 +106,7 @@ export default function Chat() {
         </Link>
         <button className="bg-[#EF0753] rounded-full px-4 py-2">
           <Link to="/account" className="text-white text-sm">
-            Login
+            {t("login")}
           </Link>
         </button>
       </div>
@@ -89,7 +115,7 @@ export default function Chat() {
       <div className="hidden md:block absolute top-4 right-4 z-10">
             <button className="bg-[#EF0753] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
                 <Link to="/account" className="text-white hover:text-gray-200">
-                  Login / Sign Up
+                  {t("login_signup")}
                 </Link>
             </button>
       </div>
@@ -113,17 +139,17 @@ export default function Chat() {
             setIsSidebarOpen(false);
           }}
         > 
-          <span className="text-base md:text-lg">Begin a new chat</span> 
+          <span className="text-base md:text-lg">{t("begin_new_chat")}</span> 
           <img src={SmallPlus} alt="plus" className="ml-auto w-4 h-4 md:w-5 md:h-5" /> 
         </div> 
         
         {/* Search */} 
         <div className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer bg-gray-200"> 
-          <span className="text-base md:text-lg">Search</span>
+          <span className="text-base md:text-lg">{t("search")}</span>
         </div> 
         
         {/* Recent Chats Section */} 
-        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">Recent Chats</div> 
+        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">{t("recent_chats")}</div> 
         <div className="overflow-y-auto"> 
           {chats.map((chat) => ( 
             <div 
@@ -144,7 +170,7 @@ export default function Chat() {
         </div> 
         
         {/* Category Section */} 
-        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">Category</div> 
+        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">{t("category")}</div> 
         <div className="overflow-y-auto"> 
           {chats.map((category) => ( 
             <div 
@@ -163,7 +189,7 @@ export default function Chat() {
           {messages.length === 0 ? ( 
             <div className="flex-1 flex flex-col items-center justify-center text-black text-lg space-y-2"> 
               <img className="w-8 h-8" src={ChatIcon} alt="chat icon" /> 
-              <span className="text-2xl">Ask our AI anything</span> 
+              <span className="text-2xl">{t("ask_anything")}</span> 
             </div> 
           ) : ( 
             messages.map((msg, idx) => ( 
@@ -197,7 +223,7 @@ export default function Chat() {
             <input 
               value={input} 
               onChange={(e) => setInput(e.target.value)} 
-              placeholder="Ask me anything..." 
+              placeholder={t("input_placeholder")} 
               onKeyDown={(e) => e.key === "Enter" && sendMessage()} 
               disabled={loading} 
               className="bg-white w-full pr-12 pl-4 py-3 border rounded-3xl shadow-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed" 

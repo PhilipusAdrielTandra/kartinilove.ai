@@ -1,10 +1,24 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import AboutUs from "./pages/AboutUs";
 import Logo from "./assets/logo.png";
 import Login from "./pages/Login";
+
+function LangToggleButton() {
+  const { language, toggleLanguage } = useLanguage();
+  return (
+    <button
+      onClick={toggleLanguage}
+      className="border border-black rounded-md px-2 py-2 text-black text-sm md:text-base manrope w-12 text-center"
+      aria-label="Toggle language"
+    >
+      {language === "EN" ? "EN" : "INA"}
+    </button>
+  );
+}
 
 function Layout() {
   const location = useLocation();
@@ -43,16 +57,11 @@ function Layout() {
             >
               About Us
             </Link>
-          </div>
+      </div>
 
           {/* Desktop Buttons */}
           <div className="hidden md:flex space-x-4 items-center">
-            <Link
-              to="/language"
-              className="border border-black rounded-md px-2 py-2 text-black text-sm md:text-base hover:text-gray-200 manrope"
-            >
-              EN
-            </Link>
+            <LangToggleButton />
             <Link
               to="/chat"
               className="bg-[#EF0753] rounded-full px-5 py-2.5 md:px-6 md:py-3 text-white text-sm md:text-base hover:text-gray-200 manrope"
@@ -61,12 +70,12 @@ function Layout() {
             </Link>
           </div>
 
-          <button
+        <button
             className="md:hidden text-3xl"
             onClick={() => setIsOpen(!isOpen)}
-          >
+        >
             {isOpen ? "✖" : "☰"}
-          </button>
+        </button>
 
           {isOpen && (
             <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4 md:hidden z-50">
@@ -91,14 +100,10 @@ function Layout() {
               >
                 About Us
               </Link>
-              <Link
-                to="/language"
-                onClick={() => setIsOpen(false)}
-                className="border border-gray-300 rounded-md px-4 py-2 text-black text-base hover:text-gray-200 manrope"
-              >
-                EN
-              </Link>
-            </div>
+              <div className="border border-gray-300 rounded-md px-4 py-2 text-black text-base manrope">
+                <LangToggleButton />
+      </div>
+    </div>
           )}
         </div>
       )}
@@ -115,8 +120,10 @@ function Layout() {
 
 export default function App() {
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </LanguageProvider>
   );
 }
