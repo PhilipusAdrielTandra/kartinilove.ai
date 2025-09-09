@@ -112,7 +112,7 @@ export default function Chat() {
       </div>
       
       {/* Login/Sign Up Button - Desktop only */}
-      <div className="hidden md:block absolute top-4 right-4 z-10">
+      <div className="hidden md:hidden absolute top-4 right-4 z-10">
             <button className="bg-[#EF0753] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
                 <Link to="/account" className="text-white hover:text-gray-200">
                   {t("login_signup")}
@@ -184,7 +184,7 @@ export default function Chat() {
         </div> 
       </aside> 
       
-      <main className="flex-1 flex flex-col pt-16 md:pt-0 relative z-10"> 
+      <main className="flex-1 flex flex-col mt-15 md:pt-0 relative z-10"> 
         <div className="flex-1 overflow-y-auto p-6 space-y-4 flex flex-col"> 
           {messages.length === 0 ? ( 
             <div className="flex-1 flex flex-col items-center justify-center text-black text-lg space-y-2"> 
