@@ -127,14 +127,14 @@ export default function Home() {
           z-0 bg-[radial-gradient(circle_at_130%_50%,_rgba(239,7,83,0.70)_13%,_rgba(239,7,83,0.45)_22%,_transparent_40%)]" />
         <img
           src={Hero}
-          className=" md:w-6xl absolute right-60 bottom-100 sm:-left-180 top-0 sm:mt-44 md:-left-145 md:mt-20 lg:-left-180 lg:mt-44 z-10"
+          className=" md:w-6xl absolute right-60 bottom-100 sm:-left-180 top-0 sm:mt-44 md:-left-145 md:mt-20 lg:-left-180 lg:-mt-40 z-10"
         />
         <img
           src={Hero}
           className="md:w-7xl w-4xl absolute bottom-50 -right-50 sm:-bottom-50 sm:-right-44 md:bottom-130 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
           />
         <div className="min-h-screen flex flex-col pt-20 -translate-y-28 sm:translate-y-0 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
-          <h1 className="text-2xl  sm:w-auto sm:text-5xl lg:text-7xl mb-2 md:mb-4 w-70 text-center title-font">{t("hero_title")}</h1>
+          <h1 className="text-2xl  sm:w-auto sm:text-5xl lg:text-5xl mb-2 md:mb-4 w-70 lg:w-3xl text-center title-font">{t("hero_title")}</h1>
                      <p className="text-sm md:text-md text-gray-600 text-center my-2 w-70 md:w-96 h-auto manrope">
             {t("hero_subtitle")}
           </p>
