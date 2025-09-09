@@ -1,97 +1,129 @@
-import { useState, useEffect, useRef } from "react";
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
+import Home from "./pages/Home";
+import Chat from "./pages/Chat";
+import AboutUs from "./pages/AboutUs";
+import Logo from "./assets/logo.png";
+import Login from "./pages/Login";
 
-interface Message {
-  sender: "user" | "bot";
-  text: string;
+function LangToggleButton() {
+  const { language, toggleLanguage } = useLanguage();
+  return (
+    <button
+      onClick={toggleLanguage}
+      className="border border-black rounded-md px-2 py-2 text-black text-sm md:text-base manrope w-12 text-center"
+      aria-label="Toggle language"
+    >
+      {language === "EN" ? "EN" : "INA"}
+    </button>
+  );
+}
+
+function Layout() {
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const hideNavbarOn = ["/chat", "/account"];
+
+  return (
+    <>
+      {!hideNavbarOn.includes(location.pathname) && (
+        <div className="bg-white drop-shadow-xl p-4 flex justify-between items-center sticky top-0 z-50">
+          <Link to="/">
+            <img src={Logo} className="w-32 md:w-44 ml-3" alt="Logo" />
+          </Link>
+
+          <div className="hidden md:flex space-x-6">
+            <Link
+              to="/"
+              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
+                location.pathname === "/" ? "text-pink-600 after:w-full" : ""
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/"
+              className="relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope"
+            >
+              Blog
+            </Link>
+            <Link
+              to="/about"
+              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
+                location.pathname === "/about" ? "text-pink-600 after:w-full" : ""
+              }`}
+            >
+              About Us
+            </Link>
+      </div>
+
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex space-x-4 items-center">
+            <LangToggleButton />
+            <Link
+              to="/chat"
+              className="bg-[#EF0753] rounded-full px-5 py-2.5 md:px-6 md:py-3 text-white text-sm md:text-base hover:text-gray-200 manrope"
+            >
+              Explore Now
+            </Link>
+          </div>
+
+        <button
+            className="md:hidden text-3xl"
+            onClick={() => setIsOpen(!isOpen)}
+        >
+            {isOpen ? "✖" : "☰"}
+        </button>
+
+          {isOpen && (
+            <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4 md:hidden z-50">
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-pink-600 text-lg manrope"
+              >
+                Home
+              </Link>
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-pink-600 text-lg manrope"
+              >
+                Blog
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-pink-600 text-lg manrope"
+              >
+                About Us
+              </Link>
+              <div className="border border-gray-300 rounded-md px-4 py-2 text-black text-base manrope">
+                <LangToggleButton />
+      </div>
+    </div>
+          )}
+        </div>
+      )}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/account" element={<Login />} />
+      </Routes>
+    </>
+  );
 }
 
 export default function App() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
-
-    const newMessages: Message[] = [...messages, { sender: "user", text: input }];
-    setMessages(newMessages);
-    setInput("");
-    setLoading(true); 
-
-    try {
-    const response = await fetch("https://api.kartinilove.ai/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
-      });
-
-      if (!response.ok) throw new Error(`Backend error: ${response.status}`);
-
-      const data = await response.json();
-      const reply = data.reply ?? "⚠️ No response";
-
-      setMessages((prev) => [...prev, { sender: "bot", text: reply }]);
-    } catch (err) {
-      console.error(err);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "Sorry, something went wrong" },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
-      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
-        Kartinilove.ai
-      </h1>
-
-      <div className="flex flex-col gap-4 border rounded-xl shadow-lg p-6 bg-white h-[500px] overflow-y-auto">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`px-4 py-2 rounded-2xl text-sm max-w-[75%] leading-relaxed shadow-sm ${
-                msg.sender === "user"
-                  ? "bg-pink-600 text-white rounded-br-none"
-                  : "bg-gray-100 text-gray-800 rounded-bl-none"
-              }`}
-            >
-              {msg.text}
-            </div>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-
-      <div className="mt-4 flex gap-2">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask the author something..."
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          disabled={loading}
-          className="flex-grow px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        />
-
-        <button
-          onClick={sendMessage}
-          disabled={loading}
-          className="bg-pink-600 text-white px-5 py-3 rounded-xl shadow-md hover:bg-pink-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? "Thinking..." : "Send"}
-        </button>
-      </div>
-    </div>
+    <LanguageProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </LanguageProvider>
   );
 }

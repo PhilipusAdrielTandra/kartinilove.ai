@@ -4,6 +4,10 @@ import fs from "fs";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import mysql from "mysql"
+
 
 dotenv.config();
 
@@ -14,6 +18,14 @@ app.use(bodyParser.json());
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+const db = mysql.createConnection({
+    user: 'root',
+    host: 'localhost',
+    password: '',
+    database: 'kartini',
+});
+
 
 let embedded = [];
 const embeddedFiles = fs.readdirSync(".").filter((file) =>
@@ -95,6 +107,82 @@ const messages = [
   } catch (err) {
     console.error("❌ OpenAI chat error:", err.message);
     res.status(500).json({ reply: "Chat completion failed." });
+  }
+});
+
+app.post("/register", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    db.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email],
+      async (err, results) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: "Database query error", error: err });
+        }
+
+        if (results.length > 0) {
+          return res.status(400).json({ message: "User already exists" });
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        db.query(
+          "INSERT INTO users (email, password) VALUES (?, ?)",
+          [email, hashedPassword],
+          (err, results) => {
+            if (err) {
+              return res
+                .status(500)
+                .json({ message: "Error inserting user", error: err });
+            }
+
+            res.status(201).json({ message: "User created successfully" });
+          }
+        );
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ message: "Error creating user", error });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const [rows] = await db.execute("SELECT id, password FROM users WHERE email = ?", [email]);
+    if (rows.length === 0) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    const user = rows[0];
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ id: user.id }, "secretkey", { expiresIn: "1h" });
+
+    res.json({ message: "Login successful", token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT id, email, created_at FROM users");
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch users" });
   }
 });
 
