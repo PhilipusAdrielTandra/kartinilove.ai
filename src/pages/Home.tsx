@@ -10,34 +10,38 @@ import Logo from "../assets/logo.png"
 
 const translations = {
   EN: {
-    hero_title: "Lorem Ipsum Dolor Sit Amet",
-    hero_subtitle: "Lorem ipsum dolor sit amet, consuectur adipiscing elit, sed o elusmad tempor incidunt ut labore et dolore magna aliqua.",
-    cta_explore: "Explore Now",
-    video_title_1: "Get to Know",
-    video_title_2: "Us",
-    benefit_title_1: "Key Benefit of",
-    benefit_title_2: "Our Services",
-    benefit_card_title_1: "Lorem Ipsum",
-    benefit_card_desc_1: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium neque.",
-    benefit_card_title_2: "Lorem Ipsum",
-    benefit_card_desc_2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium neque.",
-    benefit_card_title_3: "Lorem Ipsum",
-    benefit_card_desc_3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed pulvinar leo. Donec in orci iaculis, lacinia nulla at, pretium neque.",
+    hero_title: "Kartini as AI, Technology that Listens and Empowers",
+    hero_subtitle: "Welcome to KartiniLove.ai, a revolutionary platform where Kartini’s spirit, wisdom, and empathy not only live in history but are brought to life through artificial intelligence (AI).",
+    cta_explore: "Explore",
+    video_title_1: "Get to Know Us",
+    video_title_2: "Better",
+    benefit_title_1: "Key Benefits",
+    benefit_title_2: "of Our Services",
+    benefit_card_title_1: "Consulting",
+    benefit_card_desc_1: "Customized Agentic AI consulting services (HR, Finance, Legal). Legal solutions include legal education, contract review, opinion, and compliance check.",
+    benefit_card_title_2: "Tools / Technology – KartiniLove.ai",
+    benefit_card_desc_2: "An Agentic AI platform for women & organizations. Full or modular access to: Mental Health, Womenpreneur, and Law.",
+    benefit_card_title_3: "Education",
+    benefit_card_desc_3: "Women’s leadership development programs: Kartini Leadership School (KALIS) and customized In-house Women Leadership Training.",
     how_it_works: "How It Works",
-    how_step_title: "Lorem Ipsum Sit Amet",
-    how_step_desc: "Lorem ipsum dolor sit amet, consectetur",
+    how_step_title_1: "You can start by trying",
+    how_step_desc_1: "by entering a prompt that fits your needs and begin exploring.",
+    how_step_title_2: "Our AI will respond",
+    how_step_desc_2: "guided by Kartini’s values that uphold women’s equality.",
+    how_step_title_3: "You can continue interacting",
+    how_step_desc_3: "and learning from our AI about how women can thrive in today’s world.",
     collab_title: "Collaboration & Partnership",
     faq_title: "Frequently Asked Questions",
-    faq_q1: "Lore ipsum sit amet consectetur adipiscing elit",
-    faq_a1: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi.",
-    faq_q2: "Lore ipsum sit amet consectetur adipiscing elit",
-    faq_a2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi.",
-    faq_q3: "Lore ipsum sit amet consectetur adipiscing elit",
-    faq_a3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi.",
-    faq_q4: "Lore ipsum sit amet consectetur adipiscing elit",
-    faq_a4: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi.",
-    faq_q5: "Lore ipsum sit amet consectetur adipiscing elit",
-    faq_a5: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, leo sit amet viverra ultrices, lorem ante accumsan mi.",
+    faq_q1: "Why is it important to discuss women in technology?",
+    faq_a1: "Because it helps open equal opportunities, enrich diverse perspectives, and accelerate inclusive innovation.",
+    faq_q2: "What are the main challenges women face in the tech sector?",
+    faq_a2: "Gender bias, social stereotypes, and the lack of female role models in tech leadership positions.",
+    faq_q3: "How can technology empower women?",
+    faq_a3: "Technology helps enhance skills, support entrepreneurship, and provide safe spaces for innovation.",
+    faq_q4: "What role can men play as allies in supporting women in technology?",
+    faq_a4: "By promoting inclusivity, challenging gender bias in the workplace, and supporting fair policies.",
+    faq_q5: "How can we encourage more women to enter the tech world?",
+    faq_a5: "Through wider access to STEM education, inclusive work environments, and showcasing inspiring role models.",
   },
   INA: {
     hero_title: "Kartini sebagai AI,  teknologi yang mendengar dan memberdayakan",
@@ -54,8 +58,12 @@ const translations = {
     benefit_card_title_3: "Education",
     benefit_card_desc_3: "Program pengembangan kepemimpinan perempuan: Sekolah Kepemimpinan Kartini (KALIS) dan Inhouse Training Women Leadership (customised).",
     how_it_works: "Cara Kerja",
-    how_step_title: "Lorem Ipsum Sit Amet",
-    how_step_desc: "Lorem ipsum dolor sit amet, consectetur",
+    how_step_title_1: "Anda dapat mulai mencoba",
+    how_step_desc_1: "dengan memasukkan prompt yang sesuai mulai mencoba dengan memasukkan prompt yang sesuai",
+    how_step_title_2: "AI kami akan menjawab",
+    how_step_desc_2: "sesuai dengan nilai Kartini yang menjunjung tinggi kesetaraan perempuan",
+    how_step_title_3: "Anda bisa terus berinteraksi",
+    how_step_desc_3: "dan belajar dari AI kami tentang bagaimana perempuan menjadi lebih baik di era sekarang ini",
     collab_title: "Kolaborasi & Kemitraan",
     faq_title: "Pertanyaan yang Sering Diajukan",
     faq_q1: "Mengapa penting membahas perempuan dalam bidang teknologi?",
@@ -76,7 +84,6 @@ export default function Home() {
   const t = (key: keyof typeof translations["EN"]) => translations[language][key];
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
 
-  // FAQ data structure
   const faqData = [
     {
       id: 1,
@@ -127,11 +134,11 @@ export default function Home() {
           z-0 bg-[radial-gradient(circle_at_130%_50%,_rgba(239,7,83,0.70)_13%,_rgba(239,7,83,0.45)_22%,_transparent_40%)]" />
         <img
           src={Hero}
-          className=" md:w-6xl absolute right-60 bottom-100 sm:-left-180 top-0 sm:mt-44 md:-left-145 md:mt-20 lg:-left-180 lg:-mt-40 z-10"
+          className="lg:w-6xl absolute right-60 bottom-100 sm:-left-180 top-0 sm:mt-44 md:-left-145 md:-mt-80 lg:-left-180 lg:-mt-40 z-10"
         />
         <img
           src={Hero}
-          className="md:w-7xl w-4xl absolute bottom-50 -right-50 sm:-bottom-50 sm:-right-44 md:bottom-130 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
+          className="lg:w-7xl w-4xl absolute bottom-50 -right-50 sm:-bottom-50 sm:-right-44 md:bottom-25 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
           />
         <div className="min-h-screen flex flex-col pt-20 -translate-y-28 sm:translate-y-0 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
           <h1 className="text-2xl  sm:w-auto sm:text-5xl lg:text-5xl mb-2 md:mb-4 w-70 lg:w-3xl text-center title-font">{t("hero_title")}</h1>
@@ -237,8 +244,8 @@ export default function Home() {
                </div>
                <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
                  <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
-                                        <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title")}</h1>
-                    <p className="text-sm md:text-base manrope">{t("how_step_desc")}</p>
+                                        <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title_1")}</h1>
+                    <p className="text-sm md:text-base manrope">{t("how_step_desc_1")}</p>
                  </div>
                </div>
              </div>
@@ -248,8 +255,8 @@ export default function Home() {
                </div>
                <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
                  <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
-                                        <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title")}</h1>
-                    <p className="text-sm md:text-base manrope">{t("how_step_desc")}</p>
+                                        <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title_2")}</h1>
+                    <p className="text-sm md:text-base manrope">{t("how_step_desc_2")}</p>
                  </div>
                </div>
              </div>
@@ -259,8 +266,8 @@ export default function Home() {
                </div>
                <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
                  <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
-                                        <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title")}</h1>
-                    <p className="text-sm md:text-base manrope">{t("how_step_desc")}</p>
+                                        <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title_3")}</h1>
+                    <p className="text-sm md:text-base manrope">{t("how_step_desc_3")}</p>
                  </div>
                </div>
              </div>
@@ -313,7 +320,7 @@ export default function Home() {
                                              <span className="manrope font-bold">{faq.id < 10 ? `0${faq.id}` : faq.id}</span>
                     </div>
                     <div className="flex-1">
-                                             <p className="sm:text-xl text-gray-800 manrope">
+                                             <p className="sm:text-xl text-gray-800 manrope m-2">
                         {faq.question}
                       </p>
                       {expandedItems.includes(faq.id) && (
@@ -321,7 +328,7 @@ export default function Home() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                                                     className="text-gray-800 text-sm mt-2 manrope"
+                                                     className="text-gray-800 text-sm mt-2 manrope m-2"
                         >
                           {faq.answer}
                         </motion.p>
@@ -358,7 +365,7 @@ export default function Home() {
                                              <span className="manrope font-bold">{faq.id < 10 ? `0${faq.id}` : faq.id}</span>
                     </div>
                     <div className="flex-1">
-                                             <p className="sm:text-xl text-gray-800 manrope">
+                                             <p className="sm:text-xl text-gray-800 manrope m-2">
                         {faq.question}
                       </p>
                       {expandedItems.includes(faq.id) && (
@@ -366,7 +373,7 @@ export default function Home() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                                                     className="text-gray-800 text-sm mt-2 manrope"
+                                                     className="text-gray-800 text-sm mt-2 manrope m-2"
                         >
                           {faq.answer}
                         </motion.p>
@@ -387,8 +394,8 @@ export default function Home() {
            <div className="w-full md:w-1/3 mb-2 sm:mb-4 md:mb-6 lg:mb-8">
              <img src={Logo} className="w-32 sm:w-36 md:w-40 lg:w-44 mb-4 sm:mb-6 md:mb-8 lg:mb-10 ml-0 sm:ml-2 md:ml-4 lg:ml-6"/>
              <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10 max-w-xl space-y-2 sm:space-y-3 md:space-y-4">
-                                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Corporate Head Office</span>: 3787 Jerry Dove Drive, Florence, South Carolina, 29501, United States.</h3>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: 000-000-000-000</p>
+                                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Corporate Head Office</span>: Jl. Duta Boulevard Barat Blok D, No. 37B, Harapn Baru, Bekasi Utara, Bekasi</h3>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: +62 812 9550 4364</p>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
            </div>
            </div>
