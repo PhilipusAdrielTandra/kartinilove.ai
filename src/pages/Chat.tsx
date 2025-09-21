@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from "react"; 
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom"; 
+import { Link } from "react-router-dom"; 
 import { useLanguage } from "../contexts/LanguageContext";
 import Logo from "../assets/logo.png" 
 import Gradient from "../assets/gradient.png" 
 import SmallPlus from "../assets/small_plus.png" 
 import Folder from "../assets/folder.png" 
 import ChatBubble from "../assets/chat.png" 
-import More from "../assets/more.png" 
 import Icon from "../assets/icon.svg" 
 import ChatIcon from "../assets/aiicon.svg" 
 
@@ -49,9 +48,17 @@ export default function Chat() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); 
   
   const chats = [ 
-    { id: "1", title: "Lorem Ipsum" }, 
-    { id: "2", title: "Lorem Ipsum" }, 
-    { id: "3", title: "Lorem Ipsum" }, 
+    { id: "1", title: "Women's Rights in Indonesia" }, 
+    { id: "2", title: "Starting a Business as a Woman" }, 
+    { id: "3", title: "Legal Protection for Women" }, 
+
+  ];
+
+  const categories = [
+    { id: "1", title: "Women's Rights & Law" },
+    { id: "2", title: "Entrepreneurship" },
+    { id: "3", title: "Education & Learning" },
+
   ]; 
 
   const sendMessage = async () => { 
@@ -120,67 +127,73 @@ export default function Chat() {
             </button>
       </div>
       
-      <aside className={`w-64 bg-white text-black flex flex-col m-3 ml-5 md:ml-3 rounded-4xl transition-all duration-500 ease-in-out transform p-4 md:p-3 ${
+      <aside className={`w-64 bg-white text-black flex flex-col mt-0 mb-3 ml-5 md:ml-3 rounded-4xl transition-all duration-500 ease-in-out transform overflow-hidden ${
         isSidebarOpen 
-          ? 'fixed left-0 top-20 md:top-0 z-20 h-[calc(100vh-11rem)] md:h-full translate-x-0 opacity-100' 
-          : 'fixed left-0 top-20 md:top-0 z-20 h-[calc(100vh-11rem)] md:h-full -translate-x-full opacity-0 md:opacity-100 md:translate-x-0 md:relative md:block'
+          ? 'fixed left-0 top-24 md:top-4 z-20 h-[calc(100vh-11rem)] md:h-[calc(100vh-2rem)] translate-x-0 opacity-100' 
+          : 'fixed left-0 top-24 md:top-4 z-20 h-[calc(100vh-11rem)] md:h-[calc(100vh-2rem)] -translate-x-full opacity-0 md:opacity-100 md:translate-x-0 md:relative md:block'
       }`}> 
-        {/* Desktop Logo - Hidden on mobile */}
-        <Link to={"/"} className="hidden md:block"> 
-          <img className="w-40 mx-auto mt-4 mb-2" src={Logo} /> 
-        </Link>
-        
-        {/* Start new chat */} 
-        <div 
-          className="rounded-3xl px-4 py-3 md:px-4 md:py-4 cursor-pointer flex items-center hover:bg-gray-100"
-          onClick={() => {
-            setMessages([]);
-            setActiveChat(null);
-            setIsSidebarOpen(false);
-          }}
-        > 
-          <span className="text-base md:text-lg">{t("begin_new_chat")}</span> 
-          <img src={SmallPlus} alt="plus" className="ml-auto w-4 h-4 md:w-5 md:h-5" /> 
-        </div> 
-        
-        {/* Search */} 
-        <div className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer bg-gray-200"> 
-          <span className="text-base md:text-lg">{t("search")}</span>
-        </div> 
-        
-        {/* Recent Chats Section */} 
-        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">{t("recent_chats")}</div> 
-        <div className="overflow-y-auto"> 
-          {chats.map((chat) => ( 
-            <div 
-              key={chat.id} 
-              onClick={() => { 
-                setActiveChat(chat.id); 
-                setMessages([]); 
-                setIsSidebarOpen(false);
-              }} 
-              className={`mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-100 flex items-center gap-2 ${ 
-                activeChat === chat.id ? "bg-gray-200" : "" 
-              }`} 
-            > 
-              <img src={ChatBubble} alt="chat" className="w-4 h-4 md:w-5 md:h-5" /> 
-              <span className="text-base md:text-lg">{chat.title}</span>
-            </div> 
-          ))} 
-        </div> 
-        
-        {/* Category Section */} 
-        <div className="mt-4 px-4 py-2 md:px-4 md:py-2 text-base md:text-lg font-medium">{t("category")}</div> 
-        <div className="overflow-y-auto"> 
-          {chats.map((category) => ( 
-            <div 
-              key={category.id} 
-              className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-100 flex items-center gap-2" 
-            > 
-              <img src={Folder} alt="folder" className="w-4 h-4 md:w-5 md:h-5" /> 
-              <span className="text-base md:text-lg">{category.title}</span>
-            </div> 
-          ))} 
+        {/* Fixed Header Section */}
+        <div className="flex-shrink-0 p-4 md:p-3">
+          {/* Desktop Logo - Hidden on mobile */}
+          <Link to={"/"} className="hidden md:block"> 
+            <img className="w-40 mx-auto mt-4 mb-2" src={Logo} /> 
+          </Link>
+          
+          {/* Start new chat */} 
+          <div 
+            className="rounded-3xl px-4 py-3 md:px-4 md:py-4 cursor-pointer flex items-center hover:bg-gray-100 min-w-0"
+            onClick={() => {
+              setMessages([]);
+              setActiveChat(null);
+              setIsSidebarOpen(false);
+            }}
+          > 
+            <span className="text-base md:text-lg truncate flex-1">{t("begin_new_chat")}</span> 
+            <img src={SmallPlus} alt="plus" className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" /> 
+          </div> 
+          
+          {/* Search */} 
+          <div className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer bg-gray-200 mt-2 min-w-0"> 
+            <span className="text-base md:text-lg truncate">{t("search")}</span>
+          </div> 
+        </div>
+
+        {/* Scrollable Content Section */}
+        <div className="flex-1 overflow-y-auto px-4 md:px-3 pb-4 md:pb-3">
+          {/* Recent Chats Section */} 
+          <div className="px-0 py-2 text-base md:text-lg font-medium">{t("recent_chats")}</div> 
+          <div className="space-y-1"> 
+            {chats.map((chat) => ( 
+              <div 
+                key={chat.id} 
+                onClick={() => { 
+                  setActiveChat(chat.id); 
+                  setMessages([]); 
+                  setIsSidebarOpen(false);
+                }} 
+                className={`mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-100 flex items-center gap-2 min-w-0 ${ 
+                  activeChat === chat.id ? "bg-gray-200" : "" 
+                }`} 
+              > 
+                <img src={ChatBubble} alt="chat" className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" /> 
+                <span className="text-base md:text-lg truncate">{chat.title}</span>
+              </div> 
+            ))} 
+          </div> 
+          
+          {/* Category Section */} 
+          <div className="px-0 py-2 text-base md:text-lg font-medium mt-4">{t("category")}</div> 
+          <div className="space-y-1"> 
+            {categories.map((category) => ( 
+              <div 
+                key={category.id} 
+                className="mx-2 rounded-xl px-4 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-100 flex items-center gap-2 min-w-0" 
+              > 
+                <img src={Folder} alt="folder" className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" /> 
+                <span className="text-base md:text-lg truncate">{category.title}</span>
+              </div> 
+            ))} 
+          </div>
         </div> 
       </aside> 
       
