@@ -6,7 +6,13 @@ import { useLanguage } from "../contexts/LanguageContext";
 import Hero from "../assets/hero.svg";
 import Star from "../assets/star.png";
 import Plus from "../assets/plus.png";
-import Logo from "../assets/logo.png"
+import Logo from "../assets/logo.png";
+import PrivasimuLogo from "../assets/privasimu_logo.svg";
+import HeylawLogo from "../assets/heylaw_logo.svg";
+import BareskrimLogo from "../assets/bareskrim_polri_logo.png";
+import UnWomenLogo from "../assets/un_women_logo.png";
+import UnescoLogo from "../assets/unesco_logo.png";
+import UniversitasIndonesiaLogo from "../assets/universitas_indonesia_logo.webp";
 
 const translations = {
   EN: {
@@ -279,13 +285,25 @@ export default function Home() {
       {/* Collaboration Section */}
       <div className="sm:pb-48 flex flex-col items-center text-center px-4">
                  <h1 className="text-2xl sm:text-5xl mb-12 title-font">{t("collab_title")}</h1>
-        <div className="flex flex-wrap justify-center gap-6 sm:gap-15 max-w-4xl">
-          {Array.from({ length: 9 }).map((_, index) => (
-            <div
-              key={index}
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-300"
-            ></div>
-          ))}
+        <div className="flex flex-wrap justify-center gap-6 sm:gap-15 max-w-5xl">
+          <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 p-4 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={PrivasimuLogo} alt="Privasimu" className="w-full h-full object-contain" />
+          </div>
+          <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 p-4 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={HeylawLogo} alt="Heylaw" className="w-full h-full object-contain" />
+          </div>
+          <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 p-4 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={BareskrimLogo} alt="Bareskrim POLRI" className="w-full h-full object-contain" />
+          </div>
+          <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 p-4 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={UnWomenLogo} alt="UN Women" className="w-full h-full object-contain" />
+          </div>
+          <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 p-4 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={UnescoLogo} alt="UNESCO" className="w-full h-full object-contain" />
+          </div>
+          <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 p-4 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={UniversitasIndonesiaLogo} alt="Universitas Indonesia" className="w-full h-full object-contain" />
+          </div>
         </div>
       </div>
 
@@ -394,9 +412,10 @@ export default function Home() {
            <div className="w-full md:w-1/3 mb-2 sm:mb-4 md:mb-6 lg:mb-8">
              <img src={Logo} className="w-32 sm:w-36 md:w-40 lg:w-44 mb-4 sm:mb-6 md:mb-8 lg:mb-10 ml-0 sm:ml-2 md:ml-4 lg:ml-6"/>
              <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10 max-w-xl space-y-2 sm:space-y-3 md:space-y-4">
-                                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Corporate Head Office</span>: Jl. Duta Boulevard Barat Blok D, No. 37B, Harapn Baru, Bekasi Utara, Bekasi</h3>
+                                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Office 1: Corporate Head Office</span><br/> Jl. Duta Boulevard Barat Blok D, No. 37B, Harapn Baru, Bekasi Utara, Bekasi</h3>
+                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Office 2: Documenta Technology</span><br/>Documenta HQ Jl. Yusuf Adiwinata No.34, RT.2/RW.1, Gondangdia, Kota, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10350</h3>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: +62 812 9550 4364</p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: support@kartinilove.ai</p>
            </div>
            </div>
            

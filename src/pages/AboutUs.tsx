@@ -4,15 +4,15 @@ import { useLanguage } from "../contexts/LanguageContext";
 const translations = {
   EN: {
     about_breadcrumb: "About Us",
-    title_line1: "Mendampingi Perempuan",
-    title_line2: "Tumbuh Berdaya",
-    title_line3: "di Era Digital",
-    intro_p: "Inovasi perusahaan teknologi, yang memanfaatkan AI untuk menemani perempuan tumbuh menjadi sosok yang berani, cerdas dan berdaya.\n\nTerinspirasi oleh semangat Kartini, kami hadir untuk melangkah bersama dalam menghadapi tantangan edukasi, kesehatan mental, pelindungan hukum, hingga pemberdayaan ekonomi. Dipimpin oleh perempuan-perempuan hebat di bidang teknologi, kami berkomitmen mewujudkan perubahan positif dan berkelanjutan di era digital saat ini.",
+    title_line1: "Supporting Women",
+    title_line2: "To Grow Empowered In",
+    title_line3: "the Digital Era",
+    intro_p: "A technology company innovation that leverages AI to accompany women as they grow into courageous, intelligent, and empowered individuals.\n\nInspired by Kartini’s spirit, we are here to walk together through the challenges of education, mental health, legal protection, and economic empowerment. Led by outstanding women in technology, we are committed to creating positive and sustainable change in today’s digital era.",
     commitment_title: "Our Commitment",
-    c1: "Mendorong inklusivitas dan kesetaraan gender di dunia teknologi dan profesional",
-    c2: "Menyediakan akses edukasi untuk perempuan agar lebih berdaya – baik secara intelektual, emosional, maupun hukum",
-    c3: "Menjadi tempat perempuan belajar melindungi diri, mengenal haknya, dan memiliki keberanian untuk melawan kekerasan",
-    c4: "Menyediakan bantuan hukum dan edukasi berbasis data dan empati",
+    c1: "Promote inclusivity and gender equality in technology and professional fields",
+    c2: "Provide access to education so women become more empowered—intellectually, emotionally, and legally",
+    c3: "Be a place where women learn to protect themselves, know their rights, and have the courage to stand against violence",
+    c4: "Offer legal assistance and education grounded in data and empathy",
   },
   INA: {
     about_breadcrumb: "About Us",
@@ -131,9 +131,10 @@ export default function AboutUs() {
             <div className="w-full md:w-1/3 mb-2 sm:mb-4 md:mb-6 lg:mb-8">
               <img src={Logo} className="w-32 sm:w-36 md:w-40 lg:w-44 mb-4 sm:mb-6 md:mb-8 lg:mb-10 ml-0 sm:ml-2 md:ml-4 lg:ml-6"/>
               <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10 max-w-xl space-y-2 sm:space-y-3 md:space-y-4">
-                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Corporate Head Office</span>: Jl. Duta Boulevard Barat Blok D, No. 37B, Harapn Baru, Bekasi Utara, Bekasi</h3>
+                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Office 1: Corporate Head Office</span><br/> Jl. Duta Boulevard Barat Blok D, No. 37B, Harapn Baru, Bekasi Utara, Bekasi</h3>
+                <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Office 2: Documenta Technology</span><br/>Documenta HQ Jl. Yusuf Adiwinata No.34, RT.2/RW.1, Gondangdia, Kota, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10350</h3>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: +62 812 9550 4364</p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: support@kartinilove.ai</p>
               </div>
             </div>
             
