@@ -4,15 +4,15 @@ import { useLanguage } from "../contexts/LanguageContext";
 const translations = {
   EN: {
     about_breadcrumb: "About Us",
-    title_line1: "Mendampingi Perempuan",
-    title_line2: "Tumbuh Berdaya",
-    title_line3: "di Era Digital",
-    intro_p: "Inovasi perusahaan teknologi, yang memanfaatkan AI untuk menemani perempuan tumbuh menjadi sosok yang berani, cerdas dan berdaya.\n\nTerinspirasi oleh semangat Kartini, kami hadir untuk melangkah bersama dalam menghadapi tantangan edukasi, kesehatan mental, pelindungan hukum, hingga pemberdayaan ekonomi. Dipimpin oleh perempuan-perempuan hebat di bidang teknologi, kami berkomitmen mewujudkan perubahan positif dan berkelanjutan di era digital saat ini.",
+    title_line1: "Supporting Women",
+    title_line2: "To Grow Empowered In",
+    title_line3: "the Digital Era",
+    intro_p: "A technology company innovation that leverages AI to accompany women as they grow into courageous, intelligent, and empowered individuals.\n\nInspired by Kartini’s spirit, we are here to walk together through the challenges of education, mental health, legal protection, and economic empowerment. Led by outstanding women in technology, we are committed to creating positive and sustainable change in today’s digital era.",
     commitment_title: "Our Commitment",
-    c1: "Mendorong inklusivitas dan kesetaraan gender di dunia teknologi dan profesional",
-    c2: "Menyediakan akses edukasi untuk perempuan agar lebih berdaya – baik secara intelektual, emosional, maupun hukum",
-    c3: "Menjadi tempat perempuan belajar melindungi diri, mengenal haknya, dan memiliki keberanian untuk melawan kekerasan",
-    c4: "Menyediakan bantuan hukum dan edukasi berbasis data dan empati",
+    c1: "Promote inclusivity and gender equality in technology and professional fields",
+    c2: "Provide access to education so women become more empowered—intellectually, emotionally, and legally",
+    c3: "Be a place where women learn to protect themselves, know their rights, and have the courage to stand against violence",
+    c4: "Offer legal assistance and education grounded in data and empathy",
   },
   INA: {
     about_breadcrumb: "About Us",
