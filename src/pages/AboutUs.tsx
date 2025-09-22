@@ -134,7 +134,7 @@ export default function AboutUs() {
                 <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Office 1: Corporate Head Office</span><br/> Jl. Duta Boulevard Barat Blok D, No. 37B, Harapn Baru, Bekasi Utara, Bekasi</h3>
                 <h3 className="mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 break-words manrope"><span className="font-semibold">Office 2: Documenta Technology</span><br/>Documenta HQ Jl. Yusuf Adiwinata No.34, RT.2/RW.1, Gondangdia, Kota, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10350</h3>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-4 manrope"><span className="font-semibold">Phone</span>: +62 812 9550 4364</p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: kartiniloveai.com</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 manrope"><span className="font-semibold">Email</span>: support@kartinilove.ai</p>
               </div>
             </div>
             
