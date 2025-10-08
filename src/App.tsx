@@ -4,6 +4,8 @@ import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import AboutUs from "./pages/AboutUs";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Logo from "./assets/logo.png";
 import Login from "./pages/Login";
 
@@ -44,8 +46,10 @@ function Layout() {
               Home
             </Link>
             <Link
-              to="/"
-              className="relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope"
+              to="/blog"
+              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
+                location.pathname.startsWith("/blog") ? "text-pink-600 after:w-full" : ""
+              }`}
             >
               Blog
             </Link>
@@ -87,9 +91,11 @@ function Layout() {
                 Home
               </Link>
               <Link
-                to="/"
+                to="/blog"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-pink-600 text-lg manrope"
+                className={`hover:text-pink-600 text-lg manrope ${
+                  location.pathname.startsWith("/blog") ? "text-pink-600" : ""
+                }`}
               >
                 Blog
               </Link>
@@ -111,6 +117,8 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/account" element={<Login />} />
       </Routes>
