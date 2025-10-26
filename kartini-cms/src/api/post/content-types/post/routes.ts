@@ -1,4 +1,15 @@
-import factories from '@strapi/strapi/dist/core-api';
-
-export default factories.createCoreRouter('api::post.post');
+export default {
+  routes: [
+    {
+      method: 'GET',
+      path: '/posts',
+      handler: 'api::post.post.find',
+    },
+    {
+      method: 'GET',
+      path: '/posts/:id',
+      handler: 'api::post.post.findOne',
+    },
+  ],
+};
 
