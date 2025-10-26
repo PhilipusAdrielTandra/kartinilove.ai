@@ -15,9 +15,18 @@ type BlogPost = {
 
 async function fetchPosts(): Promise<BlogPost[]> {
   const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  const resolveMediaUrl = (url?: string) => {
+    if (!url) return "";
+    if (url.startsWith("http")) return url;
+    if (!base) return url;
+    return base.replace(/\/$/, "") + url;
+  };
   try {
     if (!base) throw new Error("no-strapi");
-    const res = await fetch(`${base}/api/posts?populate=cover`);
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?populate=cover`, { headers });
     const json = await res.json();
     const items = (json?.data || []) as any[];
     return items.map((item) => ({
@@ -25,7 +34,7 @@ async function fetchPosts(): Promise<BlogPost[]> {
       title: item.attributes.title,
       excerpt: item.attributes.excerpt ?? "",
       category: item.attributes.category ?? "Technology",
-      coverUrl: item.attributes.cover?.data?.attributes?.url ?? "",
+      coverUrl: resolveMediaUrl(item.attributes.cover?.data?.attributes?.url),
       author: item.attributes.author ?? "Jane Doe",
       createdAt: item.attributes.publishedAt ?? item.attributes.createdAt,
       slug: item.attributes.slug ?? String(item.id),

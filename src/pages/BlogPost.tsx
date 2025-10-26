@@ -16,9 +16,18 @@ type BlogPost = {
 
 async function fetchPost(slug: string): Promise<BlogPost> {
   const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  const resolveMediaUrl = (url?: string) => {
+    if (!url) return "";
+    if (url.startsWith("http")) return url;
+    if (!base) return url;
+    return base.replace(/\/$/, "") + url;
+  };
   try {
     if (!base) throw new Error("no-strapi");
-    const res = await fetch(`${base}/api/posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=cover`);
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=cover`, { headers });
     const json = await res.json();
     const item = (json?.data?.[0]) as any;
     if (!item) throw new Error("not-found");
@@ -27,7 +36,7 @@ async function fetchPost(slug: string): Promise<BlogPost> {
       title: item.attributes.title,
       content: item.attributes.content ?? "",
       category: item.attributes.category ?? "FYI",
-      coverUrl: item.attributes.cover?.data?.attributes?.url ?? "",
+      coverUrl: resolveMediaUrl(item.attributes.cover?.data?.attributes?.url),
       author: item.attributes.author ?? "Jane",
       createdAt: item.attributes.publishedAt ?? item.attributes.createdAt,
       slug: item.attributes.slug ?? String(item.id)
