@@ -24,9 +24,23 @@ async function fetchPosts(): Promise<BlogPost[]> {
   };
   try {
     if (!base) throw new Error("no-strapi");
+    const url = `${base.replace(/\/$/, "")}/api/posts?populate=cover`;
+    console.log("Fetching from:", url);
     const headers: Record<string, string> = {};
     if (token) headers["Authorization"] = `Bearer ${token}`;
-    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?populate=cover`, { headers });
+    const res = await fetch(url, { headers });
+    if (!res.ok) {
+      console.error("API error:", res.status, res.statusText);
+      const text = await res.text();
+      console.error("Response:", text);
+      
+      if (res.status === 404) {
+        throw new Error("Post content type not found. Is it deployed in Strapi Cloud?");
+      } else if (res.status === 403) {
+        throw new Error("Permission denied. Enable 'find' for Public role in Strapi Settings");
+      }
+      throw new Error(`API returned ${res.status}`);
+    }
     const json = await res.json();
     const items = (json?.data || []) as any[];
     return items.map((item) => ({
@@ -39,7 +53,9 @@ async function fetchPosts(): Promise<BlogPost[]> {
       createdAt: item.attributes.publishedAt ?? item.attributes.createdAt,
       slug: item.attributes.slug ?? String(item.id),
     }));
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch posts from Strapi:", error);
+    console.log("Strapi URL:", base);
     // placeholder content when Strapi is not available yet
     return Array.from({ length: 9 }).map((_, i) => ({
       id: i + 1,
@@ -66,7 +82,10 @@ export default function Blog() {
       .then((p) => {
         if (mounted) setPosts(p);
       })
-      .catch(() => setError("Failed to load posts"))
+      .catch((err) => {
+        console.error("Error loading posts:", err);
+        setError("Failed to load posts");
+      })
       .finally(() => setLoading(false));
     return () => {
       mounted = false;
