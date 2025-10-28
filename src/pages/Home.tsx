@@ -1,12 +1,13 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 
-import Hero from "../assets/hero.svg";
-import Star from "../assets/star.png";
+import HeroNew from "../assets/hero_new.jpg";
 import Plus from "../assets/plus.png";
-import Logo from "../assets/logo.png";
+import ConsultingLogo from "../assets/consulting_logo.png";
+import ToolsTechnologiesLogo from "../assets/tools_technologies_logo.png";
+import EducationLogo from "../assets/education_logo.png";
 import Footer from "../components/Footer";
 import PrivasimuLogo from "../assets/privasimu_logo.svg";
 import HeylawLogo from "../assets/heylaw_logo.svg";
@@ -18,8 +19,8 @@ import UniversitasIndonesiaLogo from "../assets/universitas_indonesia_logo.webp"
 const translations = {
   EN: {
     hero_title: "Kartini as AI, Technology that Listens and Empowers",
-    hero_subtitle: "Welcome to KartiniLove.ai, a revolutionary platform where Kartini’s spirit, wisdom, and empathy not only live in history but are brought to life through artificial intelligence (AI).",
-    cta_explore: "Explore",
+    hero_subtitle: "Welcome to KartiniLove.ai, a revolutionary platform where Kartini's spirit, wisdom, and empathy not only live in history but are brought to life through artificial intelligence (AI).",
+    cta_explore: "Explore Now",
     video_title_1: "Get to Know Us",
     video_title_2: "Better",
     benefit_title_1: "Key Benefits",
@@ -29,14 +30,14 @@ const translations = {
     benefit_card_title_2: "Tools / Technology – KartiniLove.ai",
     benefit_card_desc_2: "An Agentic AI platform for women & organizations. Full or modular access to: Mental Health, Womenpreneur, and Law.",
     benefit_card_title_3: "Education",
-    benefit_card_desc_3: "Women’s leadership development programs: Kartini Leadership School (KALIS) and customized In-house Women Leadership Training.",
+    benefit_card_desc_3: "Women's leadership development programs: Kartini Leadership School (KALIS) and customized In-house Women Leadership Training.",
     how_it_works: "How It Works",
     how_step_title_1: "You can start by trying",
     how_step_desc_1: "by entering a prompt that fits your needs and begin exploring.",
     how_step_title_2: "Our AI will respond",
-    how_step_desc_2: "guided by Kartini’s values that uphold women’s equality.",
+    how_step_desc_2: "guided by Kartini's values that uphold women's equality.",
     how_step_title_3: "You can continue interacting",
-    how_step_desc_3: "and learning from our AI about how women can thrive in today’s world.",
+    how_step_desc_3: "and learning from our AI about how women can thrive in today's world.",
     collab_title: "Collaboration & Partnership",
     faq_title: "Frequently Asked Questions",
     faq_q1: "Why is it important to discuss women in technology?",
@@ -53,7 +54,7 @@ const translations = {
   INA: {
     hero_title: "Kartini sebagai AI,  teknologi yang mendengar dan memberdayakan",
     hero_subtitle: "Selamat datang di KartiniLove.ai, sebuah platform revolusioner di mana semangat, kebijaksanaan dan empati Kartini tidak hanya tersimpan dalam lembaran sejarah, tetapi hidup kembali dalam wujud kecerdasan buatan (AI).",
-    cta_explore: "Jelajahi",
+    cta_explore: "Jelajahi Sekarang",
     video_title_1: "Kenal Lebih",
     video_title_2: "Dekat",
     benefit_title_1: "Manfaat Utama",
@@ -70,7 +71,7 @@ const translations = {
     how_step_title_2: "AI kami akan menjawab",
     how_step_desc_2: "sesuai dengan nilai Kartini yang menjunjung tinggi kesetaraan perempuan",
     how_step_title_3: "Anda bisa terus berinteraksi",
-    how_step_desc_3: "dan belajar dari AI kami tentang bagaimana perempuan menjadi lebih baik di era sekarang ini",
+    how_step_desc_3: "dan belajar dari AI kami tentang bagaimana perempuan menjadi lebih baik di era sekarang ini",
     collab_title: "Kolaborasi & Kemitraan",
     faq_title: "Pertanyaan yang Sering Diajukan",
     faq_q1: "Mengapa penting membahas perempuan dalam bidang teknologi?",
@@ -128,32 +129,29 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-x-hidden bg-[#FFE7EA]">
-      {/* Hero Section with Gradient Background */}
-      <div className="relative max-h-screen">
-        <div className="absolute inset-0 w-1/2 -translate-y-28 sm:translate-y-0
-          lg:bg-[radial-gradient(circle_at_-20%_-10%,_rgba(239,7,83,0.85)_18%,_rgba(239,7,83,0.50)_30%,_transparent_60%)]
-          md:bg-[radial-gradient(circle_at_-30%_-10%,_rgba(239,7,83,0.85)_10%,_rgba(239,7,83,0.45)_19%,_transparent_40%)] 
-          z-0 bg-[radial-gradient(circle_at_-30%_50%,_rgba(239,7,83,0.70)_13%,_rgba(239,7,83,0.45)_22%,_transparent_40%)]" />
-        <div className="absolute inset-0 left-1/2 w-1/2 -translate-y-28 sm:translate-y-0
-          lg:bg-[radial-gradient(circle_at_120%_-10%,_rgba(239,7,83,0.85)_18%,_rgba(239,7,83,0.50)_30%,_transparent_60%)]
-          md:bg-[radial-gradient(circle_at_130%_-10%,_rgba(239,7,83,0.85)_10%,_rgba(239,7,83,0.45)_19%,_transparent_40%)] 
-          z-0 bg-[radial-gradient(circle_at_130%_50%,_rgba(239,7,83,0.70)_13%,_rgba(239,7,83,0.45)_22%,_transparent_40%)]" />
-        <img
-          src={Hero}
-          className="lg:w-6xl absolute right-60 bottom-100 sm:-left-180 top-0 sm:mt-44 md:-left-145 md:-mt-80 lg:-left-180 lg:-mt-40 z-10"
+    <div className="overflow-x-hidden bg-white">
+      {/* Hero Section with New Background */}
+      <div className="relative min-h-screen">
+        <img 
+          src={HeroNew} 
+          className="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
+          alt="Hero background"
         />
-        <img
-          src={Hero}
-          className="lg:w-7xl w-4xl absolute bottom-50 -right-50 sm:-bottom-50 sm:-right-44 md:bottom-25 md:-right-44 lg:-bottom-34 lg:-right-44  z-10"
-          />
-        <div className="min-h-screen flex flex-col pt-20 -translate-y-28 sm:translate-y-0 justify-center sm:justify-normal items-center overflow-hidden relative z-20">
-          <h1 className="text-2xl  sm:w-auto sm:text-5xl lg:text-5xl mb-2 md:mb-4 w-70 lg:w-3xl text-center title-font">{t("hero_title")}</h1>
-                     <p className="text-sm md:text-md text-gray-600 text-center my-2 w-70 md:w-96 h-auto manrope">
+        <div className="absolute inset-0 bg-gradient-to-l from-[#5B0C19]/80 to-transparent z-10" />
+        <div className="absolute inset-0 z-20 flex flex-col justify-center items-start px-8 md:px-16 lg:px-24">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 title-font max-w-3xl">
+            {t("hero_title")}
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 max-w-2xl manrope">
             {t("hero_subtitle")}
           </p>
-          <button className="bg-[#EF0753] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
-            <Link to="/chat" className="text-white hover:text-gray-200 manrope">
+          <button
+            className="rounded-2xl px-12 py-5 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 transition-all border-4 border-transparent"
+            style={{
+              background: 'linear-gradient(to bottom, #F6C085, #A76824) padding-box, linear-gradient(to bottom, #F6C085, #A76824, #F6C085) border-box'
+            }}
+          >
+            <Link to="/chat" className="text-white hover:text-white font-semibold text-lg manrope drop-shadow-sm">
               {t("cta_explore")}
             </Link>
           </button>
@@ -161,13 +159,10 @@ export default function Home() {
       </div>
       
       {/* Video Section */}
-       <div className="min-h-screen flex flex-col items-center relative mt-4 sm:mt-0">
-                   <h2 className="text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-8 relative z-20 title-font">
-          {t("video_title_1")} <a className="text-[#EF0753]">{t("video_title_2")}</a>
-        </h2>
-         <div className="relative z-30 rounded overflow-hidden mx-4 sm:mx-60">
+       <div className="min-h-screen flex flex-col items-center relative mt-32 sm:mt-40">
+         <div className="relative z-30 rounded overflow-hidden w-full px-8">
           <iframe
-             className="h-56 md:w-2xl md:h-120 lg:w-5xl lg:h-[600px] rounded-2xl"
+             className="w-full h-56 md:h-96 lg:h-[600px] rounded-2xl"
             src="https://www.youtube.com/embed/PrttntkPgyg?si=knt9C8EXLj6Wi4SI"
             title="YouTube video player"
             frameBorder="0"
@@ -181,7 +176,7 @@ export default function Home() {
       {/* Key Benefits Section */}
        <div className="sm:min-h-screen flex flex-col items-center relative text-center mt-0">
          <h2 className="text-3xl sm:text-5xl mt-8 md:mt-0 lg:mt-24 mb-5 sm:mb-10 relative z-20 w-60 sm:w-96 title-font">
-          {t("benefit_title_1")} <a className="text-[#EF0753]">{t("benefit_title_2")}</a>
+          {t("benefit_title_1")} <a className="text-[#5B0C19]">{t("benefit_title_2")}</a>
         </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-2 lg:gap-12 min-w-60">
@@ -199,14 +194,18 @@ export default function Home() {
           viewport={{ once: true, amount:0.6 }}
           className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow w-full max-w-[22rem] mx-auto min-h-[18rem]"
         >
-          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4 manrope">{t("benefit_card_title_1")}</h1>
+          <div className="w-20 h-20 md:w-16 md:h-16 lg:w-24 lg:h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <img src={ConsultingLogo} className="w-12 h-12 md:w-10 md:h-10 lg:w-16 lg:h-16 object-contain" />
+          </div>
+          <h1 className="text-lg md:text-lg lg:text-3xl manrope mb-3 sm:mb-4">{t("benefit_card_title_1")}</h1>
           <p className="w-full text-sm md:text-sm lg:text-base mx-auto mb-6 manrope">{t("benefit_card_desc_1")}</p>
         </motion.div>
 
                 <div className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow w-full max-w-[22rem] mx-auto min-h-[18rem]">
-          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-4" />
-          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4 manrope">{t("benefit_card_title_2")}</h1>
+          <div className="w-20 h-20 md:w-16 md:h-16 lg:w-24 lg:h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <img src={ToolsTechnologiesLogo} className="w-12 h-12 md:w-10 md:h-10 lg:w-16 lg:h-16 object-contain" />
+          </div>
+          <h1 className="text-lg md:text-lg lg:text-3xl manrope mb-3 sm:mb-4">{t("benefit_card_title_2")}</h1>
           <p className="w-full text-sm md:text-sm lg:text-base mx-auto mb-6 manrope">{t("benefit_card_desc_2")}</p>
         </div>
 
@@ -224,8 +223,10 @@ export default function Home() {
           viewport={{ once: true, amount:0.6 }}
           className="bg-white px-8  md:px-8 md:py-3 lg:px-8 lg:py-5 rounded-2xl shadow w-full max-w-[22rem] mx-auto min-h-[18rem]"
         >
-          <img src={Star} className="w-25 md:w-18 lg:w-30 text-center mx-auto -mb-6" />
-          <h1 className="text-lg md:text-lg lg:text-3xl my-3 md:my-2 lg:my-4 manrope">{t("benefit_card_title_3")}</h1>
+          <div className="w-20 h-20 md:w-16 md:h-16 lg:w-24 lg:h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <img src={EducationLogo} className="w-12 h-12 md:w-10 md:h-10 lg:w-16 lg:h-16 object-contain" />
+          </div>
+          <h1 className="text-lg md:text-lg lg:text-3xl manrope mb-3 sm:mb-4">{t("benefit_card_title_3")}</h1>
           <p className="w-full text-sm md:text-sm lg:text-base mx-auto mb-6 manrope">{t("benefit_card_desc_3")}</p>
         </motion.div>
        </div>
@@ -246,33 +247,33 @@ export default function Home() {
                {t("how_it_works")}
              </h2>
              <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-6">
-               <div className="text-xl md:text-5xl text-[#feb0b9] mb-4 md:mb-0 md:mr-8">
+               <div className="text-xl md:text-5xl text-[#E4A766] opacity-30 mb-4 md:mb-0 md:mr-8">
                  01
                </div>
                <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
-                 <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
+                 <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-lg" style={{ boxShadow: '10px 25px 100px 0px rgba(228, 167, 102, 0.3)' }}>
                                         <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title_1")}</h1>
                     <p className="text-sm md:text-base manrope">{t("how_step_desc_1")}</p>
                  </div>
                </div>
              </div>
              <div className="flex flex-col md:flex-row-reverse items-center md:items-start text-center md:text-left mb-6">
-               <div className="text-xl md:text-5xl text-[#feb0b9] mb-4 md:mb-0 md:ml-8">
+               <div className="text-xl md:text-5xl text-[#E4A766] opacity-30 mb-4 md:mb-0 md:ml-8">
                  02
                </div>
                <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
-                 <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
+                 <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-lg" style={{ boxShadow: '10px 25px 100px 0px rgba(228, 167, 102, 0.3)' }}>
                                         <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title_2")}</h1>
                     <p className="text-sm md:text-base manrope">{t("how_step_desc_2")}</p>
                  </div>
                </div>
              </div>
              <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-12">
-               <div className="text-xl md:text-5xl text-[#feb0b9] mb-4 md:mb-0 md:mr-8">
+               <div className="text-xl md:text-5xl text-[#E4A766] opacity-30 mb-4 md:mb-0 md:mr-8">
                  03
                </div>
                <div className="relative z-10 gradient-shadow-wrapper w-full md:w-auto">
-                 <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-md relative z-20">
+                 <div className="bg-white px-6 py-4 md:px-15 md:py-4 rounded-2xl shadow-lg" style={{ boxShadow: '10px 25px 100px 0px rgba(228, 167, 102, 0.3)' }}>
                                         <h1 className="text-base md:text-xl text-gray-800 manrope">{t("how_step_title_3")}</h1>
                     <p className="text-sm md:text-base manrope">{t("how_step_desc_3")}</p>
                  </div>
@@ -318,23 +319,25 @@ export default function Home() {
                 <div
                   key={faq.id}
                   onClick={() => toggleItem(faq.id)}
-                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-[#EF07534D] ${
+                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 border border-gray-300 hover:shadow-2xl hover:shadow-[#E4A766]/30 ${
                     expandedItems.includes(faq.id) 
-                      ? 'bg-[#FFE7EA] shadow-2xl shadow-[#EF07534D]' 
-                      : 'bg-white'
+                      ? 'bg-white shadow-2xl shadow-[#E4A766]/30 border-gray-300' 
+                      : 'bg-white border-gray-300'
                   }`}
+                  style={{ boxShadow: '20px 25px 120px rgba(228, 167, 102, 0.35)' }}
                 >
                   <img 
                     src={Plus} 
                     className={`absolute top-4 right-5 sm:top-4 sm:right-4 w-5 h-5 transition-transform duration-300 ${
                       expandedItems.includes(faq.id) ? 'rotate-45 -translate-x-1' : 'rotate-0 translate-x-0'
                     }`} 
+                    style={{ filter: 'brightness(0) saturate(100%) invert(9%) sepia(56%) saturate(2444%) hue-rotate(327deg) brightness(97%) contrast(94%)' }}
                   />
                   <div className="flex items-start gap-4">
                     <div className={`w-12 h-12 text-md rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                       expandedItems.includes(faq.id) 
-                        ? 'bg-white text-[#EF0753]' 
-                        : 'bg-[#EDEEF0] text-[#EF0753]'
+                        ? 'bg-white text-[#5B0C19]' 
+                        : 'bg-[#EDEEF0] text-[#5B0C19]'
                     }`}>
                                              <span className="manrope font-bold">{faq.id < 10 ? `0${faq.id}` : faq.id}</span>
                     </div>
@@ -363,23 +366,25 @@ export default function Home() {
                 <div
                   key={faq.id}
                   onClick={() => toggleItem(faq.id)}
-                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-[#EF07534D] ${
+                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 border border-gray-300 hover:shadow-2xl hover:shadow-[#E4A766]/30 ${
                     expandedItems.includes(faq.id) 
-                      ? 'bg-[#FFE7EA] shadow-2xl shadow-[#EF07534D]' 
-                      : 'bg-white'
+                      ? 'bg-white shadow-2xl shadow-[#E4A766]/30 border-gray-300' 
+                      : 'bg-white border-gray-300'
                   }`}
+                  style={{ boxShadow: '20px 25px 120px rgba(228, 167, 102, 0.35)' }}
                 >
                   <img 
                     src={Plus} 
                     className={`absolute top-4 right-5 sm:top-4 sm:right-4 w-5 h-5 transition-transform duration-300 ${
                       expandedItems.includes(faq.id) ? 'rotate-45 -translate-x-1' : 'rotate-0 translate-x-0'
                     }`} 
+                    style={{ filter: 'brightness(0) saturate(100%) invert(9%) sepia(56%) saturate(2444%) hue-rotate(327deg) brightness(97%) contrast(94%)' }}
                   />
                   <div className="flex items-start gap-4">
                     <div className={`w-12 h-12 text-md rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                       expandedItems.includes(faq.id) 
-                        ? 'bg-white text-[#EF0753]' 
-                        : 'bg-[#EDEEF0] text-[#EF0753]'
+                        ? 'bg-white text-[#5B0C19]' 
+                        : 'bg-[#EDEEF0] text-[#5B0C19]'
                     }`}>
                                              <span className="manrope font-bold">{faq.id < 10 ? `0${faq.id}` : faq.id}</span>
                     </div>

@@ -39,8 +39,8 @@ export default function AboutUs() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-12 items-start">
           {/* Left Side - Title */}
           <div className="space-y-4 sm:space-y-4 sm:ml-2 md:ml-1 lg:ml-8 xl:ml-0">
-            <h2 className="text-base font-semibold text-[#EF0753] tracking-wide manrope">{t("about_breadcrumb")}</h2>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight mb-2 title-font">
+            <h2 className="text-base font-semibold text-[#5B0C19] tracking-wide manrope">{t("about_breadcrumb")}</h2>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-normal text-gray-900 leading-tight mb-2 title-font">
               {t("title_line1")} 
               <br/>
               {t("title_line2")} 
@@ -56,31 +56,31 @@ export default function AboutUs() {
         </div>
       </div>
 
-            {/* Our Commitment Section - Light Pink Background */}
-      <div className="bg-[#ffb4bc] py-18 sm:py-24 lg:py-28">
+            {/* Our Commitment Section - Red Background */}
+      <div className="bg-[#5B0C19] py-18 sm:py-24 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-0 items-start">
             {/* Left Side - Title */}
             <div className="sm:ml-2 md:ml-1 lg:ml-8 xl:ml-0">
-              <h2 className="max-w-xl sm:max-w-1  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-gray-900 leading-tight title-font">{t("commitment_title")}</h2>
+              <h2 className="max-w-xl sm:max-w-1  text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-normal text-[#FBD9DB] leading-tight title-font">{t("commitment_title")}</h2>
             </div>
             
             {/* Right Side - Commitments List */}
             <div className="relative md:-ml-[clamp(4rem,6vw,4rem)]">
               {/* Continuous vertical line */}
               {/* Center the line to circle centers across breakpoints */}
-              <div className="absolute left-4 sm:left-5 lg:left-6 w-1 h-10/12 bg-white top-4"></div>
+              <div className="absolute left-4 sm:left-5 lg:left-6 w-1 h-10/12 bg-gray-300 top-4"></div>
               
               <div className="space-y-6 sm:space-y-8">
                 {/* Commitment 1 */}
                 <div className="flex items-start space-x-5 md:space-x-8 lg:space-x-12">
                   <div className="flex-shrink-0 relative z-10">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
-                      <span className="text-sm sm:text-base font-bold text-gray-900">1</span>
+                      <span className="text-sm sm:text-base font-bold text-[#5B0C19]">1</span>
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c1")}</p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-[#FBD9DB] leading-relaxed manrope">{t("c1")}</p>
                   </div>
                 </div>
 
@@ -88,11 +88,11 @@ export default function AboutUs() {
                 <div className="flex items-start space-x-5 md:space-x-8 lg:space-x-12">
                   <div className="flex-shrink-0 relative z-10">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
-                      <span className="text-sm sm:text-base font-bold text-gray-900">2</span>
+                      <span className="text-sm sm:text-base font-bold text-[#5B0C19]">2</span>
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c2")}</p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-[#FBD9DB] leading-relaxed manrope">{t("c2")}</p>
                   </div>
                 </div>
 
@@ -100,11 +100,11 @@ export default function AboutUs() {
                 <div className="flex items-start space-x-5 md:space-x-8 lg:space-x-12">
                   <div className="flex-shrink-0 relative z-10">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
-                      <span className="text-sm sm:text-base font-bold text-gray-900">3</span>
+                      <span className="text-sm sm:text-base font-bold text-[#5B0C19]">3</span>
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c3")}</p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-[#FBD9DB] leading-relaxed manrope">{t("c3")}</p>
                   </div>
                 </div>
 
@@ -112,11 +112,11 @@ export default function AboutUs() {
                 <div className="flex items-start space-x-5 md:space-x-8 lg:space-x-12">
                   <div className="flex-shrink-0 relative z-10">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
-                      <span className="text-sm sm:text-base font-bold text-gray-900">4</span>
+                      <span className="text-sm sm:text-base font-bold text-[#5B0C19]">4</span>
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-gray-700 leading-relaxed manrope">{t("c4")}</p>
+                    <p className="text-sm sm:text-base lg:text-base xl:text-2xl text-[#FBD9DB] leading-relaxed manrope">{t("c4")}</p>
                   </div>
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function AboutUs() {
         </div>
       </div>
 
-      <Footer />
+      <Footer variant="white" />
     </div>
   );
 }

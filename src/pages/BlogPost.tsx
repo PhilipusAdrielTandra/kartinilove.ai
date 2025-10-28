@@ -2,47 +2,134 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Hero from "../assets/hero.svg";
+import ReactMarkdown from "react-markdown";
 
 type BlogPost = {
   id: number;
   title: string;
   content: string;
+  excerpt: string;
   category: string;
   coverUrl: string;
   author: string;
   createdAt: string;
+  publishedDate?: string;
   slug: string;
+  editor?: string;
+  likes?: number;
 };
 
 async function fetchPost(slug: string): Promise<BlogPost> {
   const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  const resolveMediaUrl = (url?: string) => {
+    if (!url) return "";
+    if (url.startsWith("http")) return url;
+    if (!base) return url;
+    return base.replace(/\/$/, "") + url;
+  };
   try {
     if (!base) throw new Error("no-strapi");
-    const res = await fetch(`${base}/api/posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=cover`);
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?filters[Slug][$eq]=${encodeURIComponent(slug)}&populate=Cover`, { headers });
     const json = await res.json();
     const item = (json?.data?.[0]) as any;
     if (!item) throw new Error("not-found");
+    // Handle Cover image - Strapi v5 returns Cover directly with url property
+    const coverUrl = item.Cover?.url 
+      ? base.replace(/\/$/, "") + item.Cover.url 
+      : "";
     return {
       id: item.id,
-      title: item.attributes.title,
-      content: item.attributes.content ?? "",
-      category: item.attributes.category ?? "FYI",
-      coverUrl: item.attributes.cover?.data?.attributes?.url ?? "",
-      author: item.attributes.author ?? "Jane",
-      createdAt: item.attributes.publishedAt ?? item.attributes.createdAt,
-      slug: item.attributes.slug ?? String(item.id)
+      title: item.Title,
+      content: item.Content ?? "",
+      excerpt: item.Excerpt ?? "",
+      category: item.Category ?? "FYI",
+      coverUrl,
+      author: item.Author ?? "Jane",
+      createdAt: item.publishedAt ?? item.createdAt,
+      publishedDate: item.PublishedDate ?? item.publishedAt ?? item.createdAt,
+      slug: item.Slug ?? String(item.id),
+      editor: item.Editor,
+      likes: item.Likes ?? 0
     };
   } catch {
     return {
       id: 1,
       title: "Dari Coding hingga Cloud: Kisah Perempuan Indonesia yang Sukses di Dunia Teknologi",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non justo nec mi efficitur faucibus...",
+      excerpt: "",
       category: "FYI",
       coverUrl: Hero,
       author: "Jane",
       createdAt: new Date().toISOString(),
-      slug
+      slug,
+      likes: 0
     };
+  }
+}
+
+async function updatePostLikes(postId: number, newLikes: number): Promise<void> {
+  const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  if (!base) return;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  try {
+    await fetch(`${base.replace(/\/$/, "")}/api/posts/${postId}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ data: { Likes: newLikes } })
+    });
+  } catch (error) {
+    console.error('Failed to update likes in database:', error);
+  }
+}
+
+async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
+  const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  const resolveMediaUrl = (url?: string) => {
+    if (!url) return "";
+    if (url.startsWith("http")) return url;
+    if (!base) return url;
+    return base.replace(/\/$/, "") + url;
+  };
+  try {
+    if (!base) throw new Error("no-strapi");
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?populate=Cover`, { headers });
+    const json = await res.json();
+    const items = (json?.data || []) as any[];
+    return items
+      .filter((item) => (item.Slug ?? String(item.id)) !== currentSlug)
+      .slice(0, 3)
+      .map((item) => {
+        // Handle Cover image - Strapi v5 uses Cover.data.attributes.url
+        const coverUrl = item.Cover?.data?.attributes?.url 
+          ? base.replace(/\/$/, "") + item.Cover.data.attributes.url 
+          : (item.Cover?.url ? base.replace(/\/$/, "") + item.Cover.url : "");
+        return {
+          id: item.id,
+          title: item.Title,
+          excerpt: item.Excerpt ?? "",
+          content: item.Content ?? "",
+          category: item.Category ?? "FYI",
+          coverUrl,
+          author: item.Author ?? "Jane",
+          createdAt: item.publishedAt ?? item.createdAt,
+          publishedDate: item.PublishedDate ?? item.publishedAt ?? item.createdAt,
+          slug: item.Slug ?? String(item.id),
+          editor: item.Editor,
+          likes: item.Likes ?? 0
+        };
+      });
+  } catch {
+    return [];
   }
 }
 
@@ -53,11 +140,11 @@ export default function BlogPost() {
 
   useEffect(() => {
     let mounted = true;
-    fetchPost(slug)
-      .then((p) => {
+    Promise.all([fetchPost(slug), fetchRelatedPosts(slug)])
+      .then(([p, r]) => {
         if (mounted) {
           setPost(p);
-          setRelated([1,2,3].map((i) => ({ ...p, id: i, title: "Mengapa Literasi Digital Penting?", slug: `rel-${i}` })));
+          setRelated(r);
         }
       });
     return () => { mounted = false; };
@@ -66,37 +153,32 @@ export default function BlogPost() {
   if (!post) return null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white title-font">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-6 py-8">
-        <div className="grid grid-cols-4 gap-4 text-xs text-gray-500 mb-6">
+        <div className="grid grid-cols-4 gap-4 text-xs text-gray-500 mt-6 sm:mt-8 mb-8 sm:mb-10">
           <div>
             <div>DATE</div>
-            <div className="font-semibold text-gray-900">{new Date(post.createdAt).toLocaleDateString()}</div>
+            <div className="font-semibold text-gray-900 mt-1.5">{new Date(post.publishedDate || post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
           </div>
           <div>
             <div>CATEGORY</div>
-            <div className="font-semibold text-gray-900">{post.category}</div>
+            <div className="font-semibold text-gray-900 mt-1.5">{post.category}</div>
           </div>
           <div>
             <div>WRITER</div>
-            <div className="font-semibold text-gray-900">{post.author}</div>
+            <div className="font-semibold text-gray-900 mt-1.5">{post.author}</div>
           </div>
           <div>
             <div>EDITOR</div>
-            <div className="font-semibold text-gray-900">John</div>
+            <div className="font-semibold text-gray-900 mt-1.5">{post.editor || "-"}</div>
           </div>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-semibold mb-5">{post.title}</h1>
-        <img src={post.coverUrl || Hero} className="w-full h-72 object-cover rounded-xl mb-8"/>
-        <div className="prose max-w-none prose-p:my-4 text-lg">
-          <p className="text-2xl font-semibold">Point 1</p>
-          <p>{post.content}</p>
-          <p className="text-2xl font-semibold">Point 2</p>
-          <p>{post.content}</p>
-          <p className="text-2xl font-semibold">Point 3</p>
-          <p>{post.content}</p>
+        <h1 className="text-3xl sm:text-4xl font-medium mb-5">{post.title}</h1>
+        <img src={post.coverUrl || Hero} className="w-full h-72 object-contain bg-gray-100 rounded-xl mb-8"/>
+        <div className="manrope prose prose-lg max-w-none prose-headings:font-semibold prose-p:my-4 prose-strong:font-semibold prose-ul:my-4 prose-ol:my-4">
+          <ReactMarkdown>{post.content}</ReactMarkdown>
           <div className="border-t mt-6 pt-4">
-            <LikeShare slug={post.slug} title={post.title} />
+            <LikeShare slug={post.slug} title={post.title} initialLikes={post.likes || 0} postId={post.id} />
           </div>
         </div>
       </div>
@@ -106,9 +188,9 @@ export default function BlogPost() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {related.map((p) => (
             <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-              <img src={p.coverUrl || Hero} className="w-full h-36 object-cover rounded-xl mb-3"/>
-              <div className="text-sm text-gray-500">Technology</div>
-              <div className="text-lg font-semibold group-hover:text-[#EF0753]">{p.title}</div>
+              <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+              <div className="text-sm text-gray-500 font-semibold title-font mb-2">{p.category || "-"}</div>
+              <div className="text-lg font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
             </Link>
           ))}
         </div>
@@ -119,15 +201,24 @@ export default function BlogPost() {
   );
 }
 
-function LikeShare({ slug, title }: { slug: string; title: string }) {
+function LikeShare({ slug, title, initialLikes = 0, postId }: { slug: string; title: string; initialLikes?: number; postId?: number }) {
   const [likes, setLikes] = useState<number>(() => {
     const current = localStorage.getItem(`like:${slug}`);
-    return current ? Number(current) : 0;
+    const localLikes = current ? Number(current) : 0;
+    return initialLikes + localLikes;
   });
+  const [postLikes, setPostLikes] = useState<number>(initialLikes);
+  
   const onLike = () => {
     const next = likes + 1;
+    const newPostLikes = next;
     setLikes(next);
-    localStorage.setItem(`like:${slug}`, String(next));
+    setPostLikes(next);
+    localStorage.setItem(`like:${slug}`, String(next - initialLikes));
+    // Update database if postId is available
+    if (postId) {
+      updatePostLikes(postId, newPostLikes);
+    }
   };
   const onShare = async () => {
     const url = window.location.origin + `/blog/${slug}`;
@@ -140,11 +231,11 @@ function LikeShare({ slug, title }: { slug: string; title: string }) {
   };
   return (
     <div className="flex items-center gap-6 text-base">
-      <button onClick={onLike} className="flex items-center gap-2 hover:text-[#EF0753]">
+      <button onClick={onLike} className="flex items-center gap-2 hover:text-[#5B0C19]">
         <span>❤</span>
         <span>{likes}</span>
       </button>
-      <button onClick={onShare} className="flex items-center gap-2 hover:text-[#EF0753]">
+      <button onClick={onShare} className="flex items-center gap-2 hover:text-[#5B0C19]">
         <span>🔗</span>
         <span>Share</span>
       </button>

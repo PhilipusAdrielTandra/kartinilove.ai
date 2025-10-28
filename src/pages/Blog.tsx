@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Hero from "../assets/hero.svg";
 
@@ -10,27 +11,54 @@ type BlogPost = {
   coverUrl: string;
   author: string;
   createdAt: string;
+  publishedDate?: string;
   slug: string;
 };
 
 async function fetchPosts(): Promise<BlogPost[]> {
   const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
   try {
     if (!base) throw new Error("no-strapi");
-    const res = await fetch(`${base}/api/posts?populate=cover`);
+    const url = `${base.replace(/\/$/, "")}/api/posts?populate=Cover`;
+    console.log("Fetching from:", url);
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(url, { headers });
+    if (!res.ok) {
+      console.error("API error:", res.status, res.statusText);
+      const text = await res.text();
+      console.error("Response:", text);
+      
+      if (res.status === 404) {
+        throw new Error("Post content type not found. Is it deployed in Strapi Cloud?");
+      } else if (res.status === 403) {
+        throw new Error("Permission denied. Enable 'find' for Public role in Strapi Settings");
+      }
+      throw new Error(`API returned ${res.status}`);
+    }
     const json = await res.json();
     const items = (json?.data || []) as any[];
-    return items.map((item) => ({
-      id: item.id,
-      title: item.attributes.title,
-      excerpt: item.attributes.excerpt ?? "",
-      category: item.attributes.category ?? "Technology",
-      coverUrl: item.attributes.cover?.data?.attributes?.url ?? "",
-      author: item.attributes.author ?? "Jane Doe",
-      createdAt: item.attributes.publishedAt ?? item.attributes.createdAt,
-      slug: item.attributes.slug ?? String(item.id),
-    }));
-  } catch {
+    return items.map((item) => {
+      // Handle Cover image - Strapi v5 returns Cover directly with url property
+      const coverUrl = item.Cover?.url 
+        ? base.replace(/\/$/, "") + item.Cover.url 
+        : "";
+      return {
+        id: item.id,
+        title: item.Title,
+        excerpt: item.Excerpt ?? "",
+        category: item.Category ?? "Technology",
+        coverUrl,
+        author: item.Author ?? "Jane Doe",
+        createdAt: item.publishedAt ?? item.createdAt,
+        publishedDate: item.PublishedDate ?? item.publishedAt ?? item.createdAt,
+        slug: item.Slug ?? String(item.id),
+      };
+    });
+  } catch (error) {
+    console.error("Failed to fetch posts from Strapi:", error);
+    console.log("Strapi URL:", base);
     // placeholder content when Strapi is not available yet
     return Array.from({ length: 9 }).map((_, i) => ({
       id: i + 1,
@@ -47,9 +75,8 @@ async function fetchPosts(): Promise<BlogPost[]> {
 
 export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   useEffect(() => {
     let mounted = true;
@@ -57,35 +84,51 @@ export default function Blog() {
       .then((p) => {
         if (mounted) setPosts(p);
       })
-      .catch(() => setError("Failed to load posts"))
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        console.error("Error loading posts:", err);
+      });
     return () => {
       mounted = false;
     };
   }, []);
 
   const categories = ["All", "Technology", "Self Development", "FYI"];
-  const featured = posts[0];
-  const latest = posts.slice(1, 4);
-  const allArticles = posts.slice(4);
-  const articles = activeCategory === "All" ? allArticles : allArticles.filter(p => p.category === activeCategory);
+  const featuredItems = posts.slice(0, Math.min(5, posts.length || 5));
+  const latest = posts.slice(featuredItems.length, featuredItems.length + 3);
+  const articles = activeCategory === "All" ? posts : posts.filter(p => p.category === activeCategory);
+
+  // Auto-advance carousel every 5s
+  useEffect(() => {
+    if (featuredItems.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % featuredItems.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [featuredItems.length]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white manrope">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-6 py-6">
-        {/* Featured hero */}
-        {featured && (
-          <Link to={`/blog/${featured.slug}`} className="block">
-            <div className="rounded-2xl overflow-hidden shadow mb-8">
-              <div className="relative">
-                <img src={featured.coverUrl || Hero} className="w-full h-64 sm:h-96 object-cover"/>
-                <span className="absolute left-4 top-4 bg-white/90 text-[#EF0753] text-sm px-3 py-1 rounded-full">{featured.category || "FYI"}</span>
-                <div className="absolute left-4 bottom-4 right-4 bg-black/60 text-white p-5 rounded">
-                  <h2 className="text-3xl sm:text-4xl">{featured.title}</h2>
-                </div>
-              </div>
+        {/* Featured carousel */}
+        {featuredItems.length > 0 && (
+          <div className="rounded-2xl overflow-hidden shadow mb-8 relative">
+            <div
+              className="flex transition-transform duration-700 ease-in-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {featuredItems.map((item) => (
+                <Link key={item.id} to={`/blog/${item.slug}`} className="min-w-full block">
+                  <div className="relative">
+                    <img src={item.coverUrl || Hero} className="w-full h-96 sm:h-[34rem] object-contain bg-gray-100"/>
+                    <div className="absolute left-4 bottom-4 right-4 bg-black/60 text-white p-5 rounded">
+                      <div className="text-xs sm:text-sm font-semibold mb-2 opacity-95">{item.category || "FYI"}</div>
+                      <h2 className="text-xl leading-snug sm:text-3xl sm:leading-tight md:text-4xl md:leading-tight title-font">{item.title}</h2>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
-          </Link>
+          </div>
         )}
 
         {/* Latest Posts */}
@@ -93,9 +136,9 @@ export default function Blog() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {latest.map((p) => (
             <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-              <img src={p.coverUrl || Hero} className="w-full h-36 object-cover rounded-xl mb-3"/>
-              <div className="text-sm text-gray-500">{p.category}</div>
-              <div className="text-lg font-semibold group-hover:text-[#EF0753]">{p.title}</div>
+              <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+              <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
+              <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
             </Link>
           ))}
         </div>
@@ -106,12 +149,12 @@ export default function Blog() {
           <span className="text-sm bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{articles.length}</span>
         </div>
         {/* Filter chips */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-6 overflow-x-auto flex-nowrap -mx-4 px-4">
           {categories.map((c) => (
             <button
               key={c}
               onClick={() => setActiveCategory(c)}
-              className={`px-4 py-2 rounded-full text-sm border transition shadow-sm ${activeCategory===c?"bg-[#ffe7ea] text-[#EF0753] border-[#EF0753]":"bg-gray-100 text-gray-700 border-gray-200 hover:border-[#EF0753]"}`}
+              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm border transition shadow-sm whitespace-nowrap shrink-0 title-font ${activeCategory===c?"bg-[#ffe7ea] text-[#5B0C19] border-[#5B0C19]":"bg-gray-100 text-gray-700 border-gray-200 hover:border-[#5B0C19]"}`}
             >
               {c}
             </button>
@@ -122,9 +165,9 @@ export default function Blog() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {articles.map((p) => (
             <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-              <img src={p.coverUrl || Hero} className="w-full h-36 object-cover rounded-xl mb-3"/>
-              <div className="text-sm text-gray-500">{p.category}</div>
-              <div className="text-lg font-semibold group-hover:text-[#EF0753]">{p.title}</div>
+              <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+              <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
+              <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
             </Link>
           ))}
         </div>
@@ -133,6 +176,3 @@ export default function Blog() {
     </div>
   );
 }
-
-import { useEffect, useState } from "react";
-
