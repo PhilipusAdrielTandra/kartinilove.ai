@@ -14,7 +14,7 @@ function LangToggleButton() {
   return (
     <button
       onClick={toggleLanguage}
-      className="border border-black rounded-md px-2 py-2 text-black text-sm md:text-base manrope w-12 text-center"
+      className="border border-black rounded-xl px-2 py-2.5 text-black text-sm md:text-base manrope w-12 text-center"
       aria-label="Toggle language"
     >
       {language === "EN" ? "EN" : "INA"}
@@ -39,24 +39,24 @@ function Layout() {
           <div className="hidden md:flex space-x-6">
             <Link
               to="/"
-              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
-                location.pathname === "/" ? "text-pink-600 after:w-full" : ""
+              className={`relative text-sm md:text-base lg:text-lg hover:text-[#5B0C19] after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-[#5B0C19] after:transition-all after:duration-300 hover:after:w-full manrope ${
+                location.pathname === "/" ? "text-[#5B0C19] after:w-full" : ""
               }`}
             >
               Home
             </Link>
             <Link
               to="/blog"
-              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
-                location.pathname.startsWith("/blog") ? "text-pink-600 after:w-full" : ""
+              className={`relative text-sm md:text-base lg:text-lg hover:text-[#5B0C19] after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-[#5B0C19] after:transition-all after:duration-300 hover:after:w-full manrope ${
+                location.pathname.startsWith("/blog") ? "text-[#5B0C19] after:w-full" : ""
               }`}
             >
               Blog
             </Link>
             <Link
               to="/about"
-              className={`relative text-sm md:text-base lg:text-lg hover:text-pink-600 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-pink-600 after:transition-all after:duration-300 hover:after:w-full manrope ${
-                location.pathname === "/about" ? "text-pink-600 after:w-full" : ""
+              className={`relative text-sm md:text-base lg:text-lg hover:text-[#5B0C19] after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-[#5B0C19] after:transition-all after:duration-300 hover:after:w-full manrope ${
+                location.pathname === "/about" ? "text-[#5B0C19] after:w-full" : ""
               }`}
             >
               About Us
@@ -67,10 +67,14 @@ function Layout() {
           <div className="hidden md:flex space-x-4 items-center">
             <LangToggleButton />
             <Link
-              to="/chat"
-              className="bg-[#EF0753] rounded-full px-5 py-2.5 md:px-6 md:py-3 text-white text-sm md:text-base hover:text-gray-200 manrope"
+              to="/account"
+              className="rounded-xl px-5 py-2.5 md:px-6 md:py-2.5 text-gray-300 text-sm md:text-base hover:text-white manrope shadow-lg shadow-black/20 border-4 border-transparent" 
+              style={{ 
+                background: 'linear-gradient(to bottom, #941A2F, #5B0C19) padding-box, linear-gradient(to bottom, #941A2F, #5B0C19, #941A2F) border-box',
+                textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+              }}
             >
-              Explore Now
+              Log In
             </Link>
           </div>
 
@@ -86,15 +90,15 @@ function Layout() {
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-pink-600 text-lg manrope"
+                className="hover:text-[#5B0C19] text-lg manrope"
               >
                 Home
               </Link>
               <Link
                 to="/blog"
                 onClick={() => setIsOpen(false)}
-                className={`hover:text-pink-600 text-lg manrope ${
-                  location.pathname.startsWith("/blog") ? "text-pink-600" : ""
+                className={`hover:text-[#5B0C19] text-lg manrope ${
+                  location.pathname.startsWith("/blog") ? "text-[#5B0C19]" : ""
                 }`}
               >
                 Blog
@@ -102,7 +106,7 @@ function Layout() {
               <Link
                 to="/about"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-pink-600 text-lg manrope"
+                className="hover:text-[#5B0C19] text-lg manrope"
               >
                 About Us
               </Link>

@@ -433,7 +433,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiPostPost extends Struct.CollectionTypeSchema {
   collectionName: 'posts';
   info: {
-    description: 'Blog posts for the KartiniLove.ai blog';
     displayName: 'Post';
     pluralName: 'posts';
     singularName: 'post';
@@ -442,20 +441,23 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    author: Schema.Attribute.String & Schema.Attribute.Required;
-    category: Schema.Attribute.String & Schema.Attribute.Required;
-    content: Schema.Attribute.RichText & Schema.Attribute.Required;
-    cover: Schema.Attribute.Media<'images'>;
+    Author: Schema.Attribute.String & Schema.Attribute.Required;
+    Category: Schema.Attribute.String & Schema.Attribute.Required;
+    Content: Schema.Attribute.RichText & Schema.Attribute.Required;
+    Cover: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    excerpt: Schema.Attribute.Text;
+    Editor: Schema.Attribute.String;
+    Excerpt: Schema.Attribute.Text;
+    Likes: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::post.post'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    PublishedDate: Schema.Attribute.Date;
+    Slug: Schema.Attribute.UID<'Title'> & Schema.Attribute.Required;
+    Title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

@@ -4,44 +4,54 @@
   "info": {
     "singularName": "post",
     "pluralName": "posts",
-    "displayName": "Post",
-    "description": "Blog posts for the KartiniLove.ai blog"
+    "displayName": "Post"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
+    "Title": {
       "type": "string",
       "required": true
     },
-    "slug": {
+    "Slug": {
       "type": "uid",
-      "targetField": "title",
+      "targetField": "Title",
       "required": true
     },
-    "excerpt": {
-      "type": "text"
-    },
-    "content": {
+    "Content": {
       "type": "richtext",
       "required": true
     },
-    "category": {
+    "Excerpt": {
+      "type": "text"
+    },
+    "Author": {
       "type": "string",
       "required": true
     },
-    "author": {
+    "Category": {
       "type": "string",
       "required": true
     },
-    "cover": {
+    "PublishedDate": {
+      "type": "date",
+      "required": false
+    },
+    "Cover": {
       "type": "media",
       "multiple": false,
-      "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Editor": {
+      "type": "string"
+    },
+    "Likes": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
-

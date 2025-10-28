@@ -60,7 +60,7 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#EF0753] focus:border-[#EF0753] transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B0C19] focus:border-[#5B0C19] transition"
               placeholder={t('email')}
               required
             />
@@ -72,12 +72,12 @@ function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#EF0753] focus:border-[#EF0753] transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B0C19] focus:border-[#5B0C19] transition"
               placeholder={t('password')}
               required
             />
             <div className="flex justify-end items-center pt-4 font-bold">
-              <a href="#" className="text-sm font-medium text-[#EF0753] hover:text-[#d30649]">
+              <a href="#" className="text-sm font-medium text-[#5B0C19] hover:text-[#4A0A14]">
                 {t('forgot')}
               </a>
             </div>
@@ -85,7 +85,7 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full bg-[#EF0753] text-white py-3 px-4 rounded-lg hover:bg-[#d30649] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EF0753] transition font-medium"
+            className="w-full bg-[#5B0C19] text-white py-3 px-4 rounded-lg hover:bg-[#4A0A14] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5B0C19] transition font-medium"
           >
             {t('login_btn')}
           </button>
@@ -134,7 +134,7 @@ function Login() {
         <div className="mt-8 text-center">
           <p className="text-gray-600">
             {t('dont_have')} {' '}
-            <a href="#" className="font-medium text-[#EF0753] hover:text-[#d30649]">
+            <a href="#" className="font-medium text-[#5B0C19] hover:text-[#4A0A14]">
               {t('signup')}
             </a>
           </p>
