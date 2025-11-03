@@ -36,10 +36,9 @@ async function fetchPost(slug: string): Promise<BlogPost> {
     const json = await res.json();
     const item = (json?.data?.[0]) as any;
     if (!item) throw new Error("not-found");
-    // Handle Cover image - Strapi v5 returns Cover directly with url property
-    const coverUrl = item.Cover?.url 
-      ? base.replace(/\/$/, "") + item.Cover.url 
-      : "";
+    // Resolve Cover image URL (supports relative and absolute URLs, and both v4/v5 shapes)
+    const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
+    const coverUrl = resolveMediaUrl(rawCoverUrl);
     return {
       id: item.id,
       title: item.Title,
@@ -109,10 +108,8 @@ async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
       .filter((item) => (item.Slug ?? String(item.id)) !== currentSlug)
       .slice(0, 3)
       .map((item) => {
-        // Handle Cover image - Strapi v5 uses Cover.data.attributes.url
-        const coverUrl = item.Cover?.data?.attributes?.url 
-          ? base.replace(/\/$/, "") + item.Cover.data.attributes.url 
-          : (item.Cover?.url ? base.replace(/\/$/, "") + item.Cover.url : "");
+        const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
+        const coverUrl = resolveMediaUrl(rawCoverUrl);
         return {
           id: item.id,
           title: item.Title,
@@ -137,6 +134,7 @@ export default function BlogPost() {
   const { slug = "" } = useParams();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [related, setRelated] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let mounted = true;
@@ -146,9 +144,36 @@ export default function BlogPost() {
           setPost(p);
           setRelated(r);
         }
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
       });
     return () => { mounted = false; };
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white title-font">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-6 py-8">
+          <div className="grid grid-cols-4 gap-4 text-xs text-gray-500 mt-6 sm:mt-8 mb-8 sm:mb-10">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i}>
+                <div className="h-3 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+                <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+          <div className="h-8 w-3/4 bg-gray-200 rounded mb-5 animate-pulse" />
+          <div className="w-full h-72 bg-gray-100 rounded-xl mb-8 animate-pulse" />
+          <div className="space-y-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-4 bg-gray-200 rounded animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) return null;
 

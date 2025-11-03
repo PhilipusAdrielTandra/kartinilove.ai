@@ -39,11 +39,14 @@ async function fetchPosts(): Promise<BlogPost[]> {
     }
     const json = await res.json();
     const items = (json?.data || []) as any[];
+    const resolveMediaUrl = (u?: string) => {
+      if (!u) return "";
+      if (u.startsWith("http")) return u;
+      return base.replace(/\/$/, "") + u;
+    };
     return items.map((item) => {
-      // Handle Cover image - Strapi v5 returns Cover directly with url property
-      const coverUrl = item.Cover?.url 
-        ? base.replace(/\/$/, "") + item.Cover.url 
-        : "";
+      const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
+      const coverUrl = resolveMediaUrl(rawCoverUrl);
       return {
         id: item.id,
         title: item.Title,
@@ -77,6 +80,7 @@ export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let mounted = true;
@@ -86,6 +90,9 @@ export default function Blog() {
       })
       .catch((err) => {
         console.error("Error loading posts:", err);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
       });
     return () => {
       mounted = false;
@@ -110,7 +117,11 @@ export default function Blog() {
     <div className="min-h-screen bg-white manrope">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-6 py-6">
         {/* Featured carousel */}
-        {featuredItems.length > 0 && (
+        {loading ? (
+          <div className="rounded-2xl overflow-hidden shadow mb-8 relative">
+            <div className="w-full h-96 sm:h-[34rem] bg-gray-100 animate-pulse" />
+          </div>
+        ) : featuredItems.length > 0 && (
           <div className="rounded-2xl overflow-hidden shadow mb-8 relative">
             <div
               className="flex transition-transform duration-700 ease-in-out"
@@ -134,13 +145,21 @@ export default function Blog() {
         {/* Latest Posts */}
         <h3 className="text-gray-800 text-xl font-semibold mb-3">Latest Posts</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          {latest.map((p) => (
-            <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-              <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
-              <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
-              <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
-            </Link>
-          ))}
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow p-3">
+                  <div className="w-full h-36 bg-gray-100 rounded-xl mb-3 animate-pulse" />
+                  <div className="h-4 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+                  <div className="h-5 w-3/4 bg-gray-200 rounded animate-pulse" />
+                </div>
+              ))
+            : latest.map((p) => (
+                <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
+                  <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+                  <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
+                  <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
+                </Link>
+              ))}
         </div>
 
         {/* Articles title and counter */}
@@ -163,13 +182,21 @@ export default function Blog() {
 
         {/* Articles grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {articles.map((p) => (
-            <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-              <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
-              <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
-              <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
-            </Link>
-          ))}
+          {loading
+            ? Array.from({ length: 9 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow p-3">
+                  <div className="w-full h-36 bg-gray-100 rounded-xl mb-3 animate-pulse" />
+                  <div className="h-4 w-24 bg-gray-200 rounded mb-2 animate-pulse" />
+                  <div className="h-5 w-4/5 bg-gray-200 rounded animate-pulse" />
+                </div>
+              ))
+            : articles.map((p) => (
+                <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
+                  <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+                  <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
+                  <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
+                </Link>
+              ))}
         </div>
       </div>
       <Footer />
