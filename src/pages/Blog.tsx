@@ -16,11 +16,21 @@ type BlogPost = {
 };
 
 async function fetchPosts(): Promise<BlogPost[]> {
-  const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const rawBase = import.meta.env.VITE_STRAPI_URL as string | undefined;
   const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  // Normalize base URL: remove trailing slash and whitespace to prevent concatenation issues
+  const base = rawBase ? rawBase.trim().replace(/\/+$/, "") : undefined;
+  
+  // Runtime check: Warn if env var is missing (this helps debug Vercel issues)
+  if (!base) {
+    console.error("❌ VITE_STRAPI_URL is not set! This will cause image loading to fail.");
+    console.error("   In Vercel: Set VITE_STRAPI_URL in Project Settings → Environment Variables");
+    console.error("   Then redeploy to rebuild with the correct value.");
+  }
+  
   try {
     if (!base) throw new Error("no-strapi");
-    const url = `${base.replace(/\/$/, "")}/api/posts?populate=Cover`;
+    const url = `${base}/api/posts?populate=Cover`;
     console.log("Fetching from:", url);
     const headers: Record<string, string> = {};
     if (token) headers["Authorization"] = `Bearer ${token}`;
@@ -39,6 +49,10 @@ async function fetchPosts(): Promise<BlogPost[]> {
     }
     const json = await res.json();
     const items = (json?.data || []) as any[];
+    // Debug: Log first item's Cover structure to understand what Strapi returns
+    if (items.length > 0 && items[0].Cover) {
+      console.log("DEBUG: Strapi Cover structure:", JSON.stringify(items[0].Cover, null, 2));
+    }
     const resolveMediaUrl = (u?: string) => {
       if (!u) return "";
       // Fix malformed protocol first (https// -> https://, http// -> http://)
@@ -48,28 +62,105 @@ async function fetchPosts(): Promise<BlogPost[]> {
       if (u.startsWith("http://") || u.startsWith("https://")) return u;
       // Protocol-relative URL (//example.com/image.jpg)
       if (u.startsWith("//")) return `https:${u}`;
-      // Check if URL already contains a domain (contains .strapiapp.com or .media.)
-      // This catches absolute URLs that might have been malformed
-      if (u.includes(".strapiapp.com") || u.includes(".media.")) {
-        // If it contains a domain, assume it's already a full URL (don't prepend base)
+      // IMPORTANT: Check if URL already contains a domain BEFORE checking paths
+      // This prevents concatenating base URL to already-full URLs
+      // Check for common domain patterns (strapiapp.com, media., etc.)
+      if (u.includes("://") || u.includes(".strapiapp.com") || u.includes(".media.") || u.match(/^[a-zA-Z0-9-]+\./)) {
+        // If it contains a domain or looks like an absolute URL, return as-is
+        console.warn("URL appears to be absolute, returning as-is:", u);
         return u;
       }
       // Absolute path (/uploads/...)
-      if (u.startsWith("/") && base) return base.replace(/\/$/, "") + u;
+      if (u.startsWith("/") && base) return base + u;
       // Relative path (uploads/...)
-      if (base) return base.replace(/\/$/, "") + "/" + u;
+      if (base) return base + "/" + u;
       // Fallback: return as-is if no base
       console.warn("Could not resolve media URL:", u, "base:", base);
       return u;
     };
     return items.map((item) => {
-      const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
-      const coverUrl = resolveMediaUrl(rawCoverUrl);
-      if (coverUrl && !coverUrl.startsWith("http")) {
-        console.warn("Resolved URL may be invalid:", coverUrl, "raw:", rawCoverUrl);
+      // Try multiple paths to get the Cover URL (Strapi v5 can have different structures)
+      const rawCoverUrl = 
+        item.Cover?.url || 
+        item.Cover?.data?.attributes?.url || 
+        item.Cover?.data?.url ||
+        item.attributes?.Cover?.data?.attributes?.url ||
+        item.attributes?.Cover?.url;
+      
+      // Debug logging for Vercel
+      console.log("DEBUG: Raw cover URL from Strapi:", rawCoverUrl);
+      console.log("DEBUG: Full Cover object:", item.Cover);
+      console.log("DEBUG: Base URL (normalized):", base, "| Original:", rawBase);
+      
+      // SAFETY: If raw URL is already absolute, use it directly (prevents double-concatenation)
+      // This is critical for Vercel deployments where base URL might be concatenated incorrectly
+      let coverUrl: string;
+      if (!rawCoverUrl) {
+        coverUrl = "";
+        console.warn("No cover URL found for item:", item.id);
+      } else {
+        // Normalize the raw URL first (trim whitespace, decode if needed)
+        const normalizedRaw = String(rawCoverUrl).trim();
+        
+        // Check if it's already absolute - use multiple checks to be safe
+        const isAbsolute = 
+          normalizedRaw.startsWith("http://") || 
+          normalizedRaw.startsWith("https://") || 
+          normalizedRaw.startsWith("//") ||
+          normalizedRaw.includes("://") ||
+          (normalizedRaw.includes(".strapiapp.com") && !normalizedRaw.startsWith("/"));
+        
+        if (isAbsolute) {
+          // Already absolute URL - use as-is to prevent any concatenation issues
+          coverUrl = normalizedRaw.startsWith("//") ? `https:${normalizedRaw}` : normalizedRaw;
+          console.log("✓ Using absolute URL directly:", coverUrl, "| Raw was:", rawCoverUrl);
+        } else {
+          // Relative URL - resolve it
+          console.log("Resolving relative URL:", normalizedRaw, "| Base:", base);
+          coverUrl = resolveMediaUrl(normalizedRaw);
+          console.log("Resolved to:", coverUrl);
+          if (coverUrl && !coverUrl.startsWith("http")) {
+            console.warn("⚠ Resolved URL may be invalid:", coverUrl, "raw:", rawCoverUrl);
+          }
+        }
+      }
+      
+      // Final safety check: if the resolved URL contains the base URL, something went wrong
+      if (base && coverUrl && coverUrl.includes(base) && coverUrl !== base) {
+        console.error("❌ ERROR: Base URL detected in coverUrl! This should not happen. URL:", coverUrl);
+        // If we have a raw URL that looks absolute, use that instead
+        if (rawCoverUrl && (rawCoverUrl.includes("://") || rawCoverUrl.includes(".strapiapp.com") || rawCoverUrl.includes(".media."))) {
+          console.log("Attempting to fix by using raw URL:", rawCoverUrl);
+          coverUrl = rawCoverUrl;
+        } else {
+          // Last resort: try to extract just the media URL part
+          const mediaUrlMatch = coverUrl.match(/https?:\/\/[^/]+\/(.+)$/);
+          if (mediaUrlMatch && rawCoverUrl) {
+            console.log("Attempting to extract media URL from concatenated string");
+            coverUrl = rawCoverUrl.startsWith("http") ? rawCoverUrl : `https://${mediaUrlMatch[1]}`;
+          }
+        }
+      }
+      
+      // Additional safety: if coverUrl contains ".strapiapp.com" twice, it's definitely double-concatenated
+      const strapiappMatches = (coverUrl.match(/strapiapp\.com/g) || []).length;
+      if (strapiappMatches > 1) {
+        console.error("❌ ERROR: Multiple strapiapp.com domains detected! URL:", coverUrl);
+        // Try to extract just the last part (the actual media URL)
+        const lastStrapiappIndex = coverUrl.lastIndexOf("strapiapp.com");
+        if (lastStrapiappIndex > 0) {
+          const mediaPart = coverUrl.substring(lastStrapiappIndex - 4); // Include "https" before
+          if (mediaPart.startsWith("http")) {
+            console.log("Extracted media URL:", mediaPart);
+            coverUrl = mediaPart;
+          } else if (rawCoverUrl && rawCoverUrl.startsWith("http")) {
+            console.log("Using raw URL as fallback:", rawCoverUrl);
+            coverUrl = rawCoverUrl;
+          }
+        }
       }
       return {
-        id: item.id,
+      id: item.id,
         title: item.Title,
         excerpt: item.Excerpt ?? "",
         category: item.Category ?? "Technology",
@@ -150,13 +241,13 @@ export default function Blog() {
             >
               {featuredItems.map((item) => (
                 <Link key={item.id} to={`/blog/${item.slug}`} className="min-w-full block">
-                  <div className="relative">
+              <div className="relative">
                     <img src={item.coverUrl || Hero} className="w-full h-96 sm:h-[34rem] object-contain bg-gray-100"/>
-                    <div className="absolute left-4 bottom-4 right-4 bg-black/60 text-white p-5 rounded">
+                <div className="absolute left-4 bottom-4 right-4 bg-black/60 text-white p-5 rounded">
                       <div className="text-xs sm:text-sm font-semibold mb-2 opacity-95">{item.category || "FYI"}</div>
                       <h2 className="text-xl leading-snug sm:text-3xl sm:leading-tight md:text-4xl md:leading-tight title-font">{item.title}</h2>
-                    </div>
-                  </div>
+                </div>
+              </div>
                 </Link>
               ))}
             </div>
@@ -175,12 +266,12 @@ export default function Blog() {
                 </div>
               ))
             : latest.map((p) => (
-                <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
+            <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
                   <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
                   <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
                   <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
-                </Link>
-              ))}
+            </Link>
+          ))}
         </div>
 
         {/* Articles title and counter */}
@@ -212,12 +303,12 @@ export default function Blog() {
                 </div>
               ))
             : articles.map((p) => (
-                <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
+            <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
                   <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
                   <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
                   <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
-                </Link>
-              ))}
+            </Link>
+          ))}
         </div>
       </div>
       <Footer />

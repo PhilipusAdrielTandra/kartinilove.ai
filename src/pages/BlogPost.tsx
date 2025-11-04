@@ -20,8 +20,17 @@ type BlogPost = {
 };
 
 async function fetchPost(slug: string): Promise<BlogPost> {
-  const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const rawBase = import.meta.env.VITE_STRAPI_URL as string | undefined;
   const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  // Normalize base URL: remove trailing slash and whitespace to prevent concatenation issues
+  const base = rawBase ? rawBase.trim().replace(/\/+$/, "") : undefined;
+  
+  // Runtime check: Warn if env var is missing (this helps debug Vercel issues)
+  if (!base) {
+    console.error("❌ VITE_STRAPI_URL is not set! This will cause image loading to fail.");
+    console.error("   In Vercel: Set VITE_STRAPI_URL in Project Settings → Environment Variables");
+    console.error("   Then redeploy to rebuild with the correct value.");
+  }
   const resolveMediaUrl = (url?: string) => {
     if (!url) return "";
     // Fix malformed protocol first (https// -> https://, http// -> http://)
@@ -31,16 +40,18 @@ async function fetchPost(slug: string): Promise<BlogPost> {
     if (url.startsWith("http://") || url.startsWith("https://")) return url;
     // Protocol-relative URL (//example.com/image.jpg)
     if (url.startsWith("//")) return `https:${url}`;
-    // Check if URL already contains a domain (contains .strapiapp.com or .media.)
-    // This catches absolute URLs that might have been malformed
-    if (url.includes(".strapiapp.com") || url.includes(".media.")) {
-      // If it contains a domain, assume it's already a full URL (don't prepend base)
+    // IMPORTANT: Check if URL already contains a domain BEFORE checking paths
+    // This prevents concatenating base URL to already-full URLs
+    // Check for common domain patterns (strapiapp.com, media., etc.)
+    if (url.includes("://") || url.includes(".strapiapp.com") || url.includes(".media.") || url.match(/^[a-zA-Z0-9-]+\./)) {
+      // If it contains a domain or looks like an absolute URL, return as-is
+      console.warn("URL appears to be absolute, returning as-is:", url);
       return url;
     }
     // Absolute path (/uploads/...)
-    if (url.startsWith("/") && base) return base.replace(/\/$/, "") + url;
+    if (url.startsWith("/") && base) return base + url;
     // Relative path (uploads/...)
-    if (base) return base.replace(/\/$/, "") + "/" + url;
+    if (base) return base + "/" + url;
     // Fallback: return as-is if no base
     return url;
   };
@@ -48,13 +59,80 @@ async function fetchPost(slug: string): Promise<BlogPost> {
     if (!base) throw new Error("no-strapi");
     const headers: Record<string, string> = {};
     if (token) headers["Authorization"] = `Bearer ${token}`;
-    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?filters[Slug][$eq]=${encodeURIComponent(slug)}&populate=Cover`, { headers });
+    const res = await fetch(`${base}/api/posts?filters[Slug][$eq]=${encodeURIComponent(slug)}&populate=Cover`, { headers });
     const json = await res.json();
     const item = (json?.data?.[0]) as any;
     if (!item) throw new Error("not-found");
-    // Resolve Cover image URL (supports relative and absolute URLs, and both v4/v5 shapes)
-    const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
-    const coverUrl = resolveMediaUrl(rawCoverUrl);
+    
+    // Debug logging
+    console.log("DEBUG BlogPost: Full Cover object:", item.Cover);
+    
+    // Try multiple paths to get the Cover URL (Strapi v5 can have different structures)
+    const rawCoverUrl = 
+      item.Cover?.url || 
+      item.Cover?.data?.attributes?.url || 
+      item.Cover?.data?.url ||
+      item.attributes?.Cover?.data?.attributes?.url ||
+      item.attributes?.Cover?.url;
+    
+    console.log("DEBUG BlogPost: Raw cover URL:", rawCoverUrl);
+    console.log("DEBUG BlogPost: Base URL (normalized):", base, "| Original:", rawBase);
+    
+    // SAFETY: If raw URL is already absolute, use it directly (prevents double-concatenation)
+    let coverUrl: string;
+    if (!rawCoverUrl) {
+      coverUrl = "";
+      console.warn("No cover URL found for post");
+    } else {
+      // Normalize the raw URL first (trim whitespace, decode if needed)
+      const normalizedRaw = String(rawCoverUrl).trim();
+      
+      // Check if it's already absolute - use multiple checks to be safe
+      const isAbsolute = 
+        normalizedRaw.startsWith("http://") || 
+        normalizedRaw.startsWith("https://") || 
+        normalizedRaw.startsWith("//") ||
+        normalizedRaw.includes("://") ||
+        (normalizedRaw.includes(".strapiapp.com") && !normalizedRaw.startsWith("/"));
+      
+      if (isAbsolute) {
+        // Already absolute URL - use as-is to prevent any concatenation issues
+        coverUrl = normalizedRaw.startsWith("//") ? `https:${normalizedRaw}` : normalizedRaw;
+        console.log("✓ BlogPost: Using absolute URL directly:", coverUrl, "| Raw was:", rawCoverUrl);
+      } else {
+        // Relative URL - resolve it
+        console.log("BlogPost: Resolving relative URL:", normalizedRaw, "| Base:", base);
+        coverUrl = resolveMediaUrl(normalizedRaw);
+        console.log("BlogPost: Resolved to:", coverUrl);
+      }
+    }
+    
+    // Final safety check
+    if (base && coverUrl && coverUrl.includes(base) && coverUrl !== base) {
+      console.error("❌ ERROR BlogPost: Base URL detected in coverUrl! URL:", coverUrl);
+      if (rawCoverUrl && (rawCoverUrl.includes("://") || rawCoverUrl.includes(".strapiapp.com") || rawCoverUrl.includes(".media."))) {
+        console.log("Attempting to fix by using raw URL:", rawCoverUrl);
+        coverUrl = rawCoverUrl;
+      }
+    }
+    
+    // Additional safety: if coverUrl contains ".strapiapp.com" twice, it's definitely double-concatenated
+    const strapiappMatches = (coverUrl.match(/strapiapp\.com/g) || []).length;
+    if (strapiappMatches > 1) {
+      console.error("❌ ERROR BlogPost: Multiple strapiapp.com domains detected! URL:", coverUrl);
+      // Try to extract just the last part (the actual media URL)
+      const lastStrapiappIndex = coverUrl.lastIndexOf("strapiapp.com");
+      if (lastStrapiappIndex > 0) {
+        const mediaPart = coverUrl.substring(lastStrapiappIndex - 4); // Include "https" before
+        if (mediaPart.startsWith("http")) {
+          console.log("Extracted media URL:", mediaPart);
+          coverUrl = mediaPart;
+        } else if (rawCoverUrl && rawCoverUrl.startsWith("http")) {
+          console.log("Using raw URL as fallback:", rawCoverUrl);
+          coverUrl = rawCoverUrl;
+        }
+      }
+    }
     return {
       id: item.id,
       title: item.Title,
@@ -86,15 +164,16 @@ async function fetchPost(slug: string): Promise<BlogPost> {
 }
 
 async function updatePostLikes(postId: number, newLikes: number): Promise<void> {
-  const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const rawBase = import.meta.env.VITE_STRAPI_URL as string | undefined;
   const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  const base = rawBase ? rawBase.trim().replace(/\/+$/, "") : undefined;
   if (!base) return;
   const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   };
   if (token) headers["Authorization"] = `Bearer ${token}`;
   try {
-    await fetch(`${base.replace(/\/$/, "")}/api/posts/${postId}`, {
+    await fetch(`${base}/api/posts/${postId}`, {
       method: 'PUT',
       headers,
       body: JSON.stringify({ data: { Likes: newLikes } })
@@ -105,8 +184,10 @@ async function updatePostLikes(postId: number, newLikes: number): Promise<void> 
 }
 
 async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
-  const base = import.meta.env.VITE_STRAPI_URL as string | undefined;
+  const rawBase = import.meta.env.VITE_STRAPI_URL as string | undefined;
   const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
+  // Normalize base URL: remove trailing slash and whitespace to prevent concatenation issues
+  const base = rawBase ? rawBase.trim().replace(/\/+$/, "") : undefined;
   const resolveMediaUrl = (url?: string) => {
     if (!url) return "";
     // Fix malformed protocol first (https// -> https://, http// -> http://)
@@ -116,16 +197,18 @@ async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
     if (url.startsWith("http://") || url.startsWith("https://")) return url;
     // Protocol-relative URL (//example.com/image.jpg)
     if (url.startsWith("//")) return `https:${url}`;
-    // Check if URL already contains a domain (contains .strapiapp.com or .media.)
-    // This catches absolute URLs that might have been malformed
-    if (url.includes(".strapiapp.com") || url.includes(".media.")) {
-      // If it contains a domain, assume it's already a full URL (don't prepend base)
+    // IMPORTANT: Check if URL already contains a domain BEFORE checking paths
+    // This prevents concatenating base URL to already-full URLs
+    // Check for common domain patterns (strapiapp.com, media., etc.)
+    if (url.includes("://") || url.includes(".strapiapp.com") || url.includes(".media.") || url.match(/^[a-zA-Z0-9-]+\./)) {
+      // If it contains a domain or looks like an absolute URL, return as-is
+      console.warn("URL appears to be absolute, returning as-is:", url);
       return url;
     }
     // Absolute path (/uploads/...)
-    if (url.startsWith("/") && base) return base.replace(/\/$/, "") + url;
+    if (url.startsWith("/") && base) return base + url;
     // Relative path (uploads/...)
-    if (base) return base.replace(/\/$/, "") + "/" + url;
+    if (base) return base + "/" + url;
     // Fallback: return as-is if no base
     return url;
   };
@@ -133,7 +216,7 @@ async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
     if (!base) throw new Error("no-strapi");
     const headers: Record<string, string> = {};
     if (token) headers["Authorization"] = `Bearer ${token}`;
-    const res = await fetch(`${base.replace(/\/$/, "")}/api/posts?populate=Cover`, { headers });
+    const res = await fetch(`${base}/api/posts?populate=Cover`, { headers });
     const json = await res.json();
     const items = (json?.data || []) as any[];
     return items
@@ -141,7 +224,15 @@ async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
       .slice(0, 3)
       .map((item) => {
         const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
-        const coverUrl = resolveMediaUrl(rawCoverUrl);
+        // SAFETY: If raw URL is already absolute, use it directly (prevents double-concatenation)
+        let coverUrl: string;
+        if (rawCoverUrl && (rawCoverUrl.startsWith("http://") || rawCoverUrl.startsWith("https://") || rawCoverUrl.startsWith("//"))) {
+          // Already absolute URL - use as-is to prevent any concatenation issues
+          coverUrl = rawCoverUrl.startsWith("//") ? `https:${rawCoverUrl}` : rawCoverUrl;
+        } else {
+          // Relative URL - resolve it
+          coverUrl = resolveMediaUrl(rawCoverUrl);
+        }
         return {
           id: item.id,
           title: item.Title,
