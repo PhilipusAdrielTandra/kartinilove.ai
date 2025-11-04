@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Hero from "../assets/hero.svg";
+import BlogPlaceholder from "../assets/blog_placeholder.png";
 
 type BlogPost = {
   id: number;
@@ -96,8 +97,8 @@ async function fetchPosts(): Promise<BlogPost[]> {
       // This is critical for Vercel deployments where base URL might be concatenated incorrectly
       let coverUrl: string;
       if (!rawCoverUrl) {
-        coverUrl = "";
-        console.warn("No cover URL found for item:", item.id);
+        coverUrl = BlogPlaceholder;
+        console.warn("No cover URL found for item:", item.id, "using placeholder");
       } else {
         // Normalize the raw URL first (trim whitespace, decode if needed)
         const normalizedRaw = String(rawCoverUrl).trim();
@@ -120,9 +121,15 @@ async function fetchPosts(): Promise<BlogPost[]> {
           coverUrl = resolveMediaUrl(normalizedRaw);
           console.log("Resolved to:", coverUrl);
           if (coverUrl && !coverUrl.startsWith("http")) {
-            console.warn("⚠ Resolved URL may be invalid:", coverUrl, "raw:", rawCoverUrl);
+            console.warn("⚠ Resolved URL may be invalid:", coverUrl, "raw:", rawCoverUrl, "using placeholder");
+            coverUrl = BlogPlaceholder;
           }
         }
+      }
+      
+      // Final fallback: if coverUrl is still empty or invalid, use placeholder
+      if (!coverUrl || coverUrl === "") {
+        coverUrl = BlogPlaceholder;
       }
       
       // Final safety check: if the resolved URL contains the base URL, something went wrong
@@ -180,7 +187,7 @@ async function fetchPosts(): Promise<BlogPost[]> {
       title: "Mengapa Literasi Digital Penting?",
       excerpt: "Ringkasan singkat artikel placeholder untuk desain dan layout.",
       category: i % 3 === 0 ? "FYI" : "Technology",
-      coverUrl: Hero,
+      coverUrl: BlogPlaceholder,
       author: "Jane Doe",
       createdAt: new Date().toISOString(),
       slug: `placeholder-${i + 1}`,
@@ -242,7 +249,17 @@ export default function Blog() {
               {featuredItems.map((item) => (
                 <Link key={item.id} to={`/blog/${item.slug}`} className="min-w-full block">
               <div className="relative">
-                    <img src={item.coverUrl || Hero} className="w-full h-96 sm:h-[34rem] object-contain bg-gray-100"/>
+                    <img 
+                      src={item.coverUrl || BlogPlaceholder} 
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== BlogPlaceholder) {
+                          target.src = BlogPlaceholder;
+                        }
+                      }}
+                      className="w-full h-96 sm:h-[34rem] object-contain bg-gray-100"
+                      alt={item.title}
+                    />
                 <div className="absolute left-4 bottom-4 right-4 bg-black/60 text-white p-5 rounded">
                       <div className="text-xs sm:text-sm font-semibold mb-2 opacity-95">{item.category || "FYI"}</div>
                       <h2 className="text-xl leading-snug sm:text-3xl sm:leading-tight md:text-4xl md:leading-tight title-font">{item.title}</h2>
@@ -267,7 +284,17 @@ export default function Blog() {
               ))
             : latest.map((p) => (
             <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-                  <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+                  <img 
+                    src={p.coverUrl || BlogPlaceholder} 
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target.src !== BlogPlaceholder) {
+                        target.src = BlogPlaceholder;
+                      }
+                    }}
+                    className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"
+                    alt={p.title}
+                  />
                   <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
                   <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
             </Link>
@@ -304,7 +331,17 @@ export default function Blog() {
               ))
             : articles.map((p) => (
             <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-                  <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+                  <img 
+                    src={p.coverUrl || BlogPlaceholder} 
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target.src !== BlogPlaceholder) {
+                        target.src = BlogPlaceholder;
+                      }
+                    }}
+                    className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"
+                    alt={p.title}
+                  />
                   <div className="text-sm text-gray-700 font-semibold">{p.category}</div>
                   <div className="text-base leading-snug sm:text-lg sm:leading-snug font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
             </Link>

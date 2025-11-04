@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Hero from "../assets/hero.svg";
+import BlogPlaceholder from "../assets/blog_placeholder.png";
 import ReactMarkdown from "react-markdown";
 
 type BlogPost = {
@@ -81,8 +82,8 @@ async function fetchPost(slug: string): Promise<BlogPost> {
     // SAFETY: If raw URL is already absolute, use it directly (prevents double-concatenation)
     let coverUrl: string;
     if (!rawCoverUrl) {
-      coverUrl = "";
-      console.warn("No cover URL found for post");
+      coverUrl = BlogPlaceholder;
+      console.warn("No cover URL found for post, using placeholder");
     } else {
       // Normalize the raw URL first (trim whitespace, decode if needed)
       const normalizedRaw = String(rawCoverUrl).trim();
@@ -104,7 +105,16 @@ async function fetchPost(slug: string): Promise<BlogPost> {
         console.log("BlogPost: Resolving relative URL:", normalizedRaw, "| Base:", base);
         coverUrl = resolveMediaUrl(normalizedRaw);
         console.log("BlogPost: Resolved to:", coverUrl);
+        if (coverUrl && !coverUrl.startsWith("http")) {
+          console.warn("⚠ BlogPost: Resolved URL may be invalid:", coverUrl, "using placeholder");
+          coverUrl = BlogPlaceholder;
+        }
       }
+    }
+    
+    // Final fallback: if coverUrl is still empty or invalid, use placeholder
+    if (!coverUrl || coverUrl === "") {
+      coverUrl = BlogPlaceholder;
     }
     
     // Final safety check
@@ -154,7 +164,7 @@ async function fetchPost(slug: string): Promise<BlogPost> {
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non justo nec mi efficitur faucibus...",
       excerpt: "",
       category: "FYI",
-      coverUrl: Hero,
+      coverUrl: BlogPlaceholder,
       author: "Jane",
       createdAt: new Date().toISOString(),
       slug,
@@ -226,12 +236,30 @@ async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
         const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
         // SAFETY: If raw URL is already absolute, use it directly (prevents double-concatenation)
         let coverUrl: string;
-        if (rawCoverUrl && (rawCoverUrl.startsWith("http://") || rawCoverUrl.startsWith("https://") || rawCoverUrl.startsWith("//"))) {
-          // Already absolute URL - use as-is to prevent any concatenation issues
-          coverUrl = rawCoverUrl.startsWith("//") ? `https:${rawCoverUrl}` : rawCoverUrl;
+        if (!rawCoverUrl) {
+          coverUrl = BlogPlaceholder;
         } else {
-          // Relative URL - resolve it
-          coverUrl = resolveMediaUrl(rawCoverUrl);
+          const normalizedRaw = String(rawCoverUrl).trim();
+          const isAbsolute = 
+            normalizedRaw.startsWith("http://") || 
+            normalizedRaw.startsWith("https://") || 
+            normalizedRaw.startsWith("//") ||
+            normalizedRaw.includes("://") ||
+            (normalizedRaw.includes(".strapiapp.com") && !normalizedRaw.startsWith("/"));
+          
+          if (isAbsolute) {
+            coverUrl = normalizedRaw.startsWith("//") ? `https:${normalizedRaw}` : normalizedRaw;
+          } else {
+            coverUrl = resolveMediaUrl(normalizedRaw);
+            if (coverUrl && !coverUrl.startsWith("http")) {
+              coverUrl = BlogPlaceholder;
+            }
+          }
+        }
+        
+        // Final fallback
+        if (!coverUrl || coverUrl === "") {
+          coverUrl = BlogPlaceholder;
         }
         return {
           id: item.id,
@@ -322,7 +350,17 @@ export default function BlogPost() {
           </div>
         </div>
         <h1 className="text-3xl sm:text-4xl font-medium mb-5">{post.title}</h1>
-        <img src={post.coverUrl || Hero} className="w-full h-72 object-contain bg-gray-100 rounded-xl mb-8"/>
+        <img 
+          src={post.coverUrl || BlogPlaceholder} 
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (target.src !== BlogPlaceholder) {
+              target.src = BlogPlaceholder;
+            }
+          }}
+          className="w-full h-72 object-contain bg-gray-100 rounded-xl mb-8"
+          alt={post.title}
+        />
         <div className="manrope prose prose-lg max-w-none prose-headings:font-semibold prose-p:my-4 prose-strong:font-semibold prose-ul:my-4 prose-ol:my-4">
           <ReactMarkdown>{post.content}</ReactMarkdown>
           <div className="border-t mt-6 pt-4">
@@ -336,7 +374,17 @@ export default function BlogPost() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {related.map((p) => (
             <Link key={p.id} to={`/blog/${p.slug}`} className="bg-white rounded-2xl shadow p-3 hover:shadow-lg transition group">
-              <img src={p.coverUrl || Hero} className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"/>
+              <img 
+                src={p.coverUrl || BlogPlaceholder} 
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src !== BlogPlaceholder) {
+                    target.src = BlogPlaceholder;
+                  }
+                }}
+                className="w-full h-36 object-contain bg-gray-100 rounded-xl mb-3"
+                alt={p.title}
+              />
               <div className="text-sm text-gray-500 font-semibold title-font mb-2">{p.category || "-"}</div>
               <div className="text-lg font-semibold group-hover:text-[#5B0C19] title-font">{p.title}</div>
             </Link>
