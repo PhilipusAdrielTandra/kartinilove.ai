@@ -97,9 +97,19 @@ export default function Chat() {
   }, [messages]); 
 
   return ( 
-    <div className="flex h-screen overflow-hidden bg-[#FFF1F3]"> 
-      <img className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none z-0" src={Gradient}></img> 
-      
+    <div className="flex h-screen overflow-hidden bg-gradient-to-b from-white to-[#fedfcd]" style={{ boxShadow: '10px 25px 100px 0px rgba(228, 167, 102, 0.3)' }}>
+      {/* Top-right Login Button */}
+      <Link
+        to="/account"
+        className="absolute top-4 right-4 z-40 rounded-xl px-5 py-2.5 text-[#941A2F] text-sm md:text-base manrope shadow-md shadow-black/10 border-4 border-transparent"
+        style={{
+          background:
+            'linear-gradient(to bottom, #ffffff, #ffffff) padding-box, linear-gradient(to bottom, #ffffff, #941A2F, #ffffff) border-box'
+        }}
+      >
+        Log In
+      </Link>
+ 
       {/* Mobile Header */}
       <div className="md:hidden absolute top-0 left-0 right-0 z-30 bg-white/90 backdrop-blur-sm p-4 flex items-center justify-between">
         <button
@@ -111,7 +121,7 @@ export default function Chat() {
         <Link to={"/"}>
           <img className="w-32" src={Logo} />
         </Link>
-        <button className="bg-[#EF0753] rounded-full px-4 py-2">
+        <button className="bg-[#5B0C19] rounded-full px-4 py-2">
           <Link to="/account" className="text-white text-sm">
             {t("login")}
           </Link>
@@ -120,7 +130,7 @@ export default function Chat() {
       
       {/* Login/Sign Up Button - Desktop only */}
       <div className="hidden md:hidden absolute top-4 right-4 z-10">
-            <button className="bg-[#EF0753] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
+            <button className="bg-[#5B0C19] rounded-full px-6 py-4 md-px-7 md-py-3 my-3 md-my-5">
                 <Link to="/account" className="text-white hover:text-gray-200">
                   {t("login_signup")}
                 </Link>
