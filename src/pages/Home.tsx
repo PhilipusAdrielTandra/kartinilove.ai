@@ -8,6 +8,7 @@ import Plus from "../assets/plus.png";
 import ConsultingLogo from "../assets/consulting_logo.png";
 import ToolsTechnologiesLogo from "../assets/tools_technologies_logo.png";
 import EducationLogo from "../assets/education_logo.png";
+import LLMImage from "../assets/LLM.jpeg";
 import Footer from "../components/Footer";
 import PrivasimuLogo from "../assets/privasimu_logo.svg";
 import HeylawLogo from "../assets/heylaw_logo.svg";
@@ -236,9 +237,13 @@ export default function Home() {
      {/* How It Works Section */}
      <div className="min-h-1/3 sm:min-h-screen flex">
        <div className="flex flex-col md:flex-row w-full max-w-screen">
-         {/* Left Side */}
-         <div className="w-full md:w-1/2 flex items-start">
-           <div className="p-8"></div>
+         {/* Left Side - LLM Image */}
+         <div className="w-full md:w-1/2 flex items-start justify-center p-8 pt-8 md:pt-12 lg:pt-16">
+           <img 
+             src={LLMImage} 
+             alt="LLM" 
+             className="w-full max-w-md md:max-w-lg lg:max-w-xl rounded-2xl object-contain"
+           />
          </div>
          {/* Right Side */}
          <div className="w-full md:w-1/2 mx-auto flex items-center md:items-start">
@@ -319,12 +324,22 @@ export default function Home() {
                 <div
                   key={faq.id}
                   onClick={() => toggleItem(faq.id)}
-                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 border border-gray-300 hover:shadow-2xl hover:shadow-[#E4A766]/30 ${
+                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 border border-gray-300 ${
                     expandedItems.includes(faq.id) 
                       ? 'bg-white shadow-2xl shadow-[#E4A766]/30 border-gray-300' 
                       : 'bg-white border-gray-300'
                   }`}
-                  style={{ boxShadow: '20px 25px 120px rgba(228, 167, 102, 0.35)' }}
+                  style={expandedItems.includes(faq.id) ? { boxShadow: '20px 25px 120px rgba(228, 167, 102, 0.35)' } : {}}
+                  onMouseEnter={(e) => {
+                    if (!expandedItems.includes(faq.id)) {
+                      e.currentTarget.style.boxShadow = '20px 25px 120px rgba(228, 167, 102, 0.35)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!expandedItems.includes(faq.id)) {
+                      e.currentTarget.style.boxShadow = '';
+                    }
+                  }}
                 >
                   <img 
                     src={Plus} 
@@ -366,12 +381,22 @@ export default function Home() {
                 <div
                   key={faq.id}
                   onClick={() => toggleItem(faq.id)}
-                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 border border-gray-300 hover:shadow-2xl hover:shadow-[#E4A766]/30 ${
+                  className={`group rounded-2xl p-6 text-left relative w-full cursor-pointer transition-all duration-300 border border-gray-300 ${
                     expandedItems.includes(faq.id) 
                       ? 'bg-white shadow-2xl shadow-[#E4A766]/30 border-gray-300' 
                       : 'bg-white border-gray-300'
                   }`}
-                  style={{ boxShadow: '20px 25px 120px rgba(228, 167, 102, 0.35)' }}
+                  style={expandedItems.includes(faq.id) ? { boxShadow: '20px 25px 120px rgba(228, 167, 102, 0.35)' } : {}}
+                  onMouseEnter={(e) => {
+                    if (!expandedItems.includes(faq.id)) {
+                      e.currentTarget.style.boxShadow = '20px 25px 120px rgba(228, 167, 102, 0.35)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!expandedItems.includes(faq.id)) {
+                      e.currentTarget.style.boxShadow = '';
+                    }
+                  }}
                 >
                   <img 
                     src={Plus} 
