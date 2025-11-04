@@ -24,9 +24,25 @@ async function fetchPost(slug: string): Promise<BlogPost> {
   const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
   const resolveMediaUrl = (url?: string) => {
     if (!url) return "";
-    if (url.startsWith("http")) return url;
-    if (!base) return url;
-    return base.replace(/\/$/, "") + url;
+    // Fix malformed protocol first (https// -> https://, http// -> http://)
+    if (url.startsWith("https//")) return url.replace("https//", "https://");
+    if (url.startsWith("http//")) return url.replace("http//", "http://");
+    // Already absolute URL with protocol (check for http:// or https://)
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    // Protocol-relative URL (//example.com/image.jpg)
+    if (url.startsWith("//")) return `https:${url}`;
+    // Check if URL already contains a domain (contains .strapiapp.com or .media.)
+    // This catches absolute URLs that might have been malformed
+    if (url.includes(".strapiapp.com") || url.includes(".media.")) {
+      // If it contains a domain, assume it's already a full URL (don't prepend base)
+      return url;
+    }
+    // Absolute path (/uploads/...)
+    if (url.startsWith("/") && base) return base.replace(/\/$/, "") + url;
+    // Relative path (uploads/...)
+    if (base) return base.replace(/\/$/, "") + "/" + url;
+    // Fallback: return as-is if no base
+    return url;
   };
   try {
     if (!base) throw new Error("no-strapi");
@@ -93,9 +109,25 @@ async function fetchRelatedPosts(currentSlug: string): Promise<BlogPost[]> {
   const token = import.meta.env.VITE_STRAPI_TOKEN as string | undefined;
   const resolveMediaUrl = (url?: string) => {
     if (!url) return "";
-    if (url.startsWith("http")) return url;
-    if (!base) return url;
-    return base.replace(/\/$/, "") + url;
+    // Fix malformed protocol first (https// -> https://, http// -> http://)
+    if (url.startsWith("https//")) return url.replace("https//", "https://");
+    if (url.startsWith("http//")) return url.replace("http//", "http://");
+    // Already absolute URL with protocol (check for http:// or https://)
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    // Protocol-relative URL (//example.com/image.jpg)
+    if (url.startsWith("//")) return `https:${url}`;
+    // Check if URL already contains a domain (contains .strapiapp.com or .media.)
+    // This catches absolute URLs that might have been malformed
+    if (url.includes(".strapiapp.com") || url.includes(".media.")) {
+      // If it contains a domain, assume it's already a full URL (don't prepend base)
+      return url;
+    }
+    // Absolute path (/uploads/...)
+    if (url.startsWith("/") && base) return base.replace(/\/$/, "") + url;
+    // Relative path (uploads/...)
+    if (base) return base.replace(/\/$/, "") + "/" + url;
+    // Fallback: return as-is if no base
+    return url;
   };
   try {
     if (!base) throw new Error("no-strapi");

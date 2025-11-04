@@ -41,12 +41,33 @@ async function fetchPosts(): Promise<BlogPost[]> {
     const items = (json?.data || []) as any[];
     const resolveMediaUrl = (u?: string) => {
       if (!u) return "";
-      if (u.startsWith("http")) return u;
-      return base.replace(/\/$/, "") + u;
+      // Fix malformed protocol first (https// -> https://, http// -> http://)
+      if (u.startsWith("https//")) return u.replace("https//", "https://");
+      if (u.startsWith("http//")) return u.replace("http//", "http://");
+      // Already absolute URL with protocol (check for http:// or https://)
+      if (u.startsWith("http://") || u.startsWith("https://")) return u;
+      // Protocol-relative URL (//example.com/image.jpg)
+      if (u.startsWith("//")) return `https:${u}`;
+      // Check if URL already contains a domain (contains .strapiapp.com or .media.)
+      // This catches absolute URLs that might have been malformed
+      if (u.includes(".strapiapp.com") || u.includes(".media.")) {
+        // If it contains a domain, assume it's already a full URL (don't prepend base)
+        return u;
+      }
+      // Absolute path (/uploads/...)
+      if (u.startsWith("/") && base) return base.replace(/\/$/, "") + u;
+      // Relative path (uploads/...)
+      if (base) return base.replace(/\/$/, "") + "/" + u;
+      // Fallback: return as-is if no base
+      console.warn("Could not resolve media URL:", u, "base:", base);
+      return u;
     };
     return items.map((item) => {
       const rawCoverUrl = item.Cover?.url || item.Cover?.data?.attributes?.url;
       const coverUrl = resolveMediaUrl(rawCoverUrl);
+      if (coverUrl && !coverUrl.startsWith("http")) {
+        console.warn("Resolved URL may be invalid:", coverUrl, "raw:", rawCoverUrl);
+      }
       return {
         id: item.id,
         title: item.Title,
